@@ -14,16 +14,16 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/tabletmanager/tmclient"
-	"github.com/youtube/vitess/go/vt/tabletserver/queryservice"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletconn"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 func TestGreaterThanTupleWhereClause(t *testing.T) {

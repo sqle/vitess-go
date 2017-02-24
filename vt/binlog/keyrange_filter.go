@@ -6,15 +6,15 @@ package binlog
 
 import (
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/key"
-	"github.com/youtube/vitess/go/vt/sqlannotation"
+	"gopkg.in/sqle/vitess-go.v1/vt/key"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlannotation"
 
 	"errors"
 	"fmt"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	"github.com/youtube/vitess/go/vt/sqlparser"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
 )
 
 // KeyRangeFilterFunc returns a function that calls callback only if statements

@@ -12,22 +12,22 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/hack"
-	"github.com/youtube/vitess/go/mysqlconn"
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/trace"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/callinfo"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/connpool"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
-	"github.com/youtube/vitess/go/vt/tabletserver/planbuilder"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/hack"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/trace"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/callinfo"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/connpool"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/planbuilder"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 // QueryExecutor is used for executing a query request.

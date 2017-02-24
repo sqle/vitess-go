@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/mysqlconn/fakesqldb"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/fakesqldb"
 )
 
 func TestConnPoolGet(t *testing.T) {

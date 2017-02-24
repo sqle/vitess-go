@@ -11,10 +11,10 @@ import (
 	"testing"
 	"time"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
-	"github.com/youtube/vitess/go/vt/tabletserver/endtoend/framework"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/endtoend/framework"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 )
 
 // compareIntDiff returns an error if end[tag] != start[tag]+diff.

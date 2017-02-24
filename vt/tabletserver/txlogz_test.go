@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/sync2"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 )
 
 func testHandler(req *http.Request, t *testing.T) {

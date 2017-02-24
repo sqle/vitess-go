@@ -8,12 +8,12 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletconn"
-	"github.com/youtube/vitess/go/vt/topo"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // This file maintains a tablet health cache. It establishes streaming

@@ -7,7 +7,7 @@ package endtoend
 import (
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/tabletserver/endtoend/framework"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/endtoend/framework"
 )
 
 var frameworkErrors = `fail failed:

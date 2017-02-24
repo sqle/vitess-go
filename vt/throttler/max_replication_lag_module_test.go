@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // The tests below tests the heuristic of the MaxReplicationLagModule.

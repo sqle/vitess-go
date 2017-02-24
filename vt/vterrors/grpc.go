@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 // This file contains functions to convert errors to and from gRPC codes.

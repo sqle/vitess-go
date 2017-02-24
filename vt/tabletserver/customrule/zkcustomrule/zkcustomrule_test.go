@@ -12,11 +12,11 @@ import (
 
 	"github.com/samuel/go-zookeeper/zk"
 
-	"github.com/youtube/vitess/go/testfiles"
-	"github.com/youtube/vitess/go/vt/tabletserver"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletservermock"
-	"github.com/youtube/vitess/go/vt/topo/zk2topo"
-	"github.com/youtube/vitess/go/zk/zkctl"
+	"gopkg.in/sqle/vitess-go.v1/testfiles"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletservermock"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/zk2topo"
+	"gopkg.in/sqle/vitess-go.v1/zk/zkctl"
 )
 
 var customRule1 = `

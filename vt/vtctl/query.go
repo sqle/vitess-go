@@ -17,18 +17,18 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/olekukonko/tablewriter"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletconn"
-	"github.com/youtube/vitess/go/vt/topo/topoproto"
-	"github.com/youtube/vitess/go/vt/vtgate/vtgateconn"
-	"github.com/youtube/vitess/go/vt/wrangler"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateconn"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // This file contains the query command group for vtctl.

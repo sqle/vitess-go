@@ -12,11 +12,11 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/connpool"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/connpool"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
 )
 
 // LoadTable creates a Table from the schema info in the database.

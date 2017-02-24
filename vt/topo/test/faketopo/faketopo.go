@@ -5,11 +5,11 @@ package faketopo
 import (
 	"errors"
 
-	"github.com/youtube/vitess/go/vt/topo"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
 )
 
 var errNotImplemented = errors.New("Not implemented")

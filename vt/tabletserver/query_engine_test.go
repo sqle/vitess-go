@@ -13,11 +13,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/mysqlconn/fakesqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema/schematest"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/fakesqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema/schematest"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 )
 
 func TestGetPlanPanicDuetoEmptyQuery(t *testing.T) {

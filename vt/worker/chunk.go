@@ -5,12 +5,12 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/topo/topoproto"
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 var (

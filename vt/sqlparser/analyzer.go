@@ -9,7 +9,7 @@ package sqlparser
 import (
 	"fmt"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 )
 
 // GetTableName returns the table name from the SimpleTableExpr

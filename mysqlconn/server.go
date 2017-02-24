@@ -7,8 +7,8 @@ import (
 	"net"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/tb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/tb"
 )
 
 const (
@@ -269,7 +269,7 @@ func (c *Conn) writeHandshakeV10(serverVersion string) ([]byte, error) {
 		return nil, err
 	}
 
-        // Cipher must be a legal UTF8 string.
+	// Cipher must be a legal UTF8 string.
 	for i := 0; i < len(cipher); i++ {
 		cipher[i] &= 0x7f
 		if cipher[i] == '\x00' || cipher[i] == '$' {

@@ -12,8 +12,8 @@ import (
 	"text/template"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/acl"
-	"github.com/youtube/vitess/go/vt/logz"
+	"gopkg.in/sqle/vitess-go.v1/acl"
+	"gopkg.in/sqle/vitess-go.v1/vt/logz"
 )
 
 var (

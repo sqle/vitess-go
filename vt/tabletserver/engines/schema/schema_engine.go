@@ -16,20 +16,20 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/acl"
-	"github.com/youtube/vitess/go/mysqlconn"
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/sync2"
-	"github.com/youtube/vitess/go/timer"
-	"github.com/youtube/vitess/go/vt/concurrency"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/connpool"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/acl"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"gopkg.in/sqle/vitess-go.v1/timer"
+	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/connpool"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 const maxTableCount = 10000

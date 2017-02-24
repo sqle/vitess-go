@@ -10,11 +10,11 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/vt/tabletserver/queryservice"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 var (

@@ -8,8 +8,8 @@ import (
 	"errors"
 	"testing"
 
-	automationpb "github.com/youtube/vitess/go/vt/proto/automation"
-	"github.com/youtube/vitess/go/vt/vtctl/fakevtctlclient"
+	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/fakevtctlclient"
 )
 
 func testingTaskCreator(taskName string) Task {

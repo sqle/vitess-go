@@ -9,17 +9,17 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/youtube/vitess/go/vt/discovery"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/tabletmanager/tmclient"
-	"github.com/youtube/vitess/go/vt/tabletserver/grpcqueryservice"
-	"github.com/youtube/vitess/go/vt/tabletserver/queryservice/fakes"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
-	"github.com/youtube/vitess/go/vt/wrangler"
-	"github.com/youtube/vitess/go/vt/wrangler/testlib"
+	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice/fakes"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler/testlib"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // TestRealtimeStatsWithQueryService uses fakeTablets and the fakeQueryService to

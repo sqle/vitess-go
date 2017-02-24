@@ -11,7 +11,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/coreos/go-etcd/etcd"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // CreateShard implements topo.Server.

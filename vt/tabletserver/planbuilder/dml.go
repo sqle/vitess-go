@@ -9,8 +9,8 @@ import (
 	"fmt"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
 )
 
 func analyzeUpdate(upd *sqlparser.Update, getTable TableGetter) (plan *ExecPlan, err error) {

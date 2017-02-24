@@ -9,11 +9,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	vtenv "github.com/youtube/vitess/go/vt/env"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	vtenv "gopkg.in/sqle/vitess-go.v1/vt/env"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
 )
 
 var selectRowsResult = &sqltypes.Result{

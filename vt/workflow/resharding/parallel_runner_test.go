@@ -9,11 +9,11 @@ import (
 	"testing"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
-	"github.com/youtube/vitess/go/vt/workflow"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v1/vt/workflow"
 
-	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
+	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
 )
 
 func TestParallelRunner(t *testing.T) {

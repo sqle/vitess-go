@@ -1,6 +1,6 @@
 package buffer
 
-import "github.com/youtube/vitess/go/stats"
+import "gopkg.in/sqle/vitess-go.v1/stats"
 
 // This file contains all status variables which can be used to monitor the
 // buffer.

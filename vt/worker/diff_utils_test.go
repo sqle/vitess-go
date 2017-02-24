@@ -9,10 +9,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
 
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
 )
 
 func TestOrderedColumns(t *testing.T) {

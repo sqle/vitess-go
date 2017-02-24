@@ -14,10 +14,10 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/olekukonko/tablewriter"
-	"github.com/youtube/vitess/go/exit"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/vitessdriver"
-	"github.com/youtube/vitess/go/vt/vtgate/vtgateconn"
+	"gopkg.in/sqle/vitess-go.v1/exit"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/vitessdriver"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateconn"
 )
 
 var (

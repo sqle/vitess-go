@@ -11,14 +11,14 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/mysqlconn/replication"
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/sync2"
-	"github.com/youtube/vitess/go/tb"
-	"github.com/youtube/vitess/go/vt/mysqlctl"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"gopkg.in/sqle/vitess-go.v1/tb"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 /* API and config for UpdateStream Service */

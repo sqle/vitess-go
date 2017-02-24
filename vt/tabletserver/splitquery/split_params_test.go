@@ -5,9 +5,9 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
 )
 
 var splitParamsTestCases = []struct {

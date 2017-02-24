@@ -3,5 +3,5 @@ package main
 // Imports and register the syslog-based query logger
 
 import (
-	_ "github.com/youtube/vitess/go/vt/tabletserver/sysloglogger"
+	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletserver/sysloglogger"
 )

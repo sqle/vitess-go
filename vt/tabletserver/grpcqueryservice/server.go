@@ -7,16 +7,16 @@ package grpcqueryservice
 import (
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/callinfo"
-	"github.com/youtube/vitess/go/vt/tabletserver/queryservice"
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
-	"github.com/youtube/vitess/go/vt/vterrors"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/callinfo"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	queryservicepb "github.com/youtube/vitess/go/vt/proto/queryservice"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	queryservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/queryservice"
 )
 
 // query is the gRPC query service implementation.

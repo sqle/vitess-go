@@ -9,11 +9,11 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/topo"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
 )
 
 // Tee is an implementation of topo.Server that uses a primary

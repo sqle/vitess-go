@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
 )
 
 func TestDTID(t *testing.T) {

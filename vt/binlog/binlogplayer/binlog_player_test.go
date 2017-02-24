@@ -7,8 +7,8 @@ package binlogplayer
 import (
 	"testing"
 
-	"github.com/youtube/vitess/go/mysqlconn/replication"
-	"github.com/youtube/vitess/go/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v1/vt/throttler"
 )
 
 func TestPopulateBlpCheckpoint(t *testing.T) {

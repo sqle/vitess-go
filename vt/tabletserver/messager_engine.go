@@ -11,13 +11,13 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/vt/dbconfigs"
-	"github.com/youtube/vitess/go/vt/tabletserver/connpool"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/connpool"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 // MessagerEngine is the engine for handling messages.

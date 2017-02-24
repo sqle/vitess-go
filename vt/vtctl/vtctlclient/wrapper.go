@@ -12,7 +12,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
+	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
 )
 
 // RunCommandAndWait executes a single command on a given vtctld and blocks until the command did return or timed out.

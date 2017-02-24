@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC throttler client.
 
 import (
-	_ "github.com/youtube/vitess/go/vt/throttler/grpcthrottlerclient"
+	_ "gopkg.in/sqle/vitess-go.v1/vt/throttler/grpcthrottlerclient"
 )

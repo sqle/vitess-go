@@ -6,11 +6,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // This file contains tests for the shard.go file.

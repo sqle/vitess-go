@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
-	"github.com/youtube/vitess/go/vt/tabletserver/splitquery/splitquery_testing"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/splitquery/splitquery_testing"
 )
 
 type FakeSplitAlgorithm struct {

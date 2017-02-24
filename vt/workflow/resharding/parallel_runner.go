@@ -7,9 +7,9 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/workflow"
+	"gopkg.in/sqle/vitess-go.v1/vt/workflow"
 
-	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
+	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
 )
 
 type level int

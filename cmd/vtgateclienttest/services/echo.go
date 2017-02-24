@@ -13,14 +13,14 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
-	"github.com/youtube/vitess/go/vt/vtgate/vtgateservice"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateservice"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
 )
 
 // EchoPrefix is the prefix to send with queries so they go

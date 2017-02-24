@@ -16,14 +16,14 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/mysqlconn"
-	"github.com/youtube/vitess/go/mysqlconn/fakesqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema/schematest"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/fakesqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema/schematest"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
 )
 
 func TestStrictMode(t *testing.T) {

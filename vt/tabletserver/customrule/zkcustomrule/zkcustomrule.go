@@ -14,9 +14,9 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/tabletserver"
-	"github.com/youtube/vitess/go/vt/topo/zk2topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/zk2topo"
 )
 
 var (

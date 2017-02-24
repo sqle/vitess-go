@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
 )
 
 // This file contains utility methods for Conn objects.

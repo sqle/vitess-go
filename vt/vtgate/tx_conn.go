@@ -11,14 +11,14 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/vt/concurrency"
-	"github.com/youtube/vitess/go/vt/dtids"
-	"github.com/youtube/vitess/go/vt/vterrors"
-	"github.com/youtube/vitess/go/vt/vtgate/gateway"
+	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v1/vt/dtids"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/gateway"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 // TxConn is used for executing transactional requests.

@@ -6,15 +6,15 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
-	"github.com/youtube/vitess/go/vt/worker/fakevtworkerclient"
-	"github.com/youtube/vitess/go/vt/worker/vtworkerclient"
-	"github.com/youtube/vitess/go/vt/workflow"
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v1/vt/worker/fakevtworkerclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/worker/vtworkerclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/workflow"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
 )
 
 // TestHorizontalResharding runs the happy path of HorizontalReshardingWorkflow.

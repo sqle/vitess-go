@@ -11,7 +11,7 @@ import (
 	"fmt"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 )
 
 func prettyPrint(qr sqltypes.Result) string {

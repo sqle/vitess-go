@@ -10,10 +10,10 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
+	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
 )
 
 const (

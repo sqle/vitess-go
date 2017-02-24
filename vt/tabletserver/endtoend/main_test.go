@@ -12,12 +12,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/vt/tableacl"
-	"github.com/youtube/vitess/go/vt/tableacl/simpleacl"
-	"github.com/youtube/vitess/go/vt/tabletserver/endtoend/framework"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/vttest"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/vt/tableacl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tableacl/simpleacl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/endtoend/framework"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vttest"
 )
 
 var (

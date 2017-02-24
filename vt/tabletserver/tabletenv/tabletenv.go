@@ -12,10 +12,10 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/tb"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v1/tb"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
 )
 
 var (

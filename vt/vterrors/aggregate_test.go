@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"testing"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 var errGeneric = "generic error"

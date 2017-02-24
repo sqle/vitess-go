@@ -11,13 +11,13 @@ import (
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/testfiles"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/topo/test"
-	"github.com/youtube/vitess/go/zk"
-	"github.com/youtube/vitess/go/zk/zkctl"
+	"gopkg.in/sqle/vitess-go.v1/testfiles"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/test"
+	"gopkg.in/sqle/vitess-go.v1/zk"
+	"gopkg.in/sqle/vitess-go.v1/zk/zkctl"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // Run the topology test suite on zktopo.

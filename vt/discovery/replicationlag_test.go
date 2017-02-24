@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	"github.com/youtube/vitess/go/vt/topo"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 )
 
 func TestFilterByReplicationLag(t *testing.T) {

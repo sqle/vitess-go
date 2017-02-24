@@ -13,11 +13,11 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/discovery"
-	"github.com/youtube/vitess/go/vt/tabletserver/queryservice"
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // This file contains the Gateway interface definition, and the

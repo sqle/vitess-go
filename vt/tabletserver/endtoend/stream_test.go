@@ -12,10 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
-	"github.com/youtube/vitess/go/vt/tabletserver/endtoend/framework"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/endtoend/framework"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 )
 
 func TestStreamUnion(t *testing.T) {

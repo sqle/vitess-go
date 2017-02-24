@@ -12,21 +12,21 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/netutil"
-	"github.com/youtube/vitess/go/vt/hook"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
-	"github.com/youtube/vitess/go/vt/servenv/grpcutils"
-	"github.com/youtube/vitess/go/vt/tabletmanager/tmclient"
-	"github.com/youtube/vitess/go/vt/topo/topoproto"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/netutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/hook"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv/grpcutils"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
 
-	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	replicationdatapb "github.com/youtube/vitess/go/vt/proto/replicationdata"
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
-	tabletmanagerservicepb "github.com/youtube/vitess/go/vt/proto/tabletmanagerservice"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	replicationdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/replicationdata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerservice"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 var (

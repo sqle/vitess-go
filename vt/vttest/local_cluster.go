@@ -22,9 +22,9 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
-	"github.com/youtube/vitess/go/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
 
-	vttestpb "github.com/youtube/vitess/go/vt/proto/vttest"
+	vttestpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vttest"
 )
 
 // Handle allows you to interact with the processes launched by vttest.

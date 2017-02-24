@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/mysql"
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/vt/vttest"
+	"gopkg.in/sqle/vitess-go.v1/mysql"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/vt/vttest"
 )
 
 // This file contains various long-running tests for mysqlconn.

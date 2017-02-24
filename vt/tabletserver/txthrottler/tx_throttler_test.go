@@ -5,12 +5,12 @@ import (
 	"time"
 
 	"github.com/golang/mock/gomock"
-	"github.com/youtube/vitess/go/vt/discovery"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 func TestDisabledThrottler(t *testing.T) {
@@ -119,11 +119,11 @@ func TestEnabledThrottler(t *testing.T) {
 }
 
 // Commands to generate the mocks for this test.
-//go:generate mockgen -destination mock_toposerver_impl_test.go -package txthrottler github.com/youtube/vitess/go/vt/topo Impl
+//go:generate mockgen -destination mock_toposerver_impl_test.go -package txthrottler gopkg.in/sqle/vitess-go.v1/vt/topo Impl
 // We need the following to fix the generated mock_impl.go, since mockgen imports the 'context'
 // package from the wrong place.
 // TODO(mberlin): Remove the next line once we use the Go 1.7 package 'context' everywhere.
 //go:generate sed -i s,github.com/youtube/vitess/vendor/,,g mock_toposerver_impl_test.go
-//go:generate mockgen -destination mock_healthcheck_test.go -package txthrottler github.com/youtube/vitess/go/vt/discovery HealthCheck
-//go:generate mockgen -destination mock_throttler_test.go -package txthrottler github.com/youtube/vitess/go/vt/tabletserver/txthrottler ThrottlerInterface
-//go:generate mockgen -destination mock_topology_watcher_test.go -package txthrottler github.com/youtube/vitess/go/vt/tabletserver/txthrottler TopologyWatcherInterface
+//go:generate mockgen -destination mock_healthcheck_test.go -package txthrottler gopkg.in/sqle/vitess-go.v1/vt/discovery HealthCheck
+//go:generate mockgen -destination mock_throttler_test.go -package txthrottler gopkg.in/sqle/vitess-go.v1/vt/tabletserver/txthrottler ThrottlerInterface
+//go:generate mockgen -destination mock_topology_watcher_test.go -package txthrottler gopkg.in/sqle/vitess-go.v1/vt/tabletserver/txthrottler TopologyWatcherInterface

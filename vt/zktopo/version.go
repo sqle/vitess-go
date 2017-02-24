@@ -3,7 +3,7 @@ package zktopo
 import (
 	"fmt"
 
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 )
 
 // ZKVersion is zookeeper's idea of a version.

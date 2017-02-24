@@ -18,9 +18,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/testfiles"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/testfiles"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
 )
 
 func TestPlan(t *testing.T) {

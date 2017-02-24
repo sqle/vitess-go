@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
 )
 
 // DBConnection re-exposes sqldb.Conn with some wrapping to implement

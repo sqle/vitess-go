@@ -15,7 +15,7 @@ import (
 	"syscall"
 
 	log "github.com/golang/glog"
-	vtenv "github.com/youtube/vitess/go/vt/env"
+	vtenv "gopkg.in/sqle/vitess-go.v1/vt/env"
 )
 
 // Hook is the input structure for this library.

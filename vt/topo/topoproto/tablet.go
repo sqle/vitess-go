@@ -12,9 +12,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/youtube/vitess/go/netutil"
+	"gopkg.in/sqle/vitess-go.v1/netutil"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // This file contains the topodata.Tablet utility functions.

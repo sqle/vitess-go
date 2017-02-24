@@ -8,14 +8,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/youtube/vitess/go/pools"
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/vt/dbconnpool"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/vterrors"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/pools"
+	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v1/vt/dbconnpool"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 )
 
 // ErrConnPoolClosed is returned when the connection pool is closed.

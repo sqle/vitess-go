@@ -5,8 +5,8 @@
 package planbuilder
 
 import (
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/vtgate/engine"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/engine"
 )
 
 // join is used to build a Join primitive.

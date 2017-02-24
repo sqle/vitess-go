@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/proto"
-	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
+	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
 )
 
 const (

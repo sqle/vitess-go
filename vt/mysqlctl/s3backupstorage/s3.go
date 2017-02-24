@@ -21,8 +21,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/concurrency"
-	"github.com/youtube/vitess/go/vt/mysqlctl/backupstorage"
+	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/backupstorage"
 )
 
 var (

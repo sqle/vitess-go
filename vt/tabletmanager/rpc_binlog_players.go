@@ -10,11 +10,11 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/mysqlconn/replication"
-	"github.com/youtube/vitess/go/vt/binlog/binlogplayer"
-	"github.com/youtube/vitess/go/vt/mysqlctl"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v1/vt/binlog/binlogplayer"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl"
 
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
 )
 
 // WaitBlpPosition waits until a specific filtered replication position is

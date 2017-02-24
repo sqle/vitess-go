@@ -12,20 +12,20 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/callinfo"
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
-	"github.com/youtube/vitess/go/vt/vterrors"
-	"github.com/youtube/vitess/go/vt/vtgate"
-	"github.com/youtube/vitess/go/vt/vtgate/vtgateservice"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/callinfo"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateservice"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
-	vtgateservicepb "github.com/youtube/vitess/go/vt/proto/vtgateservice"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	vtgateservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgateservice"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 const (

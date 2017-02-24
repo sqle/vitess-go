@@ -9,9 +9,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tableacl"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tableacl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
 )
 
 var (

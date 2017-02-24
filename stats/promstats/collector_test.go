@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/youtube/vitess/go/stats"
+	"gopkg.in/sqle/vitess-go.v1/stats"
 
 	pb "github.com/prometheus/client_model/go"
 )

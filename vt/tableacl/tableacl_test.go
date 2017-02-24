@@ -13,9 +13,9 @@ import (
 	"testing"
 	"time"
 
-	tableaclpb "github.com/youtube/vitess/go/vt/proto/tableacl"
-	"github.com/youtube/vitess/go/vt/tableacl/acl"
-	"github.com/youtube/vitess/go/vt/tableacl/simpleacl"
+	tableaclpb "gopkg.in/sqle/vitess-go.v1/vt/proto/tableacl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tableacl/acl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tableacl/simpleacl"
 )
 
 type fakeAclFactory struct{}

@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC tabletconn client
 
 import (
-	_ "github.com/youtube/vitess/go/vt/tabletserver/grpctabletconn"
+	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpctabletconn"
 )

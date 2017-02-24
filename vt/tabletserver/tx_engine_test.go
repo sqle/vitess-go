@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 
 	"golang.org/x/net/context"
 )

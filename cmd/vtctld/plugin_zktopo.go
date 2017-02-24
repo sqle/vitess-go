@@ -7,9 +7,9 @@ package main
 // Imports and register the 'zookeeper' topo.Server and its Explorer.
 
 import (
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/vtctld"
-	"github.com/youtube/vitess/go/vt/zktopo"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtctld"
+	"gopkg.in/sqle/vitess-go.v1/vt/zktopo"
 )
 
 func init() {

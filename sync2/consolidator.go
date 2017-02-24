@@ -10,8 +10,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/youtube/vitess/go/acl"
-	"github.com/youtube/vitess/go/cache"
+	"gopkg.in/sqle/vitess-go.v1/acl"
+	"gopkg.in/sqle/vitess-go.v1/cache"
 )
 
 // Consolidator consolidates duplicate queries from executing simulaneously

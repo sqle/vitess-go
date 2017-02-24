@@ -5,7 +5,7 @@
 package vterrors
 
 import (
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 // This file contains the necessary methods to send and receive errors

@@ -7,10 +7,10 @@
 package schematest
 
 import (
-	"github.com/youtube/vitess/go/mysqlconn"
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
 )
 
 // Queries returns a default set of queries that can

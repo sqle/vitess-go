@@ -6,9 +6,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/callerid"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 const (

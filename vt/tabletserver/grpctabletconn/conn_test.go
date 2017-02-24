@@ -10,10 +10,10 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/vt/tabletserver/grpcqueryservice"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletconntest"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconntest"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // This test makes sure the go rpc service works

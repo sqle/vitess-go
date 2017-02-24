@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/callinfo"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/vt/callinfo"
 )
 
 // QueryDetail is a simple wrapper for Query, Context and a killable conn.

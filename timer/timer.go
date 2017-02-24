@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/youtube/vitess/go/sync2"
+	"gopkg.in/sqle/vitess-go.v1/sync2"
 )
 
 // Out-of-band messages

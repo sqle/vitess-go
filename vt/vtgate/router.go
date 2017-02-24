@@ -7,15 +7,15 @@ package vtgate
 import (
 	"errors"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/topo"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
-	"github.com/youtube/vitess/go/vt/vtgate/queryinfo"
-	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/queryinfo"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
 )
 
 // Router is the layer to route queries to the correct shards

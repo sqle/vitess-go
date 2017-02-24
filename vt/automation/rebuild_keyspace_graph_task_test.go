@@ -8,8 +8,8 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/vtctl/fakevtctlclient"
-	"github.com/youtube/vitess/go/vt/vtctl/vtctlclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/fakevtctlclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
 )
 
 func TestRebuildKeyspaceGraphTask(t *testing.T) {

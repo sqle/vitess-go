@@ -5,5 +5,5 @@
 package main
 
 import (
-	_ "github.com/youtube/vitess/go/vt/mysqlctl/gcsbackupstorage"
+	_ "gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/gcsbackupstorage"
 )

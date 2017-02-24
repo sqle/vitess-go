@@ -7,8 +7,8 @@ import (
 	time "time"
 
 	gomock "github.com/golang/mock/gomock"
-	topodata "github.com/youtube/vitess/go/vt/proto/topodata"
 	context "golang.org/x/net/context"
+	topodata "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 )
 
 // Mock of ReshardingWrangler interface

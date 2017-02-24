@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/tabletserver/planbuilder"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
 	"golang.org/x/net/context"
+	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/planbuilder"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 )
 
 func TestQuerylogzHandlerInvalidLogStats(t *testing.T) {

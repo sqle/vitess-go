@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/logz"
+	"gopkg.in/sqle/vitess-go.v1/vt/logz"
 )
 
 const logHeaderHTML = `

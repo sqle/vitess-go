@@ -5,7 +5,7 @@ package splitquery
 import (
 	"fmt"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
 )
 
 // populateNewBindVariable inserts 'bindVariableName' with 'bindVariableValue' to the

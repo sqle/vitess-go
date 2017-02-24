@@ -10,11 +10,11 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/throttler"
 
-	"github.com/youtube/vitess/go/vt/proto/throttlerdata"
-	"github.com/youtube/vitess/go/vt/proto/throttlerservice"
+	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerservice"
 )
 
 // Server is the gRPC server implementation of the Throttler service.

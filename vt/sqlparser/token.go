@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 )
 
 const eofChar = 0x100

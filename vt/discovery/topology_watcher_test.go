@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/topo/test/faketopo"
 	"golang.org/x/net/context"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/test/faketopo"
 )
 
 func TestCellTabletsWatcher(t *testing.T) {

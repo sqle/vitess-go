@@ -10,10 +10,10 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
+	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
 )
 
 // RebuildVSchema rebuilds the SrvVSchema for the provided cell list

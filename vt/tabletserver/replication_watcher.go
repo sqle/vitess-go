@@ -11,17 +11,17 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/mysqlconn/replication"
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/vt/binlog"
-	"github.com/youtube/vitess/go/vt/binlog/eventtoken"
-	"github.com/youtube/vitess/go/vt/dbconfigs"
-	"github.com/youtube/vitess/go/vt/mysqlctl"
-	"github.com/youtube/vitess/go/vt/tabletserver/engines/schema"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v1/vt/binlog"
+	"gopkg.in/sqle/vitess-go.v1/vt/binlog/eventtoken"
+	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/engines/schema"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
 )
 
 // ReplicationWatcher is a tabletserver service that watches the

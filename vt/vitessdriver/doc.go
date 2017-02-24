@@ -13,7 +13,7 @@ Using this SQL driver is as simple as:
 
   import (
     "time"
-    "github.com/youtube/vitess/go/vt/vitessdriver"
+    "gopkg.in/sqle/vitess-go.v1/vt/vitessdriver"
   )
 
   func main() {

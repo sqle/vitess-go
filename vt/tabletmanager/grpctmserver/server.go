@@ -10,17 +10,17 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/vt/callinfo"
-	"github.com/youtube/vitess/go/vt/hook"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/tabletmanager"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v1/vt/callinfo"
+	"gopkg.in/sqle/vitess-go.v1/vt/hook"
+	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
+	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
-	tabletmanagerservicepb "github.com/youtube/vitess/go/vt/proto/tabletmanagerservice"
+	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerservice"
 )
 
 // server is the gRPC implementation of the RPC server

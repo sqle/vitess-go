@@ -6,12 +6,12 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/automation"
-	"github.com/youtube/vitess/go/vt/topo/topoproto"
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v1/vt/automation"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
 )
 
 func createTaskID(phase PhaseType, shardName string) string {

@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
 )
 
 // binlogEvent wraps a raw packet buffer and provides methods to examine it

@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/tabletserver/planbuilder"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/planbuilder"
 )
 
 // QueryRuleInfo is the maintainer of QueryRules from multiple sources

@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 )
 
 // Testable restricts the types that can be added to

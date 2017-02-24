@@ -15,9 +15,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/testfiles"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
+	"gopkg.in/sqle/vitess-go.v1/testfiles"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
 )
 
 // hashIndex satisfies Functional, Unique.

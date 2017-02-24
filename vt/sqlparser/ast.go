@@ -11,7 +11,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 )
 
 // Instructions for creating new types: If a type

@@ -1,6 +1,6 @@
 package resharding
 
-import "github.com/youtube/vitess/go/vt/workflow"
+import "gopkg.in/sqle/vitess-go.v1/vt/workflow"
 
 // RetryController stores the data for controlling the retry action.
 type RetryController struct {

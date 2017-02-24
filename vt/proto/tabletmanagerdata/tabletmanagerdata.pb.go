@@ -106,10 +106,10 @@ package tabletmanagerdata
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import query "github.com/youtube/vitess/go/vt/proto/query"
-import topodata "github.com/youtube/vitess/go/vt/proto/topodata"
-import replicationdata "github.com/youtube/vitess/go/vt/proto/replicationdata"
-import logutil "github.com/youtube/vitess/go/vt/proto/logutil"
+import query "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+import topodata "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+import replicationdata "gopkg.in/sqle/vitess-go.v1/vt/proto/replicationdata"
+import logutil "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

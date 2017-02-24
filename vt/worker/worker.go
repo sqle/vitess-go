@@ -15,7 +15,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/stats"
+	"gopkg.in/sqle/vitess-go.v1/stats"
 )
 
 // Worker is the base interface for all long running workers.

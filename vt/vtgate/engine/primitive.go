@@ -5,10 +5,10 @@
 package engine
 
 import (
-	"github.com/youtube/vitess/go/sqltypes"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
-	"github.com/youtube/vitess/go/vt/vtgate/queryinfo"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/queryinfo"
 )
 
 // SeqVarName is a reserved bind var name for sequence values.

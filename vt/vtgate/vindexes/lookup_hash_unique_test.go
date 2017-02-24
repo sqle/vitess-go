@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
 )
 
 var lhu Vindex

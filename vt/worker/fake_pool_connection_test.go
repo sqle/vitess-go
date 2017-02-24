@@ -11,8 +11,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/dbconnpool"
+	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v1/vt/dbconnpool"
 )
 
 const appendEntry = -1

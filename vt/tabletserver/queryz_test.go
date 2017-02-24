@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/tabletserver/planbuilder"
+	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/planbuilder"
 )
 
 func TestQueryzHandler(t *testing.T) {

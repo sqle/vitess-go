@@ -18,23 +18,23 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/mysqlconn/fakesqldb"
-	"github.com/youtube/vitess/go/vt/mysqlctl"
-	"github.com/youtube/vitess/go/vt/tabletmanager"
-	"github.com/youtube/vitess/go/vt/tabletmanager/grpctmserver"
-	"github.com/youtube/vitess/go/vt/tabletmanager/tmclient"
-	"github.com/youtube/vitess/go/vt/tabletserver/tabletconn"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v1/mysqlconn/fakesqldb"
+	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/grpctmserver"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
+	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
+	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
 
 	// import the gRPC client implementation for tablet manager
-	_ "github.com/youtube/vitess/go/vt/tabletmanager/grpctmclient"
+	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/grpctmclient"
 
 	// import the gRPC client implementation for query service
-	_ "github.com/youtube/vitess/go/vt/tabletserver/grpctabletconn"
+	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpctabletconn"
 )
 
 // This file contains utility methods for unit tests.

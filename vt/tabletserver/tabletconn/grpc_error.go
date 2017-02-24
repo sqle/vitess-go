@@ -3,10 +3,10 @@ package tabletconn
 import (
 	"io"
 
-	"github.com/youtube/vitess/go/vt/vterrors"
 	"google.golang.org/grpc"
+	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
 )
 
 // ErrorFromGRPC converts a GRPC error to vtError for
