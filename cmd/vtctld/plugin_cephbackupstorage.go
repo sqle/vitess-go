@@ -1,5 +1,5 @@
 package main
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/cephbackupstorage"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/cephbackupstorage"
 )

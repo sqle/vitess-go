@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateservice"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateservice"
+
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
 )
 
 // fakeVTGateService has the server side of this fake
@@ -28,11 +30,20 @@ type queryExecute struct {
 	NotInTransaction bool
 }
 
+func (q *queryExecute) Equal(q2 *queryExecute) bool {
+	return q.SQL == q2.SQL &&
+		reflect.DeepEqual(q.BindVariables, q2.BindVariables) &&
+		q.Keyspace == q2.Keyspace &&
+		q.TabletType == q2.TabletType &&
+		proto.Equal(q.Session, q2.Session) &&
+		q.NotInTransaction == q2.NotInTransaction
+}
+
 // Execute is part of the VTGateService interface
-func (f *fakeVTGateService) Execute(ctx context.Context, sql string, bindVariables map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, session *vtgatepb.Session, notInTransaction bool, options *querypb.ExecuteOptions) (*sqltypes.Result, error) {
+func (f *fakeVTGateService) Execute(ctx context.Context, sql string, bindVariables map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, session *vtgatepb.Session, notInTransaction bool, options *querypb.ExecuteOptions) (*vtgatepb.Session, *sqltypes.Result, error) {
 	execCase, ok := execMap[sql]
 	if !ok {
-		return nil, fmt.Errorf("no match for: %s", sql)
+		return session, nil, fmt.Errorf("no match for: %s", sql)
 	}
 	query := &queryExecute{
 		SQL:              sql,
@@ -42,13 +53,13 @@ func (f *fakeVTGateService) Execute(ctx context.Context, sql string, bindVariabl
 		Session:          session,
 		NotInTransaction: notInTransaction,
 	}
-	if !reflect.DeepEqual(query, execCase.execQuery) {
-		return nil, fmt.Errorf("Execute request mismatch: got %+v, want %+v", query, execCase.execQuery)
+	if !query.Equal(execCase.execQuery) {
+		return session, nil, fmt.Errorf("Execute request mismatch: got %+v, want %+v", query, execCase.execQuery)
 	}
 	if execCase.session != nil {
 		*session = *execCase.session
 	}
-	return execCase.result, nil
+	return session, execCase.result, nil
 }
 
 // ExecuteShards is part of the VTGateService interface
@@ -72,11 +83,11 @@ func (f *fakeVTGateService) ExecuteEntityIds(ctx context.Context, sql string, bi
 }
 
 // ExecuteBatch is part of the VTGateService interface
-func (f *fakeVTGateService) ExecuteBatch(ctx context.Context, sql []string, bindVariables []map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, asTransaction bool, session *vtgatepb.Session, options *querypb.ExecuteOptions) ([]sqltypes.QueryResponse, error) {
+func (f *fakeVTGateService) ExecuteBatch(ctx context.Context, sql []string, bindVariables []map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, session *vtgatepb.Session, options *querypb.ExecuteOptions) (*vtgatepb.Session, []sqltypes.QueryResponse, error) {
 	if len(sql) == 1 {
 		execCase, ok := execMap[sql[0]]
 		if !ok {
-			return nil, fmt.Errorf("no match for: %s", sql)
+			return session, nil, fmt.Errorf("no match for: %s", sql)
 		}
 		if bindVariables == nil {
 			bindVariables = make([]map[string]interface{}, 1)
@@ -88,17 +99,17 @@ func (f *fakeVTGateService) ExecuteBatch(ctx context.Context, sql []string, bind
 			TabletType:    tabletType,
 			Session:       session,
 		}
-		if !reflect.DeepEqual(query, execCase.execQuery) {
-			return nil, fmt.Errorf("Execute request mismatch: got %+v, want %+v", query, execCase.execQuery)
+		if !query.Equal(execCase.execQuery) {
+			return session, nil, fmt.Errorf("Execute request mismatch: got %+v, want %+v", query, execCase.execQuery)
 		}
 		if execCase.session != nil {
 			*session = *execCase.session
 		}
-		return []sqltypes.QueryResponse{
+		return session, []sqltypes.QueryResponse{
 			{QueryResult: execCase.result},
 		}, nil
 	}
-	return nil, nil
+	return session, nil, nil
 }
 
 // ExecuteBatchShard is part of the VTGateService interface
@@ -123,7 +134,7 @@ func (f *fakeVTGateService) StreamExecute(ctx context.Context, sql string, bindV
 		Keyspace:      keyspace,
 		TabletType:    tabletType,
 	}
-	if !reflect.DeepEqual(query, execCase.execQuery) {
+	if !query.Equal(execCase.execQuery) {
 		return fmt.Errorf("request mismatch: got %+v, want %+v", query, execCase.execQuery)
 	}
 	if execCase.result != nil {
@@ -167,7 +178,7 @@ func (f *fakeVTGateService) Begin(ctx context.Context, singledb bool) (*vtgatepb
 
 // Commit is part of the VTGateService interface
 func (f *fakeVTGateService) Commit(ctx context.Context, twopc bool, session *vtgatepb.Session) error {
-	if !reflect.DeepEqual(session, session2) {
+	if !proto.Equal(session, session2) {
 		return errors.New("commit: session mismatch")
 	}
 	return nil
@@ -175,7 +186,7 @@ func (f *fakeVTGateService) Commit(ctx context.Context, twopc bool, session *vtg
 
 // Rollback is part of the VTGateService interface
 func (f *fakeVTGateService) Rollback(ctx context.Context, session *vtgatepb.Session) error {
-	if !reflect.DeepEqual(session, session2) {
+	if !proto.Equal(session, session2) {
 		return errors.New("rollback: session mismatch")
 	}
 	return nil

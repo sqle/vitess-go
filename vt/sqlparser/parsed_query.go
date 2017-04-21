@@ -10,9 +10,10 @@ import (
 	"errors"
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/utils"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 type bindLocation struct {
@@ -51,8 +52,9 @@ func (pq *ParsedQuery) GenerateQuery(bindVariables map[string]interface{}) ([]by
 }
 
 // MarshalJSON is a custom JSON marshaler for ParsedQuery.
+// Note that any queries longer that 512 bytes will be truncated.
 func (pq *ParsedQuery) MarshalJSON() ([]byte, error) {
-	return json.Marshal(pq.Query)
+	return json.Marshal(utils.TruncateQuery(pq.Query))
 }
 
 // EncodeValue encodes one bind variable value into the query.

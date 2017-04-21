@@ -6,5 +6,5 @@ package grpcclienttest
 
 import (
 	// import the grpc client, it will register itself
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateconn"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vtgate/grpcvtgateconn"
 )

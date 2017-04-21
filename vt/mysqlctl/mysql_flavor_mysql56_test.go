@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
 )
 
 func TestMysql56VersionMatch(t *testing.T) {

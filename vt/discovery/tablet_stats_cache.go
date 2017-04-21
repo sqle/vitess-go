@@ -3,8 +3,8 @@ package discovery
 import (
 	"sync"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // TabletStatsCache is a HealthCheckStatsListener that keeps both the

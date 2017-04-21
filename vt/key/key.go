@@ -12,7 +12,7 @@ import (
 	"math"
 	"strings"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 //

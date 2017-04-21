@@ -12,7 +12,7 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 const (

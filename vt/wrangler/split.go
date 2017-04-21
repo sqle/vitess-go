@@ -11,11 +11,12 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletconn"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 const (
@@ -39,7 +40,7 @@ func (wr *Wrangler) SetSourceShards(ctx context.Context, keyspace, shard string,
 	// So iterating over the sourceTablets map would be a bad idea.
 	sourceShards := make([]*topodatapb.Shard_SourceShard, len(sourceTablets))
 	for i, alias := range sources {
-		ti := sourceTablets[*alias]
+		ti := sourceTablets[topoproto.TabletAliasString(alias)]
 		sourceShards[i] = &topodatapb.Shard_SourceShard{
 			Uid:      uint32(i),
 			Keyspace: ti.Keyspace,

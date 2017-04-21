@@ -21,9 +21,9 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/golang/protobuf/proto"
-	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
-	"gopkg.in/sqle/vitess-go.v1/vt/throttler"
-	"gopkg.in/sqle/vitess-go.v1/vt/throttler/throttlerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler/throttlerclient"
 )
 
 // TestSuite runs the test suite on the given throttlerclient and throttlerserver.

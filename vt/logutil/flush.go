@@ -5,7 +5,7 @@
 package logutil
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/event"
+	"gopkg.in/sqle/vitess-go.v2/event"
 )
 
 var (

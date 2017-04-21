@@ -1,7 +1,7 @@
 package servenv
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
 )
 
 func init() {

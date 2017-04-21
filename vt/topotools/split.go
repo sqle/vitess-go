@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"sort"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/key"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 )
 
 // OverlappingShards contains sets of shards that overlap which each-other.

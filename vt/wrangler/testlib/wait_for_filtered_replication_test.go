@@ -11,17 +11,17 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/grpcqueryservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletmanager"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tmclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 const keyspace = "ks"

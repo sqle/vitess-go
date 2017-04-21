@@ -6,15 +6,15 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/querytypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 func TestDiscoveryGatewayExecute(t *testing.T) {

@@ -9,11 +9,12 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vschemapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vschema"
 )
 
 // Tee is an implementation of topo.Server that uses a primary
@@ -42,7 +43,7 @@ type Tee struct {
 
 	keyspaceVersionMapping map[string]versionMapping
 	shardVersionMapping    map[string]versionMapping
-	tabletVersionMapping   map[topodatapb.TabletAlias]versionMapping
+	tabletVersionMapping   map[string]versionMapping
 
 	keyspaceLockPaths map[string]string
 	shardLockPaths    map[string]string
@@ -74,7 +75,7 @@ func NewTee(primary, secondary topo.Impl, reverseLockOrder bool) *Tee {
 		lockSecond:             lockSecond,
 		keyspaceVersionMapping: make(map[string]versionMapping),
 		shardVersionMapping:    make(map[string]versionMapping),
-		tabletVersionMapping:   make(map[topodatapb.TabletAlias]versionMapping),
+		tabletVersionMapping:   make(map[string]versionMapping),
 		keyspaceLockPaths:      make(map[string]string),
 		shardLockPaths:         make(map[string]string),
 	}
@@ -419,11 +420,12 @@ func (tee *Tee) UpdateTablet(ctx context.Context, tablet *topodatapb.Tablet, exi
 	// if we have a mapping between tablet version in first topo
 	// and tablet version in second topo, replace the version number.
 	// if not, this will probably fail and log.
+	tabletAliasStr := topoproto.TabletAliasString(tablet.Alias)
 	tee.mu.Lock()
-	tvm, ok := tee.tabletVersionMapping[*tablet.Alias]
+	tvm, ok := tee.tabletVersionMapping[tabletAliasStr]
 	if ok && tvm.readFromVersion == existingVersion {
 		existingVersion = tvm.readFromSecondVersion
-		delete(tee.tabletVersionMapping, *tablet.Alias)
+		delete(tee.tabletVersionMapping, tabletAliasStr)
 	}
 	tee.mu.Unlock()
 	if newVersion2, serr := tee.secondary.UpdateTablet(ctx, tablet, existingVersion); serr != nil {
@@ -440,7 +442,7 @@ func (tee *Tee) UpdateTablet(ctx context.Context, tablet *topodatapb.Tablet, exi
 					log.Warningf("Failed to re-read tablet(%v) after creating it on secondary: %v", tablet.Alias, gerr)
 				} else {
 					tee.mu.Lock()
-					tee.tabletVersionMapping[*tablet.Alias] = versionMapping{
+					tee.tabletVersionMapping[tabletAliasStr] = versionMapping{
 						readFromVersion:       newVersion,
 						readFromSecondVersion: v,
 					}
@@ -452,7 +454,7 @@ func (tee *Tee) UpdateTablet(ctx context.Context, tablet *topodatapb.Tablet, exi
 		}
 	} else {
 		tee.mu.Lock()
-		tee.tabletVersionMapping[*tablet.Alias] = versionMapping{
+		tee.tabletVersionMapping[tabletAliasStr] = versionMapping{
 			readFromVersion:       newVersion,
 			readFromSecondVersion: newVersion2,
 		}
@@ -488,7 +490,7 @@ func (tee *Tee) GetTablet(ctx context.Context, alias *topodatapb.TabletAlias) (*
 	}
 
 	tee.mu.Lock()
-	tee.tabletVersionMapping[*alias] = versionMapping{
+	tee.tabletVersionMapping[topoproto.TabletAliasString(alias)] = versionMapping{
 		readFromVersion:       v,
 		readFromSecondVersion: v2,
 	}

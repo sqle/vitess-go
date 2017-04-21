@@ -7,7 +7,7 @@ package events
 import (
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/event"
+	"gopkg.in/sqle/vitess-go.v2/event"
 )
 
 type testEvent struct {

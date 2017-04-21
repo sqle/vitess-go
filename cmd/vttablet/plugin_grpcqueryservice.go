@@ -7,9 +7,9 @@ package main
 // Imports and register the gRPC queryservice server
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/grpcqueryservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver"
 )
 
 func init() {

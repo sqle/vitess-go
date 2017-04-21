@@ -9,7 +9,7 @@ import (
 	"log/syslog"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/event/syslogger"
+	"gopkg.in/sqle/vitess-go.v2/event/syslogger"
 )
 
 // Syslog writes a MigrateServedFrom event to syslog.

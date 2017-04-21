@@ -8,8 +8,8 @@ import (
 	"flag"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/fakevtworkerclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/vtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/fakevtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/vtworkerclient"
 )
 
 func TestVerticalSplitCloneTask(t *testing.T) {

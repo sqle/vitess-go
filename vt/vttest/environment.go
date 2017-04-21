@@ -10,7 +10,7 @@ import (
 	"path"
 
 	// we use gRPC everywhere, so import the vtgate client.
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateconn"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vtgate/grpcvtgateconn"
 )
 
 func launcherPath() (string, error) {

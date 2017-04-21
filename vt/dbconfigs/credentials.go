@@ -17,7 +17,7 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
 )
 
 var (

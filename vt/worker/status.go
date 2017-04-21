@@ -10,8 +10,8 @@ import (
 	"net/http"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/acl"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/acl"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
 )
 
 const workerStatusPartHTML = servenv.JQueryIncludes + `

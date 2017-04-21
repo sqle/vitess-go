@@ -10,10 +10,10 @@ package main
 import (
 	"flag"
 
-	"gopkg.in/sqle/vitess-go.v1/cmd/vtgateclienttest/services"
-	"gopkg.in/sqle/vitess-go.v1/exit"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate"
+	"gopkg.in/sqle/vitess-go.v2/cmd/vtgateclienttest/services"
+	"gopkg.in/sqle/vitess-go.v2/exit"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate"
 )
 
 func init() {

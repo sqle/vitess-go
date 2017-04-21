@@ -12,7 +12,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	context "golang.org/x/net/context"
 
-	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
+	automationpb "gopkg.in/sqle/vitess-go.v2/vt/proto/automation"
 )
 
 // newTestScheduler constructs a scheduler with test tasks.

@@ -11,9 +11,9 @@ import (
 
 	"google.golang.org/grpc"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/grpcvtgateservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateconntest"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateconntest"
 )
 
 // TestGRPCVTGateConn makes sure the grpc service works

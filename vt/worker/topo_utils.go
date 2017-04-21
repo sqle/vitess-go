@@ -12,13 +12,13 @@ import (
 
 	log "github.com/golang/glog"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 var (

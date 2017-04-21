@@ -11,11 +11,11 @@ import (
 
 	log "github.com/golang/glog"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/vtctlclient"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
+	logutilpb "gopkg.in/sqle/vitess-go.v2/vt/proto/logutil"
 )
 
 // ExecuteVtctl runs vtctl using vtctlclient. The stream of Event

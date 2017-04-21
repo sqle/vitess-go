@@ -13,11 +13,11 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
+	"gopkg.in/sqle/vitess-go.v2/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 var getVersionFromTabletDebugVars = func(tabletAddr string) (string, error) {

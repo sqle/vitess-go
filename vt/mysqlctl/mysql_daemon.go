@@ -11,14 +11,14 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/fakesqldb"
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/stats"
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconnpool"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/fakesqldb"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/stats"
+	"gopkg.in/sqle/vitess-go.v2/vt/dbconnpool"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/tmutils"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/tabletmanagerdata"
 )
 
 // MysqlDaemon is the interface we use for abstracting Mysqld.

@@ -14,7 +14,7 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/acl"
+	"gopkg.in/sqle/vitess-go.v2/acl"
 )
 
 var (

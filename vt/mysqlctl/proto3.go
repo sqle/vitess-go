@@ -7,8 +7,8 @@ package mysqlctl
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	replicationdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/replicationdata"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
+	replicationdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/replicationdata"
 )
 
 // StatusToProto translates a Status to proto3

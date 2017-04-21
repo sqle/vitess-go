@@ -15,7 +15,7 @@ import (
 	"errors"
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateconn"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateconn"
 )
 
 var (

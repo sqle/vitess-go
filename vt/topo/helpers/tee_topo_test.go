@@ -7,9 +7,9 @@ package helpers
 import (
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/test"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/test"
 )
 
 func newFakeTeeServer(t *testing.T) topo.Impl {

@@ -13,10 +13,10 @@ import (
 	"reflect"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 func hki(hexValue string) []byte {

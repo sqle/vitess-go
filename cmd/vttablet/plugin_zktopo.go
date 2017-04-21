@@ -7,5 +7,5 @@ package main
 // Imports and register the Zookeeper TopologyServer
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/zktopo"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/zktopo"
 )

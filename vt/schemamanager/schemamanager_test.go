@@ -9,22 +9,22 @@ import (
 	"fmt"
 	"testing"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/tmutils"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/test/faketopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/faketmclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tmclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/faketmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/test/faketopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/tabletmanagerdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 
 	// import the gRPC client implementation for tablet manager
-	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/grpctmclient"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vttablet/grpctmclient"
 )
 
 var (

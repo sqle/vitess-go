@@ -7,14 +7,14 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/flagutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/schemamanager/schemaswap"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl"
-	"gopkg.in/sqle/vitess-go.v1/vt/workflow"
-	"gopkg.in/sqle/vitess-go.v1/vt/workflow/resharding"
-	"gopkg.in/sqle/vitess-go.v1/vt/workflow/topovalidator"
+	"gopkg.in/sqle/vitess-go.v2/flagutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/schemamanager/schemaswap"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl"
+	"gopkg.in/sqle/vitess-go.v2/vt/workflow"
+	"gopkg.in/sqle/vitess-go.v2/vt/workflow/resharding"
+	"gopkg.in/sqle/vitess-go.v2/vt/workflow/topovalidator"
 )
 
 var (

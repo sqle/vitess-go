@@ -7,7 +7,7 @@ package proc
 import (
 	"net"
 
-	"gopkg.in/sqle/vitess-go.v1/stats"
+	"gopkg.in/sqle/vitess-go.v2/stats"
 )
 
 type CountingListener struct {

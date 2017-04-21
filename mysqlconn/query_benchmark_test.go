@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/mysql"
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/vt/vttest"
+	"gopkg.in/sqle/vitess-go.v2/mysql"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttest"
 )
 
 // This file contains various long-running tests for mysqlconn.
@@ -128,12 +128,13 @@ func benchmarkOldParallelReads(b *testing.B, params sqldb.ConnParams, parallelCo
 func BenchmarkParallelShortQueries(b *testing.B) {
 	th := &testHandler{}
 
-	l, err := NewListener("tcp", ":0", th)
+	authServer := &AuthServerNone{}
+
+	l, err := NewListener("tcp", ":0", authServer, th)
 	if err != nil {
 		b.Fatalf("NewListener failed: %v", err)
 	}
 	defer l.Close()
-	l.PasswordMap["user1"] = "password1"
 
 	go func() {
 		l.Accept()

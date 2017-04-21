@@ -6,11 +6,12 @@ package binlog
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 
-	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	"github.com/golang/protobuf/proto"
+
+	binlogdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/binlogdata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 var dmlErrorCases = []string{
@@ -34,15 +35,15 @@ func TestEventErrors(t *testing.T) {
 		},
 	}
 	for _, sql := range dmlErrorCases {
-		trans := &binlogdatapb.BinlogTransaction{
-			Statements: []*binlogdatapb.BinlogTransaction_Statement{
-				{
+		statements := []FullBinlogStatement{
+			{
+				Statement: &binlogdatapb.BinlogTransaction_Statement{
 					Category: binlogdatapb.BinlogTransaction_Statement_BL_INSERT,
 					Sql:      []byte(sql),
 				},
 			},
 		}
-		err := evs.transactionToEvent(trans)
+		err := evs.transactionToEvent(nil, statements)
 		if err != nil {
 			t.Errorf("%s: %v", sql, err)
 			continue
@@ -55,7 +56,7 @@ func TestEventErrors(t *testing.T) {
 				},
 			},
 		}
-		if !reflect.DeepEqual(got, want) {
+		if !proto.Equal(got, want) {
 			t.Errorf("error for SQL: '%v' got: %+v, want: %+v", sql, got, want)
 		}
 	}
@@ -67,16 +68,16 @@ func TestSetErrors(t *testing.T) {
 			return nil
 		},
 	}
-	trans := &binlogdatapb.BinlogTransaction{
-		Statements: []*binlogdatapb.BinlogTransaction_Statement{
-			{
+	statements := []FullBinlogStatement{
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
 				Category: binlogdatapb.BinlogTransaction_Statement_BL_SET,
 				Sql:      []byte("SET INSERT_ID=abcd"),
 			},
 		},
 	}
 	before := binlogStreamerErrors.Counts()["EventStreamer"]
-	err := evs.transactionToEvent(trans)
+	err := evs.transactionToEvent(nil, statements)
 	if err != nil {
 		t.Error(err)
 	}
@@ -87,24 +88,35 @@ func TestSetErrors(t *testing.T) {
 }
 
 func TestDMLEvent(t *testing.T) {
-	trans := &binlogdatapb.BinlogTransaction{
-		Statements: []*binlogdatapb.BinlogTransaction_Statement{{
-			Category: binlogdatapb.BinlogTransaction_Statement_BL_SET,
-			Sql:      []byte("SET TIMESTAMP=2"),
-		}, {
-			Category: binlogdatapb.BinlogTransaction_Statement_BL_SET,
-			Sql:      []byte("SET INSERT_ID=10"),
-		}, {
-			Category: binlogdatapb.BinlogTransaction_Statement_BL_INSERT,
-			Sql:      []byte("query /* _stream _table_ (eid id name)  (null 1 'bmFtZQ==' ) (null 18446744073709551615 'bmFtZQ==' ); */"),
-		}, {
-			Category: binlogdatapb.BinlogTransaction_Statement_BL_INSERT,
-			Sql:      []byte("query"),
-		}},
-		EventToken: &querypb.EventToken{
-			Timestamp: 1,
-			Position:  "MariaDB/0-41983-20",
+	statements := []FullBinlogStatement{
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
+				Category: binlogdatapb.BinlogTransaction_Statement_BL_SET,
+				Sql:      []byte("SET TIMESTAMP=2"),
+			},
 		},
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
+				Category: binlogdatapb.BinlogTransaction_Statement_BL_SET,
+				Sql:      []byte("SET INSERT_ID=10"),
+			},
+		},
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
+				Category: binlogdatapb.BinlogTransaction_Statement_BL_INSERT,
+				Sql:      []byte("query /* _stream _table_ (eid id name)  (null 1 'bmFtZQ==' ) (null 18446744073709551615 'bmFtZQ==' ); */"),
+			},
+		},
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
+				Category: binlogdatapb.BinlogTransaction_Statement_BL_INSERT,
+				Sql:      []byte("query"),
+			},
+		},
+	}
+	eventToken := &querypb.EventToken{
+		Timestamp: 1,
+		Position:  "MariaDB/0-41983-20",
 	}
 	evs := &EventStreamer{
 		sendEvent: func(event *querypb.StreamEvent) error {
@@ -135,27 +147,30 @@ func TestDMLEvent(t *testing.T) {
 			return nil
 		},
 	}
-	err := evs.transactionToEvent(trans)
+	err := evs.transactionToEvent(eventToken, statements)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestDDLEvent(t *testing.T) {
-	trans := &binlogdatapb.BinlogTransaction{
-		Statements: []*binlogdatapb.BinlogTransaction_Statement{
-			{
+	statements := []FullBinlogStatement{
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
 				Category: binlogdatapb.BinlogTransaction_Statement_BL_SET,
 				Sql:      []byte("SET TIMESTAMP=2"),
-			}, {
+			},
+		},
+		{
+			Statement: &binlogdatapb.BinlogTransaction_Statement{
 				Category: binlogdatapb.BinlogTransaction_Statement_BL_DDL,
 				Sql:      []byte("DDL"),
 			},
 		},
-		EventToken: &querypb.EventToken{
-			Timestamp: 1,
-			Position:  "MariaDB/0-41983-20",
-		},
+	}
+	eventToken := &querypb.EventToken{
+		Timestamp: 1,
+		Position:  "MariaDB/0-41983-20",
 	}
 	evs := &EventStreamer{
 		sendEvent: func(event *querypb.StreamEvent) error {
@@ -180,7 +195,7 @@ func TestDDLEvent(t *testing.T) {
 			return nil
 		},
 	}
-	err := evs.transactionToEvent(trans)
+	err := evs.transactionToEvent(eventToken, statements)
 	if err != nil {
 		t.Error(err)
 	}

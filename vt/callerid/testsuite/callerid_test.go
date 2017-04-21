@@ -3,9 +3,9 @@ package testsuite
 import (
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v2/vt/callerid"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 func TestFakeCallerID(t *testing.T) {

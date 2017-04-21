@@ -11,8 +11,8 @@ import (
 
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/zk"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/zk"
 )
 
 // Server is the zookeeper topo.Impl implementation.

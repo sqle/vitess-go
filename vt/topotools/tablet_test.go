@@ -7,7 +7,7 @@ package topotools
 import (
 	"testing"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 func TestCheckOwnership(t *testing.T) {

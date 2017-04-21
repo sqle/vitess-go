@@ -14,15 +14,15 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconntest"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/gateway"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/gateway"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/queryservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletconn"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletconntest"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // CreateFakeServers returns the servers to use for these tests

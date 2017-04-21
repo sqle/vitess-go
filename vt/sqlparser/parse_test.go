@@ -81,6 +81,30 @@ func TestValid(t *testing.T) {
 	}, {
 		input: "select /* union distinct */ 1 from t union distinct select 1 from t",
 	}, {
+		input:  "(select /* union parenthesized select */ 1 from t order by a) union select 1 from t",
+		output: "(select /* union parenthesized select */ 1 from t order by a asc) union select 1 from t",
+	}, {
+		input: "select /* union parenthesized select 2 */ 1 from t union (select 1 from t)",
+	}, {
+		input:  "select /* union order by */ 1 from t union select 1 from t order by a",
+		output: "select /* union order by */ 1 from t union select 1 from t order by a asc",
+	}, {
+		input:  "select /* union order by limit lock */ 1 from t union select 1 from t order by a limit 1 for update",
+		output: "select /* union order by limit lock */ 1 from t union select 1 from t order by a asc limit 1 for update",
+	}, {
+		input: "select /* union with limit on lhs */ 1 from t limit 1 union select 1 from t",
+	}, {
+		input:  "(select id, a from t order by id limit 1) union (select id, b as a from s order by id limit 1) order by a limit 1",
+		output: "(select id, a from t order by id asc limit 1) union (select id, b as a from s order by id asc limit 1) order by a asc limit 1",
+	}, {
+		input: "select a from (select 1 as a from tbl1 union select 2 from tbl2) as t",
+	}, {
+		input: "select * from t1 join (select * from t2 union select * from t3) as t",
+	}, {
+		input: "select * from t1 where col in (select 1 from dual union select 2 from dual)",
+	}, {
+		input: "select * from t1 where exists (select a from t2 union select b from t3)",
+	}, {
 		input: "select /* distinct */ distinct 1 from t",
 	}, {
 		input: "select /* straight_join */ straight_join 1 from t",
@@ -511,6 +535,14 @@ func TestValid(t *testing.T) {
 	}, {
 		input: "insert /* select */ into a select b, c from d",
 	}, {
+		input:  "insert /* no cols & paren select */ into a(select * from t)",
+		output: "insert /* no cols & paren select */ into a select * from t",
+	}, {
+		input:  "insert /* cols & paren select */ into a(a,b,c) (select * from t)",
+		output: "insert /* cols & paren select */ into a(a, b, c) select * from t",
+	}, {
+		input: "insert /* cols & union with paren select */ into a(b, c) (select d, e from f) union (select g from h)",
+	}, {
 		input: "insert /* on duplicate */ into a values (1, 2) on duplicate key update b = func(a), c = d",
 	}, {
 		input: "insert /* bool in insert value */ into a values (1, true, false)",
@@ -608,6 +640,15 @@ func TestValid(t *testing.T) {
 		input:  "alter table a rename to b",
 		output: "rename table a b",
 	}, {
+		input:  "alter table a rename as b",
+		output: "rename table a b",
+	}, {
+		input:  "alter table a rename index foo to bar",
+		output: "alter table a",
+	}, {
+		input:  "alter table a rename key foo to bar",
+		output: "alter table a",
+	}, {
 		input: "create table a",
 	}, {
 		input: "create table `by`",
@@ -624,7 +665,16 @@ func TestValid(t *testing.T) {
 		input:  "create unique index a using foo on b",
 		output: "alter table b",
 	}, {
+		input:  "create fulltext index a using foo on b",
+		output: "alter table b",
+	}, {
+		input:  "create spatial index a using foo on b",
+		output: "alter table b",
+	}, {
 		input:  "create view a",
+		output: "create table a",
+	}, {
+		input:  "create or replace view a",
 		output: "create table a",
 	}, {
 		input:  "alter view a",
@@ -648,13 +698,34 @@ func TestValid(t *testing.T) {
 		input:  "analyze table a",
 		output: "alter table a",
 	}, {
+		input:  "show databases",
+		output: "show databases",
+	}, {
+		input:  "show tables",
+		output: "show tables",
+	}, {
+		input:  "show vitess_keyspaces",
+		output: "show vitess_keyspaces",
+	}, {
+		input:  "show vitess_shards",
+		output: "show vitess_shards",
+	}, {
+		input:  "show vschema_tables",
+		output: "show vschema_tables",
+	}, {
+		input:  "show create database",
+		output: "show unsupported",
+	}, {
 		input:  "show foobar",
-		output: "other",
+		output: "show unsupported",
 	}, {
 		input:  "describe foobar",
 		output: "other",
 	}, {
 		input:  "explain foobar",
+		output: "other",
+	}, {
+		input:  "truncate foo",
 		output: "other",
 	}, {
 		input: "select /* EQ true */ 1 from t where a = true",
@@ -714,6 +785,8 @@ func TestValid(t *testing.T) {
 	}, {
 		input: "select match(a1, a2) against ('foo' in natural language mode with query expansion) from t",
 	}, {
+		input: "select title from video as v where match(v.title, v.tag) against ('DEMO' in boolean mode)",
+	}, {
 		input: "select name, group_concat(score) from t group by name",
 	}, {
 		input: "select name, group_concat(distinct id, score order by id desc separator ':') from t group by name",
@@ -753,6 +826,9 @@ func TestCaseSensitivity(t *testing.T) {
 		output: "alter table A",
 	}, {
 		input:  "alter table A foo",
+		output: "alter table A",
+	}, {
+		input:  "alter table A convert",
 		output: "alter table A",
 	}, {
 		// View names get lower-cased.
@@ -1127,6 +1203,12 @@ func TestErrors(t *testing.T) {
 	}, {
 		input:  "select /* vitess-reserved keyword as unqualified column */ * from t where escape = 'test'",
 		output: "syntax error at position 81 near 'escape'",
+	}, {
+		input:  "(select /* parenthesized select */ * from t)",
+		output: "syntax error at position 46",
+	}, {
+		input:  "select * from t where id = ((select a from t1 union select b from t2) order by a limit 1)",
+		output: "syntax error at position 76 near 'order'",
 	}}
 	for _, tcase := range invalidSQL {
 		if tcase.output == "" {

@@ -14,12 +14,12 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 type state string

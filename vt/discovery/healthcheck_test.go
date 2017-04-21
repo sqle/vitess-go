@@ -10,15 +10,15 @@ import (
 	"testing"
 	"time"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/status"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/queryservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/queryservice/fakes"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletconn"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/status"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice/fakes"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 var connMap map[string]*fakeConn

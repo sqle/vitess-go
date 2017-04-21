@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC vtctl client.
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtctl/grpcvtctlclient"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vtctl/grpcvtctlclient"
 )

@@ -9,8 +9,8 @@ import (
 	"path"
 	"strings"
 
+	"gopkg.in/sqle/vitess-go.v2/fileutil"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/fileutil"
 )
 
 // WildcardBackend is a subset of Server for the methods used by the

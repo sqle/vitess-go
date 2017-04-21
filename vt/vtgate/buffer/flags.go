@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 )
 
 var (
@@ -28,6 +28,7 @@ func resetFlagsForTesting() {
 	// Set all flags to their default value.
 	flag.Set("enable_buffer", "false")
 	flag.Set("enable_buffer_dry_run", "false")
+	flag.Set("buffer_size", "10")
 	flag.Set("buffer_window", "10s")
 	flag.Set("buffer_keyspace_shards", "")
 	flag.Set("buffer_max_failover_duration", "20s")

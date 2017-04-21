@@ -8,8 +8,8 @@ import (
 	"flag"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/fakevtctlclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/fakevtctlclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/vtctlclient"
 )
 
 func TestCopySchemaShardTask(t *testing.T) {

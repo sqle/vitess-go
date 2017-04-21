@@ -7,15 +7,15 @@ package vtgate
 import (
 	"errors"
 
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/queryinfo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/queryinfo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vindexes"
 )
 
 // Router is the layer to route queries to the correct shards
@@ -63,35 +63,6 @@ func (rtr *Router) StreamExecute(ctx context.Context, sql string, bindVars map[s
 		return err
 	}
 	return plan.Instructions.StreamExecute(vcursor, queryConstruct, make(map[string]interface{}), true, callback)
-}
-
-// ExecuteBatch routes a non-streaming queries.
-func (rtr *Router) ExecuteBatch(ctx context.Context, sqlList []string, bindVarsList []map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, asTransaction bool, session *vtgatepb.Session, options *querypb.ExecuteOptions) ([]sqltypes.QueryResponse, error) {
-	if bindVarsList == nil {
-		bindVarsList = make([]map[string]interface{}, len(sqlList))
-	}
-	queryResponseList := make([]sqltypes.QueryResponse, 0, len(sqlList))
-	for sqlNum, query := range sqlList {
-		var queryResponse sqltypes.QueryResponse
-
-		bindVars := bindVarsList[sqlNum]
-		if bindVars == nil {
-			bindVars = make(map[string]interface{})
-		}
-		//Using same QueryExecutor -> marking notInTransaction as false and not using asTransaction flag
-		vcursor := newQueryExecutor(ctx, tabletType, session, options, rtr)
-		queryConstruct := queryinfo.NewQueryConstruct(query, keyspace, bindVars, false)
-		plan, err := rtr.planner.GetPlan(query, keyspace, bindVars)
-		if err != nil {
-			queryResponse.QueryError = err
-		} else {
-			result, err := plan.Instructions.Execute(vcursor, queryConstruct, make(map[string]interface{}), true)
-			queryResponse.QueryResult = result
-			queryResponse.QueryError = err
-		}
-		queryResponseList = append(queryResponseList, queryResponse)
-	}
-	return queryResponseList, nil
 }
 
 // MessageAck acks messages.

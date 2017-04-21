@@ -10,12 +10,12 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
 )
 
 var (

@@ -10,8 +10,11 @@ import (
 	"strings"
 	"testing"
 
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"github.com/golang/protobuf/proto"
+
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
+
+	vschemapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vschema"
 )
 
 // stFU satisfies Functional, Unique.
@@ -1011,7 +1014,7 @@ func TestVSchemaPBJSON(t *testing.T) {
 			"t2": {},
 		},
 	}
-	if !reflect.DeepEqual(got, want) {
+	if !proto.Equal(&got, &want) {
 		gs, _ := json.Marshal(got)
 		ws, _ := json.Marshal(want)
 		t.Errorf("vschemapb.SrvVSchemaForKeyspace():\n%s, want\n%s", gs, ws)

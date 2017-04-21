@@ -4,7 +4,7 @@ import (
 	"log/syslog"
 	"testing"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 func TestShardChangeSyslog(t *testing.T) {

@@ -29,14 +29,15 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"github.com/golang/protobuf/proto"
+	"gopkg.in/sqle/vitess-go.v2/netutil"
+	"gopkg.in/sqle/vitess-go.v2/stats"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/queryservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletconn"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/netutil"
-	"gopkg.in/sqle/vitess-go.v1/stats"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
 )
 
 var (
@@ -146,6 +147,21 @@ type TabletStats struct {
 // String is defined because we want to print a []*TabletStats array nicely.
 func (e *TabletStats) String() string {
 	return fmt.Sprint(*e)
+}
+
+// DeepEqual compares two TabletStats. Since we include protos, we
+// need to use proto.Equal on these.
+func (e *TabletStats) DeepEqual(f *TabletStats) bool {
+	return e.Key == f.Key &&
+		proto.Equal(e.Tablet, f.Tablet) &&
+		e.Name == f.Name &&
+		proto.Equal(e.Target, f.Target) &&
+		e.Up == f.Up &&
+		e.Serving == f.Serving &&
+		e.TabletExternallyReparentedTimestamp == f.TabletExternallyReparentedTimestamp &&
+		proto.Equal(e.Stats, f.Stats) &&
+		((e.LastError == nil && f.LastError == nil) ||
+			(e.LastError != nil && f.LastError != nil && e.LastError.Error() == f.LastError.Error()))
 }
 
 // HealthCheck defines the interface of health checking module.
@@ -351,10 +367,11 @@ func (hc *HealthCheckImpl) checkConn(hcc *healthCheckConn, name string) {
 
 	// Read stream health responses.
 	for {
-		_ = hcc.stream(hc, func(shr *querypb.StreamHealthResponse) error {
+		hcc.stream(hc, func(shr *querypb.StreamHealthResponse) error {
 			return hcc.processResponse(hc, shr)
 		})
 
+		// Streaming RPC failed e.g. because vttablet was restarted.
 		// Sleep until the next retry is up or the context is done/canceled.
 		select {
 		case <-hcc.ctx.Done():
@@ -365,18 +382,21 @@ func (hc *HealthCheckImpl) checkConn(hcc *healthCheckConn, name string) {
 }
 
 // stream streams healthcheck responses to callback.
-func (hcc *healthCheckConn) stream(hc *HealthCheckImpl, callback func(*querypb.StreamHealthResponse) error) error {
+func (hcc *healthCheckConn) stream(hc *HealthCheckImpl, callback func(*querypb.StreamHealthResponse) error) {
 	hcc.mu.Lock()
 	conn := hcc.conn
 	hcc.mu.Unlock()
+
 	if conn == nil {
 		var err error
-		// Keyspace, shard and tabletType are the ones from the tablet
-		// record, but they won't be used just yet.
 		conn, err = tabletconn.GetDialer()(hcc.tabletStats.Tablet, hc.connTimeout)
 		if err != nil {
-			return err
+			hcc.mu.Lock()
+			hcc.tabletStats.LastError = err
+			hcc.mu.Unlock()
+			return
 		}
+
 		hcc.mu.Lock()
 		hcc.conn = conn
 		hcc.tabletStats.LastError = nil
@@ -391,9 +411,9 @@ func (hcc *healthCheckConn) stream(hc *HealthCheckImpl, callback func(*querypb.S
 		hcc.tabletStats.Serving = false
 		hcc.tabletStats.LastError = err
 		hcc.mu.Unlock()
-		return err
+		return
 	}
-	return nil
+	return
 }
 
 // processResponse reads one health check response, and notifies HealthCheckStatsListener.

@@ -10,11 +10,11 @@ import (
 
 	"golang.org/x/net/context"
 
-	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/fakevtctlclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/fakevtworkerclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/vtworkerclient"
+	automationpb "gopkg.in/sqle/vitess-go.v2/vt/proto/automation"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/fakevtctlclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/vtctlclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/fakevtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/vtworkerclient"
 )
 
 // TestVerticalSplitTask tests the vertical split cluster operation

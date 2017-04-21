@@ -11,8 +11,8 @@ import (
 	"sort"
 	"strings"
 
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	vschemapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vschema"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
 )
 
 // VSchema represents the denormalized version of SrvVSchema,

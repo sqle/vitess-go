@@ -18,13 +18,13 @@ import (
 
 	log "github.com/golang/glog"
 
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 var (
@@ -214,13 +214,11 @@ func (b *Buffer) StatsUpdate(ts *discovery.TabletStats) {
 // causedByFailover returns true if "err" was supposedly caused by a failover.
 // To simplify things, we've merged the detection for different MySQL flavors
 // in one function. Supported flavors: MariaDB, MySQL, Google internal.
-// TODO(mberlin): This function does not have to check the specific error messages.
-// The previous error revamp ensures that FAILED_PRECONDITION is returned only
-// during failover.
 func causedByFailover(err error) bool {
 	log.V(2).Infof("Checking error (type: %T) if it is caused by a failover. err: %v", err, err)
 
-	if vterrors.Code(err) != vtrpcpb.Code_FAILED_PRECONDITION {
+	// TODO(sougou): Remove the INTERNAL check after rollout.
+	if code := vterrors.Code(err); code != vtrpcpb.Code_FAILED_PRECONDITION && code != vtrpcpb.Code_INTERNAL {
 		return false
 	}
 	switch {

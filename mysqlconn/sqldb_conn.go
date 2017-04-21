@@ -3,10 +3,10 @@ package mysqlconn
 import (
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 // This file contains the methods needed to implement the sqldb.Conn

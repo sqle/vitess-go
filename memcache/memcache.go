@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/cacheservice"
+	"gopkg.in/sqle/vitess-go.v2/cacheservice"
 )
 
 // Connection is the connection to a memcache.

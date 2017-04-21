@@ -42,7 +42,7 @@ import (
 	"os"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/event"
+	"gopkg.in/sqle/vitess-go.v2/event"
 )
 
 // Syslogger is the interface that events should implement if they want to be

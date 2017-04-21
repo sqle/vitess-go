@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 func TestRepair(t *testing.T) {

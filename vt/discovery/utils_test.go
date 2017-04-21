@@ -1,11 +1,10 @@
 package discovery
 
 import (
-	"reflect"
 	"testing"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 func TestRemoveUnhealthyTablets(t *testing.T) {
@@ -47,8 +46,15 @@ func TestRemoveUnhealthyTablets(t *testing.T) {
 	}
 
 	for _, tc := range testcases {
-		if got := RemoveUnhealthyTablets(tc.input); !reflect.DeepEqual(got, tc.want) {
+		got := RemoveUnhealthyTablets(tc.input)
+		if len(got) != len(tc.want) {
 			t.Errorf("test case '%v' failed: RemoveUnhealthyTablets(%v) = %#v, want: %#v", tc.desc, tc.input, got, tc.want)
+		} else {
+			for i := range tc.want {
+				if !got[i].DeepEqual(&tc.want[i]) {
+					t.Errorf("test case '%v' failed: RemoveUnhealthyTablets(%v) = %#v, want: %#v", tc.desc, tc.input, got, tc.want)
+				}
+			}
 		}
 	}
 }

@@ -12,11 +12,11 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/consul/api"
-	"gopkg.in/sqle/vitess-go.v1/testfiles"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/test"
+	"gopkg.in/sqle/vitess-go.v2/testfiles"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/test"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // startConsul starts a consul subprocess, and waits for it to be ready.

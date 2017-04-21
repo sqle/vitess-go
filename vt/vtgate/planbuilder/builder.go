@@ -7,9 +7,9 @@ package planbuilder
 import (
 	"errors"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/engine"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/engine"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vindexes"
 )
 
 // A builder is used to build a primitive. The top-level
@@ -106,8 +106,16 @@ func BuildFromStmt(query string, stmt sqlparser.Statement, vschema VSchema) (*en
 		plan.Instructions, err = buildUpdatePlan(stmt, vschema)
 	case *sqlparser.Delete:
 		plan.Instructions, err = buildDeletePlan(stmt, vschema)
-	case *sqlparser.Union, *sqlparser.Set, *sqlparser.DDL, *sqlparser.Other:
-		return nil, errors.New("unsupported construct")
+	case *sqlparser.Show:
+		plan.Instructions, err = buildShowPlan(stmt, vschema)
+	case *sqlparser.Union:
+		plan.Instructions, err = buildUnionPlan(stmt, vschema)
+	case *sqlparser.Set:
+		return nil, errors.New("unsupported construct: set")
+	case *sqlparser.DDL:
+		return nil, errors.New("unsupported construct: ddl")
+	case *sqlparser.Other:
+		return nil, errors.New("unsupported construct: other")
 	default:
 		panic("unexpected statement type")
 	}

@@ -6,7 +6,7 @@ package automation
 
 import (
 	"github.com/golang/protobuf/proto"
-	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
+	automationpb "gopkg.in/sqle/vitess-go.v2/vt/proto/automation"
 )
 
 // ClusterOperationInstance is a runtime type which enhances the protobuf message "ClusterOperation" with runtime specific data.

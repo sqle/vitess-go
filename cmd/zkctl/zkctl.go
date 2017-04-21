@@ -12,9 +12,9 @@ import (
 	"os"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/exit"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/zk/zkctl"
+	"gopkg.in/sqle/vitess-go.v2/exit"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/zk/zkctl"
 )
 
 var usage = `

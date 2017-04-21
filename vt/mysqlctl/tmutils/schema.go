@@ -11,9 +11,9 @@ import (
 	"regexp"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v2/vt/concurrency"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/tabletmanagerdata"
 )
 
 // This file contains helper methods to deal with Schema information.

@@ -11,11 +11,11 @@ import (
 	"syscall"
 
 	log "github.com/golang/glog"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/vtworkerclient"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/vtworkerclient"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
+	logutilpb "gopkg.in/sqle/vitess-go.v2/vt/proto/logutil"
 )
 
 var (

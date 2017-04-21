@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC binlog streamer
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/binlog/grpcbinlogstreamer"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/binlog/grpcbinlogstreamer"
 )

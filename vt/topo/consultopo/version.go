@@ -3,7 +3,7 @@ package consultopo
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 )
 
 // ConsulVersion is consul's idea of a version.

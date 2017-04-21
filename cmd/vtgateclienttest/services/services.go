@@ -5,7 +5,7 @@
 // Package services exposes all the services for the vtgateclienttest binary.
 package services
 
-import "gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateservice"
+import "gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateservice"
 
 // CreateServices creates the implementation chain of all the test cases
 func CreateServices() vtgateservice.VTGateService {

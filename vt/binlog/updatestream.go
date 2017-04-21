@@ -7,17 +7,17 @@ package binlog
 import (
 	"golang.org/x/net/context"
 
-	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/binlogdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // UpdateStream is the interface for the binlog server
 type UpdateStream interface {
 	// StreamKeyRange streams events related to a KeyRange only
-	StreamKeyRange(ctx context.Context, position string, keyRange *topodatapb.KeyRange, charset *binlogdatapb.Charset, callback func(*binlogdatapb.BinlogTransaction) error) error
+	StreamKeyRange(ctx context.Context, position string, keyRange *topodatapb.KeyRange, charset *binlogdatapb.Charset, callback func(trans *binlogdatapb.BinlogTransaction) error) error
 
 	// StreamTables streams events related to a set of Tables only
-	StreamTables(ctx context.Context, position string, tables []string, charset *binlogdatapb.Charset, callback func(*binlogdatapb.BinlogTransaction) error) error
+	StreamTables(ctx context.Context, position string, tables []string, charset *binlogdatapb.Charset, callback func(trans *binlogdatapb.BinlogTransaction) error) error
 
 	// HandlePanic should be called in a defer,
 	// first thing in the RPC implementation.

@@ -8,10 +8,10 @@ import (
 	"flag"
 	"path"
 
-	"gopkg.in/sqle/vitess-go.v1/flagutil"
+	"gopkg.in/sqle/vitess-go.v2/flagutil"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 )
 
 const (

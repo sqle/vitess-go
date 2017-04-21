@@ -25,7 +25,7 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
 )
 
 var emitStats = flag.Bool("emit_stats", false, "true iff we should emit stats to push-based monitoring/stats backends")

@@ -5,8 +5,8 @@
 package main
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/grpcvtworkerserver"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/grpcvtworkerserver"
 )
 
 func init() {

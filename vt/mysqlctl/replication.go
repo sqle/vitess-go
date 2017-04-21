@@ -18,11 +18,11 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/netutil"
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
-	"gopkg.in/sqle/vitess-go.v1/vt/hook"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v2/netutil"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v2/vt/hook"
 )
 
 const (

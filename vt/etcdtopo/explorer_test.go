@@ -13,8 +13,8 @@ import (
 
 	"golang.org/x/net/context"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 )
 
 func toJSON(t *testing.T, value interface{}) string {

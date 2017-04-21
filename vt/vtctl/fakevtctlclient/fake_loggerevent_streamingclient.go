@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
+	logutilpb "gopkg.in/sqle/vitess-go.v2/vt/proto/logutil"
 )
 
 // FakeLoggerEventStreamingClient is the base for the fakes for the vtctlclient and vtworkerclient.

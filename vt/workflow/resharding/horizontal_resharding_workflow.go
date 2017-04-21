@@ -7,22 +7,23 @@ package resharding
 import (
 	"flag"
 	"fmt"
+	"strconv"
 	"strings"
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tmclient"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
-	"gopkg.in/sqle/vitess-go.v1/vt/workflow"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v2/vt/topotools"
+	"gopkg.in/sqle/vitess-go.v2/vt/workflow"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	workflowpb "gopkg.in/sqle/vitess-go.v2/vt/proto/workflow"
 )
 
 const (
@@ -55,10 +56,11 @@ func Register() {
 type HorizontalReshardingWorkflowFactory struct{}
 
 // Init is part of the workflow.Factory interface.
-func (*HorizontalReshardingWorkflowFactory) Init(w *workflowpb.Workflow, args []string) error {
+func (*HorizontalReshardingWorkflowFactory) Init(m *workflow.Manager, w *workflowpb.Workflow, args []string) error {
 	subFlags := flag.NewFlagSet(horizontalReshardingFactoryName, flag.ContinueOnError)
 	keyspace := subFlags.String("keyspace", "", "Name of keyspace to perform horizontal resharding")
 	vtworkersStr := subFlags.String("vtworkers", "", "A comma-separated list of vtworker addresses")
+	enableApprovals := subFlags.Bool("enable_approvals", true, "If true, executions of tasks require user's approvals on the UI.")
 
 	if err := subFlags.Parse(args); err != nil {
 		return err
@@ -70,10 +72,12 @@ func (*HorizontalReshardingWorkflowFactory) Init(w *workflowpb.Workflow, args []
 	vtworkers := strings.Split(*vtworkersStr, ",")
 	w.Name = fmt.Sprintf("Horizontal resharding on keyspace %s", *keyspace)
 
-	checkpoint, err := initCheckpoint(*keyspace, vtworkers)
+	checkpoint, err := initCheckpoint(m.TopoServer(), *keyspace, vtworkers)
 	if err != nil {
 		return err
 	}
+
+	checkpoint.Settings["enable_approvals"] = fmt.Sprintf("%v", *enableApprovals)
 
 	w.Data, err = proto.Marshal(checkpoint)
 	if err != nil {
@@ -83,7 +87,7 @@ func (*HorizontalReshardingWorkflowFactory) Init(w *workflowpb.Workflow, args []
 }
 
 // Instantiate is part the workflow.Factory interface.
-func (*HorizontalReshardingWorkflowFactory) Instantiate(w *workflowpb.Workflow, rootNode *workflow.Node) (workflow.Workflow, error) {
+func (*HorizontalReshardingWorkflowFactory) Instantiate(m *workflow.Manager, w *workflowpb.Workflow, rootNode *workflow.Node) (workflow.Workflow, error) {
 	rootNode.Message = "This is a workflow to execute horizontal resharding automatically."
 
 	checkpoint := &workflowpb.WorkflowCheckpoint{}
@@ -91,10 +95,19 @@ func (*HorizontalReshardingWorkflowFactory) Instantiate(w *workflowpb.Workflow, 
 		return nil, err
 	}
 
+	enableApprovals, err := strconv.ParseBool(checkpoint.Settings["enable_approvals"])
+	if err != nil {
+		return nil, err
+	}
+
 	hw := &HorizontalReshardingWorkflow{
-		checkpoint: checkpoint,
-		rootUINode: rootNode,
-		logger:     logutil.NewMemoryLogger(),
+		checkpoint:      checkpoint,
+		rootUINode:      rootNode,
+		logger:          logutil.NewMemoryLogger(),
+		wr:              wrangler.New(logutil.NewConsoleLogger(), m.TopoServer(), tmclient.NewTabletManagerClient()),
+		topoServer:      m.TopoServer(),
+		manager:         m,
+		enableApprovals: enableApprovals,
 	}
 	copySchemaUINode := &workflow.Node{
 		Name:     "CopySchemaShard",
@@ -180,18 +193,15 @@ func createUINodes(rootNode *workflow.Node, phaseName PhaseType, shards []string
 }
 
 // initCheckpoint initialize the checkpoint for the horizontal workflow.
-func initCheckpoint(keyspace string, vtworkers []string) (*workflowpb.WorkflowCheckpoint, error) {
-	sourceShards, destinationShards, err := findSourceAndDestinationShards(keyspace)
+func initCheckpoint(ts topo.Server, keyspace string, vtworkers []string) (*workflowpb.WorkflowCheckpoint, error) {
+	sourceShards, destinationShards, err := findSourceAndDestinationShards(ts, keyspace)
 	if err != nil {
 		return nil, err
 	}
 	return initCheckpointFromShards(keyspace, vtworkers, sourceShards, destinationShards)
 }
 
-func findSourceAndDestinationShards(keyspace string) ([]string, []string, error) {
-	ts := topo.Open()
-	defer ts.Close()
-
+func findSourceAndDestinationShards(ts topo.Server, keyspace string) ([]string, []string, error) {
 	overlappingShards, err := topotools.FindOverlappingShards(context.Background(), ts, keyspace)
 	if err != nil {
 		return nil, nil, err
@@ -310,18 +320,16 @@ type HorizontalReshardingWorkflow struct {
 
 	checkpoint       *workflowpb.WorkflowCheckpoint
 	checkpointWriter *CheckpointWriter
+
+	enableApprovals bool
 }
 
 // Run executes the horizontal resharding process.
 // It implements the workflow.Workflow interface.
 func (hw *HorizontalReshardingWorkflow) Run(ctx context.Context, manager *workflow.Manager, wi *topo.WorkflowInfo) error {
 	hw.ctx = ctx
-	hw.topoServer = manager.TopoServer()
-	hw.manager = manager
-	hw.wr = wrangler.New(logutil.NewConsoleLogger(), manager.TopoServer(), tmclient.NewTabletManagerClient())
 	hw.wi = wi
 	hw.checkpointWriter = NewCheckpointWriter(hw.topoServer, hw.checkpoint, hw.wi)
-
 	hw.rootUINode.Display = workflow.NodeDisplayDeterminate
 	hw.rootUINode.BroadcastChanges(true /* updateChildren */)
 
@@ -334,43 +342,43 @@ func (hw *HorizontalReshardingWorkflow) Run(ctx context.Context, manager *workfl
 
 func (hw *HorizontalReshardingWorkflow) runWorkflow() error {
 	copySchemaTasks := hw.GetTasks(phaseCopySchema)
-	copySchemaRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, copySchemaTasks, hw.runCopySchema, Parallel)
+	copySchemaRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, copySchemaTasks, hw.runCopySchema, Parallel, hw.enableApprovals)
 	if err := copySchemaRunner.Run(); err != nil {
 		return err
 	}
 
 	cloneTasks := hw.GetTasks(phaseClone)
-	cloneRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, cloneTasks, hw.runSplitClone, Parallel)
+	cloneRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, cloneTasks, hw.runSplitClone, Parallel, hw.enableApprovals)
 	if err := cloneRunner.Run(); err != nil {
 		return err
 	}
 
 	waitForFilteredReplicationTasks := hw.GetTasks(phaseWaitForFilteredReplication)
-	waitForFilteredReplicationRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, waitForFilteredReplicationTasks, hw.runWaitForFilteredReplication, Parallel)
+	waitForFilteredReplicationRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, waitForFilteredReplicationTasks, hw.runWaitForFilteredReplication, Parallel, hw.enableApprovals)
 	if err := waitForFilteredReplicationRunner.Run(); err != nil {
 		return err
 	}
 
 	diffTasks := hw.GetTasks(phaseDiff)
-	diffRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, diffTasks, hw.runSplitDiff, Sequential)
+	diffRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, diffTasks, hw.runSplitDiff, Sequential, hw.enableApprovals)
 	if err := diffRunner.Run(); err != nil {
 		return err
 	}
 
 	migrateRdonlyTasks := hw.GetTasks(phaseMigrateRdonly)
-	migrateRdonlyRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, migrateRdonlyTasks, hw.runMigrate, Sequential)
+	migrateRdonlyRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, migrateRdonlyTasks, hw.runMigrate, Sequential, hw.enableApprovals)
 	if err := migrateRdonlyRunner.Run(); err != nil {
 		return err
 	}
 
 	migrateReplicaTasks := hw.GetTasks(phaseMigrateReplica)
-	migrateReplicaRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, migrateReplicaTasks, hw.runMigrate, Sequential)
+	migrateReplicaRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, migrateReplicaTasks, hw.runMigrate, Sequential, hw.enableApprovals)
 	if err := migrateReplicaRunner.Run(); err != nil {
 		return err
 	}
 
 	migrateMasterTasks := hw.GetTasks(phaseMigrateMaster)
-	migrateMasterRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, migrateMasterTasks, hw.runMigrate, Sequential)
+	migrateMasterRunner := NewParallelRunner(hw.ctx, hw.rootUINode, hw.checkpointWriter, migrateMasterTasks, hw.runMigrate, Sequential, hw.enableApprovals)
 	if err := migrateMasterRunner.Run(); err != nil {
 		return err
 	}

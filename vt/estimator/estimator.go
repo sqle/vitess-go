@@ -12,8 +12,8 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/cache"
-	"gopkg.in/sqle/vitess-go.v1/ewma"
+	"gopkg.in/sqle/vitess-go.v2/cache"
+	"gopkg.in/sqle/vitess-go.v2/ewma"
 )
 
 const (

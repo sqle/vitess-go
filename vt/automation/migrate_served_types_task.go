@@ -5,9 +5,9 @@
 package automation
 
 import (
+	automationpb "gopkg.in/sqle/vitess-go.v2/vt/proto/automation"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 	"golang.org/x/net/context"
-	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
 )
 
 // MigrateServedTypesTask runs vtctl MigrateServedTypes to migrate a serving

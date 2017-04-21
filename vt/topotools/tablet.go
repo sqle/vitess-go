@@ -28,11 +28,11 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/vt/hook"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/hook"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // ConfigureTabletHook configures the right parameters for a hook

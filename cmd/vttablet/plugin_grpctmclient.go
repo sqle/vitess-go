@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC tabletmanager client
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/grpctmclient"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vttablet/grpctmclient"
 )

@@ -18,19 +18,19 @@ import (
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/exit"
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctld"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate"
+	"gopkg.in/sqle/vitess-go.v2/exit"
+	"gopkg.in/sqle/vitess-go.v2/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctld"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/tabletenv"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vttestpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vttest"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vttestpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vttest"
 )
 
 var (

@@ -13,12 +13,12 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/olekukonko/tablewriter"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler/throttlerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
-	"gopkg.in/sqle/vitess-go.v1/vt/throttler"
-	"gopkg.in/sqle/vitess-go.v1/vt/throttler/throttlerclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 )
 
 // This file contains the commands to control the throttler which is used during

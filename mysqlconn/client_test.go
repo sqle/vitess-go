@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net"
 	"os"
+	"path"
 	"strings"
 	"sync"
 	"testing"
@@ -12,8 +13,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/vt/vttest"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/vt/tlstest"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttest"
 )
 
 // assertSQLError makes sure we get the right error.
@@ -150,6 +152,34 @@ func testKillWithRealDatabase(t *testing.T, params *sqldb.ConnParams) {
 	assertSQLError(t, err, CRServerLost, SSUnknownSQLState, "EOF")
 }
 
+// testKill2006WithRealDatabase opens a connection, kills the
+// connection from the server side, then waits a bit, and tries to
+// execute a command. We make sure we get the right error code.
+func testKill2006WithRealDatabase(t *testing.T, params *sqldb.ConnParams) {
+	ctx := context.Background()
+	conn, err := Connect(ctx, params)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Kill the connection from the server side.
+	killConn, err := Connect(ctx, params)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer killConn.Close()
+
+	if _, err := killConn.ExecuteFetch(fmt.Sprintf("kill %v", conn.ConnectionID), 1000, false); err != nil {
+		t.Fatalf("Kill(%v) failed: %v", conn.ConnectionID, err)
+	}
+
+	// Now we should get a CRServerGone.  Since we are using a
+	// unix socket, we will get a broken pipe when the server
+	// closes the connection and we are trying to write the command.
+	_, err = conn.ExecuteFetch("select sleep(10) from dual", 1000, false)
+	assertSQLError(t, err, CRServerGone, SSUnknownSQLState, "broken pipe")
+}
+
 // testDupEntryWithRealDatabase tests a duplicate key is properly raised.
 func testDupEntryWithRealDatabase(t *testing.T, params *sqldb.ConnParams) {
 	ctx := context.Background()
@@ -169,13 +199,65 @@ func testDupEntryWithRealDatabase(t *testing.T, params *sqldb.ConnParams) {
 	assertSQLError(t, err, ERDupEntry, SSDupKey, "Duplicate entry")
 }
 
+// testTLS tests our client can connect via SSL.
+func testTLS(t *testing.T, params *sqldb.ConnParams) {
+	// First make sure the official 'mysql' client can connect.
+	output, ok := runMysql(t, params, "status")
+	if !ok {
+		t.Fatalf("'mysql -e status' failed: %v", output)
+	}
+	if !strings.Contains(output, "Cipher in use is") {
+		t.Fatalf("cannot connect via SSL: %v", output)
+	}
+
+	// Now connect with our client.
+	ctx := context.Background()
+	conn, err := Connect(ctx, params)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+
+	result, err := conn.ExecuteFetch("SHOW STATUS LIKE 'Ssl_cipher'", 10, true)
+	if err != nil {
+		t.Fatalf("SHOW STATUS LIKE 'Ssl_cipher' failed: %v", err)
+	}
+	if len(result.Rows) != 1 || result.Rows[0][0].String() != "Ssl_cipher" ||
+		result.Rows[0][1].String() == "" {
+		t.Fatalf("SHOW STATUS LIKE 'Ssl_cipher' returned unexpected result: %v", result)
+	}
+}
+
 // TestWithRealDatabase runs a real MySQL database, and runs all kinds
 // of tests on it. To minimize overhead, we only run one database, and
 // run all the tests on it.
 func TestWithRealDatabase(t *testing.T) {
+	// Create the certs.
+	root, err := ioutil.TempDir("", "TestTLSServer")
+	if err != nil {
+		t.Fatalf("TempDir failed: %v", err)
+	}
+	defer os.RemoveAll(root)
+	tlstest.CreateCA(root)
+	tlstest.CreateSignedCert(root, tlstest.CA, "01", "server", "localhost")
+	tlstest.CreateSignedCert(root, tlstest.CA, "02", "client", "Client Cert")
+
+	// Create the extra SSL my.cnf lines.
+	cnf := fmt.Sprintf(`
+ssl-ca=%v/ca-cert.pem
+ssl-cert=%v/server-cert.pem
+ssl-key=%v/server-key.pem
+`, root, root, root)
+	extraMyCnf := path.Join(root, "ssl_my.cnf")
+	if err := ioutil.WriteFile(extraMyCnf, []byte(cnf), os.ModePerm); err != nil {
+		t.Fatalf("ioutil.WriteFile(%v) failed: %v", extraMyCnf, err)
+	}
+
+	// Launch MySQL.
 	hdl, err := vttest.LaunchVitess(
 		vttest.MySQLOnly("vttest"),
-		vttest.NoStderr())
+		vttest.NoStderr(),
+		vttest.ExtraMyCnf(extraMyCnf))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -190,9 +272,15 @@ func TestWithRealDatabase(t *testing.T) {
 		t.Error(err)
 	}
 
-	// Kill tests the query part of the API.
+	// Kill tests killing a running query returns the right error.
 	t.Run("Kill", func(t *testing.T) {
 		testKillWithRealDatabase(t, &params)
+	})
+
+	// Kill2006 tests killing a connection with no running query
+	// returns the right error.
+	t.Run("Kill2006", func(t *testing.T) {
+		testKill2006WithRealDatabase(t, &params)
 	})
 
 	// DupEntry tests a duplicate key returns the right error.
@@ -220,8 +308,26 @@ func TestWithRealDatabase(t *testing.T) {
 		testRowReplicationWithRealDatabase(t, &params)
 	})
 
+	// Test RBR types are working properly.
+	t.Run("RBRTypes", func(t *testing.T) {
+		testRowReplicationTypesWithRealDatabase(t, &params)
+	})
+
 	// Test Schema queries work as intended.
 	t.Run("Schema", func(t *testing.T) {
 		testSchema(t, &params)
 	})
+
+	// Test SSL. First we make sure a real 'mysql' client gets it.
+	params.Flags = CapabilityClientSSL
+	params.SslCa = path.Join(root, "ca-cert.pem")
+	params.SslCert = path.Join(root, "client-cert.pem")
+	params.SslKey = path.Join(root, "client-key.pem")
+	t.Run("TLS", func(t *testing.T) {
+		testTLS(t, &params)
+	})
+
+	// Uncomment to sleep and be able to connect to MySQL
+	// fmt.Printf("Connect to MySQL using parameters: %v\n", params)
+	// time.Sleep(10 * time.Minute)
 }

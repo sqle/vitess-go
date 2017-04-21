@@ -8,7 +8,7 @@ import (
 	"log/syslog"
 	"testing"
 
-	base "gopkg.in/sqle/vitess-go.v1/vt/events"
+	base "gopkg.in/sqle/vitess-go.v2/vt/events"
 )
 
 func TestSplitCloneSyslog(t *testing.T) {

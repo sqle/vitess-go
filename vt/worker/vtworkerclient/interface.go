@@ -11,8 +11,8 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
 )
 
 // protocol specifices which RPC client implementation should be used.

@@ -4,7 +4,7 @@ import (
 	"sort"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
 )
 
 // replicationLagCache caches for each replica a bounded list of historic

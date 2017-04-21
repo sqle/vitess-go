@@ -14,22 +14,22 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/event"
-	"gopkg.in/sqle/vitess-go.v1/stats"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/binlog/binlogplayer"
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/throttler"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v2/event"
+	"gopkg.in/sqle/vitess-go.v2/stats"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
+	"gopkg.in/sqle/vitess-go.v2/vt/binlog/binlogplayer"
+	"gopkg.in/sqle/vitess-go.v2/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/vt/topotools"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vindexes"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/events"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/tabletmanagerdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // cloneType specifies whether it is a horizontal resharding or a vertical split.
@@ -852,6 +852,16 @@ func (scw *SplitCloneWorker) clone(ctx context.Context, state StatusWorkerState)
 		mu.Unlock()
 	}
 
+	// NOTE: Code below this point must *not* use "return" to exit this Go routine
+	// early. Instead, "processError" must be called to cancel the context. This
+	// way all launched Go routines will terminate as well.
+	// (However, "return" in a new Go routine, i.e. not this one, is fine.)
+	// If Go routines have already been started, make sure that Wait() on the
+	// respective WaitGroup is called as well e.g. "destinationWaitGroup.Wait()"
+	// must always be reached. Waiting for the Go routines is important to avoid
+	// races between "defer throttler.ThreadFinished()" (must be executed first)
+	// and "defer scw.closeThrottlers()". Otherwise, vtworker will panic.
+
 	insertChannels := make([]chan string, len(scw.destinationShards))
 	destinationWaitGroup := sync.WaitGroup{}
 	for shardIndex, si := range scw.destinationShards {
@@ -884,14 +894,16 @@ func (scw *SplitCloneWorker) clone(ctx context.Context, state StatusWorkerState)
 
 		keyResolver, err := scw.createKeyResolver(td)
 		if err != nil {
-			return fmt.Errorf("cannot resolve sharding keys for keyspace %v: %v", scw.destinationKeyspace, err)
+			processError("cannot resolve sharding keys for keyspace %v: %v", scw.destinationKeyspace, err)
+			break
 		}
 
 		// TODO(mberlin): We're going to chunk *all* source shards based on the MIN
 		// and MAX values of the *first* source shard. Is this going to be a problem?
 		chunks, err := generateChunks(ctx, scw.wr, firstSourceTablet, td, scw.chunkCount, scw.minRowsPerChunk)
 		if err != nil {
-			return err
+			processError("failed to split table into chunks: %v", err)
+			break
 		}
 		tableStatusList.setThreadCount(tableIndex, len(chunks))
 

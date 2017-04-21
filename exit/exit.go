@@ -39,7 +39,7 @@ import (
 	"os"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/tb"
+	"gopkg.in/sqle/vitess-go.v2/tb"
 )
 
 type exitCode int

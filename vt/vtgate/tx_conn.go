@@ -11,14 +11,14 @@ import (
 
 	log "github.com/golang/glog"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/dtids"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/gateway"
+	"gopkg.in/sqle/vitess-go.v2/vt/concurrency"
+	"gopkg.in/sqle/vitess-go.v2/vt/dtids"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/gateway"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 // TxConn is used for executing transactional requests.
@@ -40,6 +40,8 @@ func (txc *TxConn) Commit(ctx context.Context, twopc bool, session *SafeSession)
 	if !session.InTransaction() {
 		return vterrors.New(vtrpcpb.Code_ABORTED, "cannot commit: not in transaction")
 	}
+	defer session.Reset()
+
 	if twopc {
 		return txc.commit2PC(ctx, session)
 	}
@@ -58,7 +60,6 @@ func (txc *TxConn) commitNormal(ctx context.Context, session *SafeSession) error
 			committing = false
 		}
 	}
-	session.Reset()
 	return err
 }
 
@@ -115,6 +116,7 @@ func (txc *TxConn) Rollback(ctx context.Context, session *SafeSession) error {
 		return nil
 	}
 	defer session.Reset()
+
 	return txc.runSessions(session.ShardSessions, func(s *vtgatepb.Session_ShardSession) error {
 		return txc.gateway.Rollback(ctx, s.Target, s.TransactionId)
 	})

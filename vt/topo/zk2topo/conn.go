@@ -16,8 +16,8 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/netutil"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"gopkg.in/sqle/vitess-go.v2/netutil"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
 )
 
 const (

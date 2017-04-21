@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 var packet1 = sqltypes.Result{

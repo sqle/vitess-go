@@ -7,7 +7,7 @@ import (
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 )
 
 func newWatchData(valueType dataType, data []byte, stats *zookeeper.Stat) *topo.WatchData {

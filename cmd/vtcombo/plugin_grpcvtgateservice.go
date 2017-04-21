@@ -7,8 +7,8 @@ package main
 // Imports and register the gRPC vtgateservice server
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vtgate/grpcvtgateservice"
 )
 
 func init() {

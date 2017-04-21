@@ -35,6 +35,7 @@ func forceEOF(yylex interface{}) {
   empty       struct{}
   statement   Statement
   selStmt     SelectStatement
+  ins         *Insert
   byt         byte
   bytes       []byte
   bytes2      [][]byte
@@ -59,7 +60,6 @@ func forceEOF(yylex interface{}) {
   orderBy     OrderBy
   order       *Order
   limit       *Limit
-  insRows     InsertRows
   updateExprs UpdateExprs
   updateExpr  *UpdateExpr
   colIdent    ColIdent
@@ -111,7 +111,10 @@ func forceEOF(yylex interface{}) {
 // DDL Tokens
 %token <bytes> CREATE ALTER DROP RENAME ANALYZE
 %token <bytes> TABLE INDEX VIEW TO IGNORE IF UNIQUE USING
-%token <bytes> SHOW DESCRIBE EXPLAIN DATE ESCAPE
+%token <bytes> SHOW DESCRIBE EXPLAIN DATE ESCAPE REPAIR OPTIMIZE TRUNCATE
+
+// Supported SHOW tokens
+%token <bytes> DATABASES TABLES VITESS_KEYSPACES VITESS_SHARDS VSCHEMA_TABLES
 
 // Convert Type Tokens
 %token <bytes> INTEGER CHARACTER
@@ -131,10 +134,10 @@ func forceEOF(yylex interface{}) {
 %token <bytes> UNUSED
 
 %type <statement> command
-%type <selStmt> select_statement
+%type <selStmt> select_statement base_select union_lhs union_rhs
 %type <statement> insert_statement update_statement delete_statement set_statement
 %type <statement> create_statement alter_statement rename_statement drop_statement
-%type <statement> analyze_statement other_statement
+%type <statement> analyze_statement show_statement other_statement
 %type <bytes2> comment_opt comment_list
 %type <str> union_op
 %type <str> distinct_opt straight_join_opt cache_opt match_option separator_opt
@@ -153,7 +156,7 @@ func forceEOF(yylex interface{}) {
 %type <expr> condition
 %type <boolVal> boolean_value
 %type <str> compare
-%type <insRows> row_list
+%type <ins> insert_data
 %type <expr> value value_expression num_val
 %type <expr> function_call_keyword function_call_nonkeyword function_call_generic function_call_conflict
 %type <str> is_suffix
@@ -174,22 +177,22 @@ func forceEOF(yylex interface{}) {
 %type <str> asc_desc_opt
 %type <limit> limit_opt
 %type <str> lock_opt
-%type <columns> column_list ins_column_list ins_column_list_opt
+%type <columns> ins_column_list
 %type <updateExprs> on_dup_opt
 %type <updateExprs> update_list
 %type <updateExpr> update_expression
 %type <bytes> for_from
 %type <str> ignore_opt
 %type <byt> exists_opt
-%type <empty> not_exists_opt non_rename_operation to_opt constraint_opt using_opt
+%type <empty> not_exists_opt non_rename_operation to_opt index_opt constraint_opt using_opt
 %type <bytes> reserved_keyword non_reserved_keyword
 %type <colIdent> sql_id reserved_sql_id col_alias as_ci_opt
 %type <tableIdent> table_id reserved_table_id table_alias as_opt_id
 %type <empty> as_opt
-%type <empty> force_eof
+%type <empty> force_eof ddl_force_eof
 %type <str> charset
 %type <convertType> convert_type
-
+%type <str> show_statement_type
 %start any_command
 
 %%
@@ -218,26 +221,65 @@ command:
 | rename_statement
 | drop_statement
 | analyze_statement
+| show_statement
 | other_statement
 
 select_statement:
-  SELECT comment_opt cache_opt distinct_opt straight_join_opt select_expression_list from_opt where_expression_opt group_by_opt having_opt order_by_opt limit_opt lock_opt
+  base_select order_by_opt limit_opt lock_opt
   {
-    $$ = &Select{Comments: Comments($2), Cache: $3, Distinct: $4, Hints: $5, SelectExprs: $6, From: $7, Where: NewWhere(WhereStr, $8), GroupBy: GroupBy($9), Having: NewWhere(HavingStr, $10), OrderBy: $11, Limit: $12, Lock: $13}
+    sel := $1.(*Select)
+    sel.OrderBy = $2
+    sel.Limit = $3
+    sel.Lock = $4
+    $$ = sel
+  }
+| union_lhs union_op union_rhs order_by_opt limit_opt lock_opt
+  {
+    $$ = &Union{Type: $2, Left: $1, Right: $3, OrderBy: $4, Limit: $5, Lock: $6}
   }
 | SELECT comment_opt cache_opt NEXT num_val for_from table_name
   {
     $$ = &Select{Comments: Comments($2), Cache: $3, SelectExprs: SelectExprs{Nextval{Expr: $5}}, From: TableExprs{&AliasedTableExpr{Expr: $7}}}
   }
-| select_statement union_op select_statement %prec UNION
+
+// base_select is an unparenthesized SELECT with no order by clause or beyond.
+base_select:
+  SELECT comment_opt cache_opt distinct_opt straight_join_opt select_expression_list from_opt where_expression_opt group_by_opt having_opt
   {
-    $$ = &Union{Type: $2, Left: $1, Right: $3}
+    $$ = &Select{Comments: Comments($2), Cache: $3, Distinct: $4, Hints: $5, SelectExprs: $6, From: $7, Where: NewWhere(WhereStr, $8), GroupBy: GroupBy($9), Having: NewWhere(HavingStr, $10)}
   }
 
-insert_statement:
-  INSERT comment_opt ignore_opt into_table_name ins_column_list_opt row_list on_dup_opt
+union_lhs:
+  select_statement
   {
-    $$ = &Insert{Comments: Comments($2), Ignore: $3, Table: $4, Columns: $5, Rows: $6, OnDup: OnDup($7)}
+    $$ = $1
+  }
+| openb select_statement closeb
+  {
+    $$ = &ParenSelect{Select: $2}
+  }
+
+union_rhs:
+  base_select
+  {
+    $$ = $1
+  }
+| openb select_statement closeb
+  {
+    $$ = &ParenSelect{Select: $2}
+  }
+
+
+insert_statement:
+  INSERT comment_opt ignore_opt into_table_name insert_data on_dup_opt
+  {
+    // insert_data returns a *Insert pre-filled with Columns & Values
+    ins := $5
+    ins.Comments = $2
+    ins.Ignore = $3
+    ins.Table = $4
+    ins.OnDup = OnDup($6)
+    $$ = ins
   }
 | INSERT comment_opt ignore_opt into_table_name SET update_list on_dup_opt
   {
@@ -269,43 +311,52 @@ set_statement:
   }
 
 create_statement:
-  CREATE TABLE not_exists_opt table_id force_eof
+  CREATE TABLE not_exists_opt table_name ddl_force_eof
   {
     $$ = &DDL{Action: CreateStr, NewName: $4}
   }
-| CREATE constraint_opt INDEX ID using_opt ON table_id force_eof
+| CREATE constraint_opt INDEX ID using_opt ON table_name ddl_force_eof
   {
     // Change this to an alter statement
-    $$ = &DDL{Action: AlterStr, Table: $7, NewName: $7}
+    $$ = &DDL{Action: AlterStr, Table: $7, NewName:$7}
   }
-| CREATE VIEW sql_id force_eof
+| CREATE VIEW table_name ddl_force_eof
   {
-    $$ = &DDL{Action: CreateStr, NewName: NewTableIdent($3.Lowered())}
+    $$ = &DDL{Action: CreateStr, NewName: $3.ToViewName()}
+  }
+| CREATE OR REPLACE VIEW table_name ddl_force_eof
+  {
+    $$ = &DDL{Action: CreateStr, NewName: $5.ToViewName()}
   }
 
 alter_statement:
-  ALTER ignore_opt TABLE table_id non_rename_operation force_eof
+  ALTER ignore_opt TABLE table_name non_rename_operation force_eof
   {
     $$ = &DDL{Action: AlterStr, Table: $4, NewName: $4}
   }
-| ALTER ignore_opt TABLE table_id RENAME to_opt table_id
+| ALTER ignore_opt TABLE table_name RENAME to_opt table_name
   {
     // Change this to a rename statement
     $$ = &DDL{Action: RenameStr, Table: $4, NewName: $7}
   }
-| ALTER VIEW sql_id force_eof
+| ALTER ignore_opt TABLE table_name RENAME index_opt force_eof
   {
-    $$ = &DDL{Action: AlterStr, Table: NewTableIdent($3.Lowered()), NewName: NewTableIdent($3.Lowered())}
+    // Rename an index can just be an alter
+    $$ = &DDL{Action: AlterStr, Table: $4, NewName: $4}
+  }
+| ALTER VIEW table_name ddl_force_eof
+  {
+    $$ = &DDL{Action: AlterStr, Table: $3.ToViewName(), NewName: $3.ToViewName()}
   }
 
 rename_statement:
-  RENAME TABLE table_id TO table_id
+  RENAME TABLE table_name TO table_name
   {
     $$ = &DDL{Action: RenameStr, Table: $3, NewName: $5}
   }
 
 drop_statement:
-  DROP TABLE exists_opt table_id
+  DROP TABLE exists_opt table_name
   {
     var exists bool
     if $3 != 0 {
@@ -313,36 +364,76 @@ drop_statement:
     }
     $$ = &DDL{Action: DropStr, Table: $4, IfExists: exists}
   }
-| DROP INDEX ID ON table_id
+| DROP INDEX ID ON table_name
   {
     // Change this to an alter statement
     $$ = &DDL{Action: AlterStr, Table: $5, NewName: $5}
   }
-| DROP VIEW exists_opt sql_id force_eof
+| DROP VIEW exists_opt table_name ddl_force_eof
   {
     var exists bool
         if $3 != 0 {
           exists = true
         }
-    $$ = &DDL{Action: DropStr, Table: NewTableIdent($4.Lowered()), IfExists: exists}
+    $$ = &DDL{Action: DropStr, Table: $4.ToViewName(), IfExists: exists}
   }
 
 analyze_statement:
-  ANALYZE TABLE table_id
+  ANALYZE TABLE table_name
   {
     $$ = &DDL{Action: AlterStr, Table: $3, NewName: $3}
   }
 
-other_statement:
-  SHOW force_eof
+show_statement_type:
+  ID
   {
-    $$ = &Other{}
+    $$ = ShowUnsupportedStr
   }
-| DESCRIBE force_eof
+| reserved_keyword
+  {
+    if (string($1) == "databases"){
+      $$ = ShowDatabasesStr
+    } else if (string($1) == "tables"){
+      $$ = ShowTablesStr
+    } else if (string($1) == "vitess_keyspaces"){
+      $$ = ShowKeyspacesStr
+    } else if (string($1) == "vitess_shards"){
+      $$ = ShowShardsStr
+    } else if (string($1) == "vschema_tables"){
+      $$ = ShowVSchemaTablesStr
+    } else {
+      $$ = ShowUnsupportedStr
+    }
+  }
+| non_reserved_keyword
+{
+  $$ = ShowUnsupportedStr
+}
+
+show_statement:
+SHOW show_statement_type force_eof
+{
+  $$ = &Show{Type: $2}
+}
+
+other_statement:
+  DESCRIBE force_eof
   {
     $$ = &Other{}
   }
 | EXPLAIN force_eof
+  {
+    $$ = &Other{}
+  }
+| REPAIR force_eof
+  {
+    $$ = &Other{}
+  }
+| OPTIMIZE force_eof
+  {
+    $$ = &Other{}
+  }
+| TRUNCATE force_eof
   {
     $$ = &Other{}
   }
@@ -1033,7 +1124,7 @@ function_call_keyword:
   {
     $$ = &ConvertExpr{Expr: $3, Type: $5}
   }
-| MATCH openb column_list closeb AGAINST openb value_expression match_option closeb
+| MATCH openb select_expression_list closeb AGAINST openb value_expression match_option closeb
   {
   $$ = &MatchExpr{Columns: $3, Expr: $7, Option: $8}
   }
@@ -1367,23 +1458,39 @@ lock_opt:
     $$ = ShareModeStr
   }
 
-column_list:
-  sql_id
+// insert_data expands all combinations into a single rule.
+// This avoids a shift/reduce conflict while encountering the
+// following two possible constructs:
+// insert into t1(a, b) (select * from t2)
+// insert into t1(select * from t2)
+// Because the rules are together, the parser can keep shifting
+// the tokens until it disambiguates a as sql_id and select as keyword.
+insert_data:
+  VALUES tuple_list
   {
-    $$ = Columns{$1}
+    $$ = &Insert{Rows: $2}
   }
-| column_list ',' sql_id
+| select_statement
   {
-    $$ = append($$, $3)
+    $$ = &Insert{Rows: $1}
   }
-
-ins_column_list_opt:
+| openb select_statement closeb
   {
-    $$ = nil
+    // Drop the redundant parenthesis.
+    $$ = &Insert{Rows: $2}
   }
-| openb ins_column_list closeb
+| openb ins_column_list closeb VALUES tuple_list
   {
-    $$ = $2
+    $$ = &Insert{Columns: $2, Rows: $5}
+  }
+| openb ins_column_list closeb select_statement
+  {
+    $$ = &Insert{Columns: $2, Rows: $4}
+  }
+| openb ins_column_list closeb openb select_statement closeb
+  {
+    // Drop the redundant parenthesis.
+    $$ = &Insert{Columns: $2, Rows: $5}
   }
 
 ins_column_list:
@@ -1411,16 +1518,6 @@ on_dup_opt:
 | ON DUPLICATE KEY UPDATE update_list
   {
     $$ = $5
-  }
-
-row_list:
-  VALUES tuple_list
-  {
-    $$ = $2
-  }
-| select_statement
-  {
-    $$ = $1
   }
 
 tuple_list:
@@ -1503,6 +1600,8 @@ non_rename_operation:
   { $$ = struct{}{} }
 | ORDER
   { $$ = struct{}{} }
+| CONVERT
+  { $$ = struct{}{} }
 | UNUSED
   { $$ = struct{}{} }
 | ID
@@ -1512,10 +1611,20 @@ to_opt:
   { $$ = struct{}{} }
 | TO
   { $$ = struct{}{} }
+| AS
+  { $$ = struct{}{} }
+
+index_opt:
+  INDEX
+  { $$ = struct{}{} }
+| KEY
+  { $$ = struct{}{} }
 
 constraint_opt:
   { $$ = struct{}{} }
 | UNIQUE
+  { $$ = struct{}{} }
+| sql_id
   { $$ = struct{}{} }
 
 using_opt:
@@ -1581,6 +1690,7 @@ reserved_keyword:
 | CURRENT_TIME
 | CURRENT_TIMESTAMP
 | DATABASE
+| DATABASES
 | DEFAULT
 | DELETE
 | DESC
@@ -1633,9 +1743,13 @@ reserved_keyword:
 | SELECT
 | SEPARATOR
 | SET
+| VITESS_KEYSPACES
+| VITESS_SHARDS
+| VSCHEMA_TABLES
 | SHOW
 | STRAIGHT_JOIN
 | TABLE
+| TABLES
 | THEN
 | TO
 | TRUE
@@ -1667,8 +1781,11 @@ non_reserved_keyword:
 | LANGUAGE
 | MODE
 | OFFSET
+| OPTIMIZE
 | QUERY
+| REPAIR
 | SHARE
+| TRUNCATE
 | UNUSED
 | VIEW
 | WITH
@@ -1692,3 +1809,16 @@ force_eof:
 {
   forceEOF(yylex)
 }
+
+ddl_force_eof:
+  {
+    forceEOF(yylex)
+  }
+| openb
+  {
+    forceEOF(yylex)
+  }
+| reserved_sql_id
+  {
+    forceEOF(yylex)
+  }

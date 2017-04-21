@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateconn"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateconn"
 )
 
 const connectionKeyspace = "conn_ks"

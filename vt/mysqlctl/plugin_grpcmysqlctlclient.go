@@ -7,5 +7,5 @@ package mysqlctl
 // Import the gRPC mysqlctl client.
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/grpcmysqlctlclient"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/grpcmysqlctlclient"
 )

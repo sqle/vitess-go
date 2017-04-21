@@ -10,14 +10,14 @@ import (
 	"sort"
 	"testing"
 
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/key"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/querytypes"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
 )
 
 func TestMapKeyRangesToShards(t *testing.T) {
@@ -345,10 +345,10 @@ func TestBoundKeyspaceIdQueriesToBoundShardQueries(t *testing.T) {
 		for _, shardQuery := range shardQueries {
 			sort.Strings(shardQuery.Shards)
 		}
-		if !reflect.DeepEqual(testCase.shardQueries, shardQueries) {
-			got, _ := json.Marshal(shardQueries)
-			want, _ := json.Marshal(testCase.shardQueries)
-			t.Errorf("idQueries: %#v\nResponse:   %s\nExpecting: %s", testCase.idQueries, got, want)
+		got, _ := json.Marshal(shardQueries)
+		want, _ := json.Marshal(testCase.shardQueries)
+		if string(got) != string(want) {
+			t.Errorf("idQueries: %#v\nResponse:   %s\nExpecting: %s", testCase.idQueries, string(got), string(want))
 		}
 	}
 }

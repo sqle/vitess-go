@@ -16,17 +16,17 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/flagutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/buffer"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/masterbuffer"
+	"gopkg.in/sqle/vitess-go.v2/flagutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/buffer"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/masterbuffer"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/queryservice"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 var (
@@ -179,7 +179,7 @@ func (dg *discoveryGateway) withRetry(ctx context.Context, target *querypb.Targe
 			if bufferErr != nil {
 				// Buffering failed e.g. buffer is already full. Do not retry.
 				err = vterrors.Errorf(
-					vterrors.Code(err),
+					vterrors.Code(bufferErr),
 					"failed to automatically buffer and retry failed request during failover: %v original err (type=%T): %v",
 					bufferErr, err, err)
 				break

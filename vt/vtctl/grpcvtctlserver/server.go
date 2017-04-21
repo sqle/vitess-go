@@ -11,16 +11,16 @@ package grpcvtctlserver
 import (
 	"google.golang.org/grpc"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tmclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
-	vtctldatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtctldata"
-	vtctlservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtctlservice"
+	logutilpb "gopkg.in/sqle/vitess-go.v2/vt/proto/logutil"
+	vtctldatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtctldata"
+	vtctlservicepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtctlservice"
 )
 
 // VtctlServer is our RPC server

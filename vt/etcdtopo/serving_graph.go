@@ -10,9 +10,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vschemapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vschema"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 )
 
 // GetSrvKeyspaceNames implements topo.Server.

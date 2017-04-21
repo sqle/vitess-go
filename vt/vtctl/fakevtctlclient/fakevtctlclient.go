@@ -8,9 +8,9 @@ package fakevtctlclient
 import (
 	"time"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/vtctlclient"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
 )
 
 // FakeVtctlClient is a fake which implements the vtctlclient interface.

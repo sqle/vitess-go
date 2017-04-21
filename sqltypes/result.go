@@ -5,8 +5,10 @@
 package sqltypes
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/binlog/eventtoken"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	"reflect"
+
+	"github.com/golang/protobuf/proto"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 // Result represents a query result.
@@ -84,6 +86,53 @@ func (result *Result) Copy() *Result {
 		}
 	}
 	return out
+}
+
+// FieldsEqual compares two arrays of fields.
+// reflect.DeepEqual shouldn't be used because of the protos.
+func FieldsEqual(f1, f2 []*querypb.Field) bool {
+	if len(f1) != len(f2) {
+		return false
+	}
+	for i, f := range f1 {
+		if !proto.Equal(f, f2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+// Equal compares the Result with another one.
+// reflect.DeepEqual shouldn't be used because of the protos.
+func (result *Result) Equal(other *Result) bool {
+	// Check for nil cases
+	if result == nil {
+		return other == nil
+	}
+	if other == nil {
+		return false
+	}
+
+	// Compare Fields, RowsAffected, InsertID, Rows, Extras.
+	return FieldsEqual(result.Fields, other.Fields) &&
+		result.RowsAffected == other.RowsAffected &&
+		result.InsertID == other.InsertID &&
+		reflect.DeepEqual(result.Rows, other.Rows) &&
+		proto.Equal(result.Extras, other.Extras)
+}
+
+// ResultsEqual compares two arrays of Result.
+// reflect.DeepEqual shouldn't be used because of the protos.
+func ResultsEqual(r1, r2 []Result) bool {
+	if len(r1) != len(r2) {
+		return false
+	}
+	for i, r := range r1 {
+		if !r.Equal(&r2[i]) {
+			return false
+		}
+	}
+	return true
 }
 
 // MakeRowTrusted converts a *querypb.Row to []Value based on the types
@@ -167,7 +216,7 @@ func (result *Result) AppendResult(src *Result) {
 			// discard the new one.
 			if result.Extras != nil {
 				// Note if any of the two is nil, we get nil.
-				result.Extras.EventToken = eventtoken.Minimum(result.Extras.EventToken, src.Extras.EventToken)
+				result.Extras.EventToken = EventTokenMinimum(result.Extras.EventToken, src.Extras.EventToken)
 
 				result.Extras.Fresher = result.Extras.Fresher && src.Extras.Fresher
 			}

@@ -7,8 +7,8 @@ package mysqlctl
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/netutil"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v2/netutil"
 )
 
 // Status holds replication information from SHOW SLAVE STATUS.

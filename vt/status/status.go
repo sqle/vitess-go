@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
 )
 
 var (

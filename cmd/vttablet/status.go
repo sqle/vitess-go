@@ -3,12 +3,12 @@ package main
 import (
 	"html/template"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/health"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	_ "gopkg.in/sqle/vitess-go.v1/vt/status"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/health"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/status"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletmanager"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver"
 )
 
 var (

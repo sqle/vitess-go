@@ -15,8 +15,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
-	automationservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/automationservice"
+	automationpb "gopkg.in/sqle/vitess-go.v2/vt/proto/automation"
+	automationservicepb "gopkg.in/sqle/vitess-go.v2/vt/proto/automationservice"
 )
 
 var (

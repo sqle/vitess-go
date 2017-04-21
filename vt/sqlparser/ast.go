@@ -11,7 +11,7 @@ import (
 	"errors"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
 )
 
 // Instructions for creating new types: If a type
@@ -108,18 +108,27 @@ func (*Update) iStatement() {}
 func (*Delete) iStatement() {}
 func (*Set) iStatement()    {}
 func (*DDL) iStatement()    {}
+func (*Show) iStatement()   {}
 func (*Other) iStatement()  {}
+
+// ParenSelect can actually not be a top level statement,
+// but we have to allow it because it's a requirement
+// of SelectStatement.
+func (*ParenSelect) iStatement() {}
 
 // SelectStatement any SELECT statement.
 type SelectStatement interface {
 	iSelectStatement()
 	iStatement()
 	iInsertRows()
+	AddOrder(*Order)
+	SetLimit(*Limit)
 	SQLNode
 }
 
-func (*Select) iSelectStatement() {}
-func (*Union) iSelectStatement()  {}
+func (*Select) iSelectStatement()      {}
+func (*Union) iSelectStatement()       {}
+func (*ParenSelect) iSelectStatement() {}
 
 // Select represents a SELECT statement.
 type Select struct {
@@ -154,6 +163,16 @@ const (
 	SQLCacheStr   = "sql_cache "
 	SQLNoCacheStr = "sql_no_cache "
 )
+
+// AddOrder adds an order by element
+func (node *Select) AddOrder(order *Order) {
+	node.OrderBy = append(node.OrderBy, order)
+}
+
+// SetLimit sets the limit clause
+func (node *Select) SetLimit(limit *Limit) {
+	node.Limit = limit
+}
 
 // Format formats the node.
 func (node *Select) Format(buf *TrackedBuffer) {
@@ -228,10 +247,44 @@ func (node *Select) AddHaving(expr Expr) {
 	return
 }
 
+// ParenSelect is a parenthesized SELECT statement.
+type ParenSelect struct {
+	Select SelectStatement
+}
+
+// AddOrder adds an order by element
+func (node *ParenSelect) AddOrder(order *Order) {
+	panic("unreachable")
+}
+
+// SetLimit sets the limit clause
+func (node *ParenSelect) SetLimit(limit *Limit) {
+	panic("unreachable")
+}
+
+// Format formats the node.
+func (node *ParenSelect) Format(buf *TrackedBuffer) {
+	buf.Myprintf("(%v)", node.Select)
+}
+
+// WalkSubtree walks the nodes of the subtree.
+func (node *ParenSelect) WalkSubtree(visit Visit) error {
+	if node == nil {
+		return nil
+	}
+	return Walk(
+		visit,
+		node.Select,
+	)
+}
+
 // Union represents a UNION statement.
 type Union struct {
 	Type        string
 	Left, Right SelectStatement
+	OrderBy     OrderBy
+	Limit       *Limit
+	Lock        string
 }
 
 // Union.Type
@@ -241,9 +294,20 @@ const (
 	UnionDistinctStr = "union distinct"
 )
 
+// AddOrder adds an order by element
+func (node *Union) AddOrder(order *Order) {
+	node.OrderBy = append(node.OrderBy, order)
+}
+
+// SetLimit sets the limit clause
+func (node *Union) SetLimit(limit *Limit) {
+	node.Limit = limit
+}
+
 // Format formats the node.
 func (node *Union) Format(buf *TrackedBuffer) {
-	buf.Myprintf("%v %s %v", node.Left, node.Type, node.Right)
+	buf.Myprintf("%v %s %v%v%v%s", node.Left, node.Type, node.Right,
+		node.OrderBy, node.Limit, node.Lock)
 }
 
 // WalkSubtree walks the nodes of the subtree.
@@ -296,9 +360,10 @@ type InsertRows interface {
 	SQLNode
 }
 
-func (*Select) iInsertRows() {}
-func (*Union) iInsertRows()  {}
-func (Values) iInsertRows()  {}
+func (*Select) iInsertRows()      {}
+func (*Union) iInsertRows()       {}
+func (Values) iInsertRows()       {}
+func (*ParenSelect) iInsertRows() {}
 
 // Update represents an UPDATE statement.
 type Update struct {
@@ -392,8 +457,8 @@ func (node *Set) WalkSubtree(visit Visit) error {
 // NewName is set for AlterStr, CreateStr, RenameStr.
 type DDL struct {
 	Action   string
-	Table    TableIdent
-	NewName  TableIdent
+	Table    *TableName
+	NewName  *TableName
 	IfExists bool
 }
 
@@ -435,7 +500,32 @@ func (node *DDL) WalkSubtree(visit Visit) error {
 	)
 }
 
-// Other represents a SHOW, DESCRIBE, or EXPLAIN statement.
+// Show represents a show statement.
+type Show struct {
+	Type string
+}
+
+// The frollowing constants represent SHOW statements.
+const (
+	ShowDatabasesStr     = "show databases"
+	ShowKeyspacesStr     = "show vitess_keyspaces"
+	ShowShardsStr        = "show vitess_shards"
+	ShowTablesStr        = "show tables"
+	ShowVSchemaTablesStr = "show vschema_tables"
+	ShowUnsupportedStr   = "show unsupported"
+)
+
+// Format formats the node.
+func (node *Show) Format(buf *TrackedBuffer) {
+	buf.Myprintf("%s", node.Type)
+}
+
+// WalkSubtree walks the nodes of the subtree.
+func (node *Show) WalkSubtree(visit Visit) error {
+	return nil
+}
+
+// Other represents a DESCRIBE, or EXPLAIN statement.
 // It should be used only as an indicator. It does not contain
 // the full AST for the statement.
 type Other struct{}
@@ -723,6 +813,16 @@ func (node *TableName) Equal(t *TableName) bool {
 		return false
 	}
 	return node.Name == t.Name && node.Qualifier == t.Qualifier
+}
+
+// ToViewName returns a TableName acceptable for use as a VIEW. VIEW names are
+// always lowercase, so ToViewName lowercasese the name. Databases are case-sensitive
+// so Qualifier is left untouched.
+func (node *TableName) ToViewName() *TableName {
+	return &TableName{
+		Qualifier: node.Qualifier,
+		Name:      NewTableIdent(strings.ToLower(node.Name.v)),
+	}
 }
 
 // ParenTableExpr represents a parenthesized list of TableExpr.
@@ -1642,7 +1742,7 @@ func (node *ConvertType) WalkSubtree(visit Visit) error {
 
 // MatchExpr represents a call to the MATCH function
 type MatchExpr struct {
-	Columns Columns
+	Columns SelectExprs
 	Expr    Expr
 	Option  string
 }
@@ -1657,7 +1757,7 @@ const (
 
 // Format formats the node
 func (node *MatchExpr) Format(buf *TrackedBuffer) {
-	buf.Myprintf("match%v against (%v%s)", node.Columns, node.Expr, node.Option)
+	buf.Myprintf("match(%v) against (%v%s)", node.Columns, node.Expr, node.Option)
 }
 
 // WalkSubtree walks the nodes of the subtree.

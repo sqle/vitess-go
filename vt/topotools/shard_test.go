@@ -13,8 +13,8 @@ import (
 
 	"golang.org/x/net/context"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
 )
 
 // TestCreateShard tests a few cases for topo.CreateShard

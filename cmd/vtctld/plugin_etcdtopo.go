@@ -7,9 +7,9 @@ package main
 // Imports and register the 'etcd' topo.Server and its Explorer.
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/etcdtopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctld"
+	"gopkg.in/sqle/vitess-go.v2/vt/etcdtopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctld"
 )
 
 func init() {

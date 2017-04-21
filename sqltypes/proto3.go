@@ -4,11 +4,41 @@
 
 package sqltypes
 
-import querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-import "gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+import (
+	"github.com/golang/protobuf/proto"
+
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
+
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
+)
 
 // This file contains the proto3 conversion functions for the structures
 // defined here.
+
+// RowToProto3 converts []Value to proto3.
+func RowToProto3(row []Value) *querypb.Row {
+	result := &querypb.Row{}
+	result.Lengths = make([]int64, 0, len(row))
+	total := 0
+	for _, c := range row {
+		if c.IsNull() {
+			result.Lengths = append(result.Lengths, -1)
+			continue
+		}
+		length := c.Len()
+		result.Lengths = append(result.Lengths, int64(length))
+		total += length
+	}
+	result.Values = make([]byte, 0, total)
+	for _, c := range row {
+		if c.IsNull() {
+			continue
+		}
+		result.Values = append(result.Values, c.Raw()...)
+	}
+	return result
+}
 
 // RowsToProto3 converts [][]Value to proto3.
 func RowsToProto3(rows [][]Value) []*querypb.Row {
@@ -18,26 +48,7 @@ func RowsToProto3(rows [][]Value) []*querypb.Row {
 
 	result := make([]*querypb.Row, len(rows))
 	for i, r := range rows {
-		row := &querypb.Row{}
-		result[i] = row
-		row.Lengths = make([]int64, 0, len(r))
-		total := 0
-		for _, c := range r {
-			if c.IsNull() {
-				row.Lengths = append(row.Lengths, -1)
-				continue
-			}
-			length := c.Len()
-			row.Lengths = append(row.Lengths, int64(length))
-			total += length
-		}
-		row.Values = make([]byte, 0, total)
-		for _, c := range r {
-			if c.IsNull() {
-				continue
-			}
-			row.Values = append(row.Values, c.Raw()...)
-		}
+		result[i] = RowToProto3(r)
 	}
 	return result
 }
@@ -155,4 +166,58 @@ func Proto3ToQueryReponses(qr []*querypb.ResultWithError) []QueryResponse {
 		}
 	}
 	return result
+}
+
+// Proto3ResultsEqual compares two arrays of proto3 Result.
+// reflect.DeepEqual shouldn't be used because of the protos.
+func Proto3ResultsEqual(r1, r2 []*querypb.QueryResult) bool {
+	if len(r1) != len(r2) {
+		return false
+	}
+	for i, r := range r1 {
+		if !proto.Equal(r, r2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+// Proto3QueryResponsesEqual compares two arrays of proto3 QueryResponse.
+// reflect.DeepEqual shouldn't be used because of the protos.
+func Proto3QueryResponsesEqual(r1, r2 []*querypb.ResultWithError) bool {
+	if len(r1) != len(r2) {
+		return false
+	}
+	for i, r := range r1 {
+		if !proto.Equal(r, r2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+// Proto3ValuesEqual compares two arrays of proto3 Value.
+func Proto3ValuesEqual(v1, v2 []*querypb.Value) bool {
+	if len(v1) != len(v2) {
+		return false
+	}
+	for i, v := range v1 {
+		if !proto.Equal(v, v2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+// SplitQueryResponsePartsEqual compares two arrays of SplitQueryResponse_Part.
+func SplitQueryResponsePartsEqual(s1, s2 []*vtgatepb.SplitQueryResponse_Part) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+	for i, s := range s1 {
+		if !proto.Equal(s, s2[i]) {
+			return false
+		}
+	}
+	return true
 }

@@ -22,8 +22,8 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
 )
 
 const (

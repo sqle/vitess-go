@@ -10,8 +10,8 @@ import (
 	"html/template"
 	"net/http"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 )
 
 const pingHTML = `

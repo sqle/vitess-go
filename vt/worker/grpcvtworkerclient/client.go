@@ -12,15 +12,15 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv/grpcutils"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/vtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv/grpcutils"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/vtworkerclient"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
-	vtworkerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtworkerdata"
-	vtworkerservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtworkerservice"
+	logutilpb "gopkg.in/sqle/vitess-go.v2/vt/proto/logutil"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
+	vtworkerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtworkerdata"
+	vtworkerservicepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtworkerservice"
 )
 
 var (

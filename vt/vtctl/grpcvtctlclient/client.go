@@ -8,14 +8,14 @@ package grpcvtctlclient
 import (
 	"time"
 
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/vtctlclient"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
-	vtctldatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtctldata"
-	vtctlservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtctlservice"
+	logutilpb "gopkg.in/sqle/vitess-go.v2/vt/proto/logutil"
+	vtctldatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtctldata"
+	vtctlservicepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtctlservice"
 )
 
 type gRPCVtctlClient struct {

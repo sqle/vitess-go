@@ -9,10 +9,10 @@ import (
 	"fmt"
 
 	"github.com/coreos/go-etcd/etcd"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // CreateKeyspace implements topo.Server.

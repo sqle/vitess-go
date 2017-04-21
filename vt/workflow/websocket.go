@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/websocket"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/acl"
+	"gopkg.in/sqle/vitess-go.v2/acl"
 )
 
 var upgrader = websocket.Upgrader{} // use default options

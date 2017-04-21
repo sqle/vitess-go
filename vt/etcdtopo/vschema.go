@@ -6,8 +6,8 @@ import (
 
 	"golang.org/x/net/context"
 
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	vschemapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vschema"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 )
 
 /*

@@ -9,8 +9,8 @@ package callerid
 import (
 	"golang.org/x/net/context"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 // The datatype for CallerID Context Keys
@@ -18,7 +18,7 @@ type callerIDKey int
 
 var (
 	// internal Context key for immediate CallerID
-	immediateCallerIDKey callerIDKey = 0
+	immediateCallerIDKey callerIDKey
 	// internal Context key for effective CallerID
 	effectiveCallerIDKey callerIDKey = 1
 )
@@ -65,7 +65,7 @@ func GetComponent(ef *vtrpcpb.CallerID) string {
 	return ef.Component
 }
 
-// GetSubcomponent returns a component inisde the process of effective caller,
+// GetSubcomponent returns a component inside the process of effective caller,
 // which is responsible for generating this request. Suggested values are a
 // servlet name or an API endpoint name.
 func GetSubcomponent(ef *vtrpcpb.CallerID) string {

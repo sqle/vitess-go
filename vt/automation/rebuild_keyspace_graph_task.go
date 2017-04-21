@@ -5,8 +5,8 @@
 package automation
 
 import (
+	automationpb "gopkg.in/sqle/vitess-go.v2/vt/proto/automation"
 	"golang.org/x/net/context"
-	automationpb "gopkg.in/sqle/vitess-go.v1/vt/proto/automation"
 )
 
 // RebuildKeyspaceGraphTask runs vtctl RebuildKeyspaceGraph to migrate a serving

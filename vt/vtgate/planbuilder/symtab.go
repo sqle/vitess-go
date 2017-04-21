@@ -7,8 +7,8 @@ package planbuilder
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vindexes"
 )
 
 // symtab contains the symbols for a SELECT statement.

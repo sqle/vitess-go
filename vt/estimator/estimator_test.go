@@ -8,7 +8,7 @@ import (
 	"sync"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/ewma"
+	"gopkg.in/sqle/vitess-go.v2/ewma"
 )
 
 func TestEstimator(t *testing.T) {
