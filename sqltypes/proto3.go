@@ -7,10 +7,10 @@ package sqltypes
 import (
 	"github.com/golang/protobuf/proto"
 
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
 )
 
 // This file contains the proto3 conversion functions for the structures

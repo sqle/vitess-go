@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
 )
 
 func TestLongPolling(t *testing.T) {

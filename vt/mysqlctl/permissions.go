@@ -5,8 +5,8 @@
 package mysqlctl
 
 import (
-	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
-	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/tmutils"
+	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/tabletmanagerdata"
 	"golang.org/x/net/context"
 )
 

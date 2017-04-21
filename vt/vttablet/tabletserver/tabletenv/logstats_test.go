@@ -13,9 +13,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/callinfo"
-	"github.com/youtube/vitess/go/vt/callinfo/fakecallinfo"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/callinfo"
+	"gopkg.in/sqle/vitess-go.v2/vt/callinfo/fakecallinfo"
 )
 
 func TestLogStats(t *testing.T) {

@@ -6,17 +6,17 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
-	"github.com/youtube/vitess/go/vt/worker/fakevtworkerclient"
-	"github.com/youtube/vitess/go/vt/worker/vtworkerclient"
-	"github.com/youtube/vitess/go/vt/workflow"
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/fakevtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/vtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/workflow"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 
 	// import the gRPC client implementation for tablet manager
-	_ "github.com/youtube/vitess/go/vt/vttablet/grpctmclient"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/vttablet/grpctmclient"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 var (

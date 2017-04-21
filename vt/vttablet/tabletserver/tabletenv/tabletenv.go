@@ -12,11 +12,11 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/tb"
-	"github.com/youtube/vitess/go/vt/callerid"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
-	"github.com/youtube/vitess/go/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/stats"
+	"gopkg.in/sqle/vitess-go.v2/tb"
+	"gopkg.in/sqle/vitess-go.v2/vt/callerid"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
 )
 
 var (

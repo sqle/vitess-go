@@ -5,8 +5,8 @@
 package planbuilder
 
 import (
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/schema"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/schema"
 )
 
 // GenerateFullQuery generates the full query from the ast.

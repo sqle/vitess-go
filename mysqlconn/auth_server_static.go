@@ -8,8 +8,8 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/sqldb"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 var (

@@ -11,10 +11,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/youtube/vitess/go/mysqlconn/fakesqldb"
-	"github.com/youtube/vitess/go/vt/dbconfigs"
-	"github.com/youtube/vitess/go/vt/mysqlctl"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/fakesqldb"
+	"gopkg.in/sqle/vitess-go.v2/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/tabletenv"
 )
 
 var errRejected = errors.New("rejected")

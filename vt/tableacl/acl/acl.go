@@ -5,7 +5,7 @@
 package acl
 
 import (
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 // ACL is an interface for Access Control List.

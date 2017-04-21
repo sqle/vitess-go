@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/vt/topo/test/faketopo"
-	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/test/faketopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 	"golang.org/x/net/context"
 )
 

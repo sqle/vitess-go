@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
 )
 
 // We base our test data on these defaults.

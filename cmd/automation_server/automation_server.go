@@ -12,9 +12,9 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/vt/automation"
-	automationservicepb "github.com/youtube/vitess/go/vt/proto/automationservice"
-	"github.com/youtube/vitess/go/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/automation"
+	automationservicepb "gopkg.in/sqle/vitess-go.v2/vt/proto/automationservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
 )
 
 func init() {

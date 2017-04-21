@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/vtctl/grpcvtctlserver"
-	"github.com/youtube/vitess/go/vt/vtctl/vtctlclienttest"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/grpcvtctlserver"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctl/vtctlclienttest"
 	"google.golang.org/grpc"
 
-	vtctlservicepb "github.com/youtube/vitess/go/vt/proto/vtctlservice"
+	vtctlservicepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtctlservice"
 )
 
 // the test here creates a fake server implementation, a fake client

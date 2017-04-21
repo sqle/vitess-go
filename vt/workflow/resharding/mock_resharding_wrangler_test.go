@@ -7,7 +7,7 @@ import (
 	time "time"
 
 	gomock "github.com/golang/mock/gomock"
-	topodata "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodata "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 	context "golang.org/x/net/context"
 )
 

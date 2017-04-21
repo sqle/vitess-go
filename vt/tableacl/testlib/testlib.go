@@ -11,10 +11,10 @@ import (
 	"testing"
 	"time"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	tableaclpb "github.com/youtube/vitess/go/vt/proto/tableacl"
-	"github.com/youtube/vitess/go/vt/tableacl"
-	"github.com/youtube/vitess/go/vt/tableacl/acl"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	tableaclpb "gopkg.in/sqle/vitess-go.v2/vt/proto/tableacl"
+	"gopkg.in/sqle/vitess-go.v2/vt/tableacl"
+	"gopkg.in/sqle/vitess-go.v2/vt/tableacl/acl"
 )
 
 // TestSuite tests a concrete acl.Factory implementation.

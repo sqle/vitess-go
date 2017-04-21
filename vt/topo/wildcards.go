@@ -9,7 +9,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/youtube/vitess/go/fileutil"
+	"gopkg.in/sqle/vitess-go.v2/fileutil"
 	"golang.org/x/net/context"
 )
 

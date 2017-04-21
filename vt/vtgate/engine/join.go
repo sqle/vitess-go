@@ -7,10 +7,10 @@ package engine
 import (
 	"fmt"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	"github.com/youtube/vitess/go/vt/vtgate/queryinfo"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/queryinfo"
 )
 
 // Join specifies the parameters for a join primitive.

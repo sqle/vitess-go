@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/youtube/vitess/go/sync2"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
 )
 
 // Histogram tracks counts and totals while

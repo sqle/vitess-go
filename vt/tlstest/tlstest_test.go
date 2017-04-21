@@ -11,7 +11,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/servenv/grpcutils"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv/grpcutils"
 )
 
 // TestClientServer generates:

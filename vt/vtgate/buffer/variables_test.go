@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/stats"
+	"gopkg.in/sqle/vitess-go.v2/stats"
 )
 
 func TestVariables(t *testing.T) {

@@ -14,10 +14,10 @@ import (
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/binlogdata"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 // fullBinlogTransaction is a helper type for tests.

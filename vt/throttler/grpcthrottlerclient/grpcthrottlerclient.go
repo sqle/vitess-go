@@ -10,11 +10,11 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/proto/throttlerdata"
-	"github.com/youtube/vitess/go/vt/proto/throttlerservice"
-	"github.com/youtube/vitess/go/vt/servenv/grpcutils"
-	"github.com/youtube/vitess/go/vt/throttler/throttlerclient"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
+	"gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv/grpcutils"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler/throttlerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
 	"google.golang.org/grpc"
 )
 

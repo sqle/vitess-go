@@ -14,10 +14,10 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/acl"
-	"github.com/youtube/vitess/go/vt/logz"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/utils"
+	"gopkg.in/sqle/vitess-go.v2/acl"
+	"gopkg.in/sqle/vitess-go.v2/vt/logz"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/utils"
 )
 
 var (

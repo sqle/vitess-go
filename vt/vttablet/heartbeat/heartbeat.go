@@ -13,7 +13,7 @@
 package heartbeat
 
 import (
-	"github.com/youtube/vitess/go/stats"
+	"gopkg.in/sqle/vitess-go.v2/stats"
 )
 
 var (

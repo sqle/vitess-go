@@ -12,7 +12,7 @@ import (
 
 	log "github.com/golang/glog"
 
-	"github.com/youtube/vitess/go/vt/worker/vtworkerclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/worker/vtworkerclient"
 )
 
 // ExecuteVtworker executes the vtworker command in "args" via an RPC to

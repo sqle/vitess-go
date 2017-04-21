@@ -12,7 +12,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
 )
 
 // GetTableName returns the table name from the SimpleTableExpr

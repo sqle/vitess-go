@@ -13,8 +13,8 @@ import (
 	log "github.com/golang/glog"
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 
-	"github.com/youtube/vitess/go/vt/topo"
-	"github.com/youtube/vitess/go/zk"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/zk"
 	"golang.org/x/net/context"
 )
 

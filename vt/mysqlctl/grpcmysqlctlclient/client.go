@@ -14,9 +14,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/mysqlctl/mysqlctlclient"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/mysqlctlclient"
 
-	mysqlctlpb "github.com/youtube/vitess/go/vt/proto/mysqlctl"
+	mysqlctlpb "gopkg.in/sqle/vitess-go.v2/vt/proto/mysqlctl"
 )
 
 type client struct {

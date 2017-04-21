@@ -1,8 +1,8 @@
 package splitquery
 
 import (
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/schema"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/schema"
 )
 
 type tuple []sqltypes.Value

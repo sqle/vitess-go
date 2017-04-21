@@ -11,12 +11,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	"github.com/youtube/vitess/go/vt/sqlannotation"
-	"github.com/youtube/vitess/go/vt/vtgate/queryinfo"
-	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlannotation"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/queryinfo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vindexes"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/querytypes"
 )
 
 // Route represents the instructions to route a query to

@@ -16,7 +16,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/mysqlctl/backupstorage"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/backupstorage"
 )
 
 var (

@@ -10,13 +10,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/sqltypes"
-	vtenv "github.com/youtube/vitess/go/vt/env"
-	"github.com/youtube/vitess/go/vt/servenv/grpcutils"
-	"github.com/youtube/vitess/go/vt/tlstest"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	vtenv "gopkg.in/sqle/vitess-go.v2/vt/env"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv/grpcutils"
+	"gopkg.in/sqle/vitess-go.v2/vt/tlstest"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 var selectRowsResult = &sqltypes.Result{

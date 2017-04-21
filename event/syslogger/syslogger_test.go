@@ -5,7 +5,7 @@ import (
 	"log/syslog"
 	"testing"
 
-	"github.com/youtube/vitess/go/event"
+	"gopkg.in/sqle/vitess-go.v2/event"
 )
 
 type TestEvent struct {

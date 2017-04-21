@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/vttest"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttest"
 
-	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
-	vttestpb "github.com/youtube/vitess/go/vt/proto/vttest"
+	vschemapb "gopkg.in/sqle/vitess-go.v2/vt/proto/vschema"
+	vttestpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vttest"
 )
 
 func TestVtclient(t *testing.T) {

@@ -29,13 +29,13 @@ import (
 	"bytes"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/sqldb"
-	"github.com/youtube/vitess/go/stats"
-	"github.com/youtube/vitess/go/vt/dbconfigs"
-	"github.com/youtube/vitess/go/vt/dbconnpool"
-	vtenv "github.com/youtube/vitess/go/vt/env"
-	"github.com/youtube/vitess/go/vt/hook"
-	"github.com/youtube/vitess/go/vt/mysqlctl/mysqlctlclient"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/stats"
+	"gopkg.in/sqle/vitess-go.v2/vt/dbconfigs"
+	"gopkg.in/sqle/vitess-go.v2/vt/dbconnpool"
+	vtenv "gopkg.in/sqle/vitess-go.v2/vt/env"
+	"gopkg.in/sqle/vitess-go.v2/vt/hook"
+	"gopkg.in/sqle/vitess-go.v2/vt/mysqlctl/mysqlctlclient"
 	"golang.org/x/net/context"
 )
 

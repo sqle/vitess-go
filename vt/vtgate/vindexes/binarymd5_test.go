@@ -5,7 +5,7 @@ import (
 
 	"strings"
 
-	"github.com/youtube/vitess/go/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
 )
 
 var binVindex Vindex

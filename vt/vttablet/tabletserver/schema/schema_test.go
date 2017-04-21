@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	"github.com/youtube/vitess/go/vt/sqlparser"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
 )
 
 func TestTableColumnString(t *testing.T) {

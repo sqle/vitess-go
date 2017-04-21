@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log/syslog"
 
-	"github.com/youtube/vitess/go/event/syslogger"
-	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"gopkg.in/sqle/vitess-go.v2/event/syslogger"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/topoproto"
 )
 
 // Syslog writes the event to syslog.

@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/planbuilder"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/planbuilder"
 )
 
 // Map is the maintainer of Rules from multiple sources

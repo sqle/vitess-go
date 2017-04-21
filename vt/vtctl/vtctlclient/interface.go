@@ -13,7 +13,7 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
 )
 
 // vtctlClientProtocol specifices which RPC client implementation should be used.

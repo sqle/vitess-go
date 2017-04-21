@@ -3,9 +3,9 @@
 package eventtoken
 
 import (
-	"github.com/youtube/vitess/go/mysqlconn/replication"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn/replication"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 // Fresher compares two event tokens.  It returns a negative number if

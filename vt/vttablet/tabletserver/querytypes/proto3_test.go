@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/youtube/vitess/go/sqltypes"
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 func TestBindVariablesToProto3(t *testing.T) {

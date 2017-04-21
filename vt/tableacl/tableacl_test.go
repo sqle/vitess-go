@@ -15,11 +15,11 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"github.com/youtube/vitess/go/vt/tableacl/acl"
-	"github.com/youtube/vitess/go/vt/tableacl/simpleacl"
+	"gopkg.in/sqle/vitess-go.v2/vt/tableacl/acl"
+	"gopkg.in/sqle/vitess-go.v2/vt/tableacl/simpleacl"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	tableaclpb "github.com/youtube/vitess/go/vt/proto/tableacl"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	tableaclpb "gopkg.in/sqle/vitess-go.v2/vt/proto/tableacl"
 )
 
 type fakeACLFactory struct{}

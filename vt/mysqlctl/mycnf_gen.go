@@ -17,7 +17,7 @@ import (
 
 	"flag"
 
-	"github.com/youtube/vitess/go/vt/env"
+	"gopkg.in/sqle/vitess-go.v2/vt/env"
 )
 
 // This files handles the creation of Mycnf objects for the default 'vt'

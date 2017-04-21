@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // This file tests the keyspace related object functionnalities.

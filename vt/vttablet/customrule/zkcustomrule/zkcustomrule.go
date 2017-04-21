@@ -14,10 +14,10 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/vt/servenv"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/rules"
-	"github.com/youtube/vitess/go/vt/topo/zk2topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/rules"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/zk2topo"
 )
 
 var (

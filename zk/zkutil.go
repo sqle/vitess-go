@@ -18,7 +18,7 @@ import (
 	log "github.com/golang/glog"
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 
-	"github.com/youtube/vitess/go/fileutil"
+	"gopkg.in/sqle/vitess-go.v2/fileutil"
 )
 
 var (

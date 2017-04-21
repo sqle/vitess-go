@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
 )
 
 func createSocketPair(t *testing.T) (net.Listener, *Conn, *Conn) {

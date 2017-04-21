@@ -14,9 +14,9 @@ import (
 
 	"time"
 
-	"github.com/youtube/vitess/go/flagutil"
-	"github.com/youtube/vitess/go/streamlog"
-	"github.com/youtube/vitess/go/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v2/flagutil"
+	"gopkg.in/sqle/vitess-go.v2/streamlog"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler"
 )
 
 var (

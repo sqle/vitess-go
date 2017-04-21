@@ -5,7 +5,7 @@
 package wrangler
 
 import (
-	"github.com/youtube/vitess/go/vt/topotools"
+	"gopkg.in/sqle/vitess-go.v2/vt/topotools"
 	"golang.org/x/net/context"
 )
 

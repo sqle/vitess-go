@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 func TestCreation(t *testing.T) {

@@ -8,9 +8,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/youtube/vitess/go/streamlog"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v2/streamlog"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/tabletenv"
 )
 
 // TxCatcher allows you to capture and fetch transactions that are being

@@ -21,10 +21,10 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/exit"
-	"github.com/youtube/vitess/go/vt/logutil"
-	"github.com/youtube/vitess/go/vt/topo/zk2topo"
-	"github.com/youtube/vitess/go/vt/vtctld"
+	"gopkg.in/sqle/vitess-go.v2/exit"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/zk2topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtctld"
 )
 
 var doc = `

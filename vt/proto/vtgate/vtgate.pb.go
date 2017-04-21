@@ -58,9 +58,9 @@ package vtgate
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import query "github.com/youtube/vitess/go/vt/proto/query"
-import topodata "github.com/youtube/vitess/go/vt/proto/topodata"
-import vtrpc "github.com/youtube/vitess/go/vt/proto/vtrpc"
+import query "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+import topodata "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+import vtrpc "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

@@ -15,7 +15,7 @@ package binlogservice
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import binlogdata "github.com/youtube/vitess/go/vt/proto/binlogdata"
+import binlogdata "gopkg.in/sqle/vitess-go.v2/vt/proto/binlogdata"
 
 import (
 	context "golang.org/x/net/context"

@@ -13,9 +13,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/youtube/vitess/go/hack"
+	"gopkg.in/sqle/vitess-go.v2/hack"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
 )
 
 var (

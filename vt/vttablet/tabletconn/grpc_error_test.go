@@ -7,8 +7,8 @@ package tabletconn
 import (
 	"testing"
 
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
-	"github.com/youtube/vitess/go/vt/vterrors"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v2/vt/vterrors"
 )
 
 func TestTabletErrorFromRPCError(t *testing.T) {

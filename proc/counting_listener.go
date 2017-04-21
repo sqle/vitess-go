@@ -7,7 +7,7 @@ package proc
 import (
 	"net"
 
-	"github.com/youtube/vitess/go/stats"
+	"gopkg.in/sqle/vitess-go.v2/stats"
 )
 
 type CountingListener struct {

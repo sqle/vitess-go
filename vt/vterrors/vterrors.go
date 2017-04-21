@@ -6,9 +6,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/youtube/vitess/go/tb"
-	"github.com/youtube/vitess/go/vt/logutil"
-	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	"gopkg.in/sqle/vitess-go.v2/tb"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
+	vtrpcpb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtrpc"
 )
 
 var logger = logutil.NewThrottledLogger("vterror", 5*time.Second)

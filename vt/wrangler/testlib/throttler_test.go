@@ -12,12 +12,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/vt/throttler"
-	"github.com/youtube/vitess/go/vt/throttler/grpcthrottlerserver"
-	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler/grpcthrottlerserver"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo/memorytopo"
 
 	// The test uses the gRPC throttler client and server implementations.
-	_ "github.com/youtube/vitess/go/vt/throttler/grpcthrottlerclient"
+	_ "gopkg.in/sqle/vitess-go.v2/vt/throttler/grpcthrottlerclient"
 )
 
 // TestVtctlThrottlerCommands tests all vtctl commands from the

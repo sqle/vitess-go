@@ -24,7 +24,7 @@ package etcdtopo
 import (
 	"sync"
 
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 	"golang.org/x/net/context"
 )
 

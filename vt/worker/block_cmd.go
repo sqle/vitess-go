@@ -10,7 +10,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/youtube/vitess/go/vt/wrangler"
+	"gopkg.in/sqle/vitess-go.v2/vt/wrangler"
 	"golang.org/x/net/context"
 )
 

@@ -4,7 +4,7 @@
 
 package tabletserver
 
-import "github.com/youtube/vitess/go/vt/sqlparser"
+import "gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
 
 const trailingComment = "_trailingComment"
 

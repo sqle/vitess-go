@@ -3,8 +3,8 @@ package main
 // This plugin imports staticauthserver to register the flat-file implementation of AuthServer.
 
 import (
-	"github.com/youtube/vitess/go/mysqlconn"
-	"github.com/youtube/vitess/go/vt/vtgate"
+	"gopkg.in/sqle/vitess-go.v2/mysqlconn"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate"
 )
 
 func init() {

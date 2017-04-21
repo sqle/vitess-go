@@ -5,8 +5,8 @@
 package simpleacl
 
 import (
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	"github.com/youtube/vitess/go/vt/tableacl/acl"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	"gopkg.in/sqle/vitess-go.v2/vt/tableacl/acl"
 )
 
 // SimpleACL keeps all entries in a unique in-memory list

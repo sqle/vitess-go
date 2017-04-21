@@ -7,8 +7,8 @@ package planbuilder
 import (
 	"errors"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/vtgate/engine"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/engine"
 )
 
 // buildSelectPlan is the new function to build a Select plan.

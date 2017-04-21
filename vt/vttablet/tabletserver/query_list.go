@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/youtube/vitess/go/vt/callinfo"
+	"gopkg.in/sqle/vitess-go.v2/vt/callinfo"
 	"golang.org/x/net/context"
 )
 

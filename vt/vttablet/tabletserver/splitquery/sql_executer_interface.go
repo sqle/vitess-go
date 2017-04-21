@@ -1,6 +1,6 @@
 package splitquery
 
-import "github.com/youtube/vitess/go/sqltypes"
+import "gopkg.in/sqle/vitess-go.v2/sqltypes"
 
 // SQLExecuter enacpsulates access to the MySQL database for the this package.
 type SQLExecuter interface {

@@ -2,7 +2,7 @@ package txthrottler
 
 import (
 	"github.com/golang/mock/gomock"
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 )
 
 // NewMockServer wraps a MockImpl in a Server object.

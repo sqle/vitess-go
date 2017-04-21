@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/planbuilder"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/planbuilder"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 var (

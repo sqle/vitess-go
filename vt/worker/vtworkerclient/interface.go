@@ -11,7 +11,7 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/logutil"
+	"gopkg.in/sqle/vitess-go.v2/vt/logutil"
 	"golang.org/x/net/context"
 )
 

@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/vt/vttablet/endtoend/framework"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/rules"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/endtoend/framework"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/rules"
 )
 
 func TestTableACLNoAccess(t *testing.T) {

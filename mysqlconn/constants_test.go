@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/youtube/vitess/go/sqldb"
+	"gopkg.in/sqle/vitess-go.v2/sqldb"
 )
 
 func TestIsConnErr(t *testing.T) {

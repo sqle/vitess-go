@@ -9,14 +9,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/youtube/vitess/go/cmd/vtgateclienttest/services"
-	"github.com/youtube/vitess/go/vt/callerid"
-	"github.com/youtube/vitess/go/vt/vtgate/vtgateconn"
+	"gopkg.in/sqle/vitess-go.v2/cmd/vtgateclienttest/services"
+	"gopkg.in/sqle/vitess-go.v2/vt/callerid"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateconn"
 	"golang.org/x/net/context"
 
-	querypb "github.com/youtube/vitess/go/vt/proto/query"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
-	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	querypb "gopkg.in/sqle/vitess-go.v2/vt/proto/query"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
+	vtgatepb "gopkg.in/sqle/vitess-go.v2/vt/proto/vtgate"
 )
 
 // testCallerID adds a caller ID to a context, and makes sure the server

@@ -7,10 +7,10 @@
 package events
 
 import (
-	base "github.com/youtube/vitess/go/vt/events"
-	"github.com/youtube/vitess/go/vt/topo"
+	base "gopkg.in/sqle/vitess-go.v2/vt/events"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // Reparent is an event that describes a single step in the reparent process.

@@ -7,10 +7,10 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/youtube/vitess/go/sqltypes"
-	"github.com/youtube/vitess/go/vt/sqlparser"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/splitquery/splitquery_testing"
+	"gopkg.in/sqle/vitess-go.v2/sqltypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/querytypes"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/splitquery/splitquery_testing"
 )
 
 // Table-driven test for equal-splits algorithm.

@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/youtube/vitess/go/sync2"
+	"gopkg.in/sqle/vitess-go.v2/sync2"
 	"golang.org/x/net/context"
 )
 

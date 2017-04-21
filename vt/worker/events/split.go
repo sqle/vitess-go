@@ -4,7 +4,7 @@
 
 package events
 
-import base "github.com/youtube/vitess/go/vt/events"
+import base "gopkg.in/sqle/vitess-go.v2/vt/events"
 
 // SplitClone is an event that describes a single step in a horizontal
 // split clone.

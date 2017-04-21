@@ -9,13 +9,13 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"github.com/youtube/vitess/go/vt/discovery"
-	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/tabletenv"
-	"github.com/youtube/vitess/go/vt/throttler"
-	"github.com/youtube/vitess/go/vt/topo"
+	"gopkg.in/sqle/vitess-go.v2/vt/discovery"
+	"gopkg.in/sqle/vitess-go.v2/vt/vttablet/tabletserver/tabletenv"
+	"gopkg.in/sqle/vitess-go.v2/vt/throttler"
+	"gopkg.in/sqle/vitess-go.v2/vt/topo"
 
-	throttlerdatapb "github.com/youtube/vitess/go/vt/proto/throttlerdata"
-	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	throttlerdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/throttlerdata"
+	topodatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/topodata"
 )
 
 // TxThrottler throttles transactions based on replication lag.

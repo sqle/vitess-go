@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/credentials"
 
 	log "github.com/golang/glog"
-	"github.com/youtube/vitess/go/vt/servenv/grpcutils"
+	"gopkg.in/sqle/vitess-go.v2/vt/servenv/grpcutils"
 )
 
 // This file handles gRPC server, on its own port.

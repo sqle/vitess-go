@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
+	binlogdatapb "gopkg.in/sqle/vitess-go.v2/vt/proto/binlogdata"
 )
 
 // sample event data

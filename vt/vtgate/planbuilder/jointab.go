@@ -7,7 +7,7 @@ package planbuilder
 import (
 	"strconv"
 
-	"github.com/youtube/vitess/go/vt/sqlparser"
+	"gopkg.in/sqle/vitess-go.v2/vt/sqlparser"
 )
 
 // jointab manages procurement and naming of join

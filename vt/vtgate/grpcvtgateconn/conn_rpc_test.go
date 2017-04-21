@@ -11,8 +11,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/youtube/vitess/go/vt/vtgate/grpcvtgateservice"
-	"github.com/youtube/vitess/go/vt/vtgate/vtgateconntest"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/grpcvtgateservice"
+	"gopkg.in/sqle/vitess-go.v2/vt/vtgate/vtgateconntest"
 	"golang.org/x/net/context"
 )
 
