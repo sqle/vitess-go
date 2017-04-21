@@ -7,5 +7,5 @@ package main
 // Imports and registers the gRPC vtworker client.
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/worker/grpcvtworkerclient"
+	_ "github.com/youtube/vitess/go/vt/worker/grpcvtworkerclient"
 )

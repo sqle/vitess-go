@@ -1,5 +1,5 @@
 package main
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/s3backupstorage"
+	_ "github.com/youtube/vitess/go/vt/mysqlctl/s3backupstorage"
 )

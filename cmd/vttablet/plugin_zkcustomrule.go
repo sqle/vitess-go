@@ -7,5 +7,5 @@ package main
 // Imports and register the zookeeper custom rule source
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletserver/customrule/zkcustomrule"
+	_ "github.com/youtube/vitess/go/vt/vttablet/customrule/zkcustomrule"
 )

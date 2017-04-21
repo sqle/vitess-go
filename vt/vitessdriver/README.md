@@ -10,12 +10,12 @@ For more information, visit www.vitess.io.
 
 For more information on this driver, please see its godoc page:
 
-https://godoc.org/gopkg.in/sqle/vitess-go.v1/vt/vitessdriver
+https://godoc.org/github.com/youtube/vitess/go/vt/vitessdriver
 
 ## Installation
 
 ```sh
-go get gopkg.in/sqle/vitess-go.v1/vt/vitessdriver
+go get github.com/youtube/vitess/go/vt/vitessdriver
 ```
 
 See the documentation link above for examples.

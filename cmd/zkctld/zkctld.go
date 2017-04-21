@@ -14,9 +14,9 @@ import (
 	"syscall"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/exit"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/zk/zkctl"
+	"github.com/youtube/vitess/go/exit"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/zk/zkctl"
 )
 
 var (

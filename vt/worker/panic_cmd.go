@@ -10,8 +10,8 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/youtube/vitess/go/vt/wrangler"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
 )
 
 func commandPanic(wi *Instance, wr *wrangler.Wrangler, subFlags *flag.FlagSet, args []string) (Worker, error) {

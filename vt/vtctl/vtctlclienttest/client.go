@@ -20,16 +20,16 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"github.com/youtube/vitess/go/vt/vtctl/vtctlclient"
+	"github.com/youtube/vitess/go/vt/vttablet/tmclient"
 
 	// import the gRPC client implementation for tablet manager
-	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/grpctmclient"
+	_ "github.com/youtube/vitess/go/vt/vttablet/grpctmclient"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 func init() {

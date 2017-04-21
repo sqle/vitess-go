@@ -5,12 +5,12 @@
 package vtgate
 
 import (
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/vttablet/sandboxconn"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/sandboxconn"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 var routerVSchema = `

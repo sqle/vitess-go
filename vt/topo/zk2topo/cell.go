@@ -7,7 +7,7 @@ package zk2topo
 import (
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 // This file contains the cell management methods of zktopo.Server.

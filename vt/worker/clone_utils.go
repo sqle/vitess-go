@@ -13,13 +13,13 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 //
@@ -29,7 +29,7 @@ import (
 // Does a topo lookup for a single shard, and returns:
 //	1. Slice of all tablet aliases for the shard.
 //	2. Map of tablet alias : tablet record for all tablets.
-func resolveRefreshTabletsForShard(ctx context.Context, keyspace, shard string, wr *wrangler.Wrangler) (refreshAliases []*topodatapb.TabletAlias, refreshTablets map[topodatapb.TabletAlias]*topo.TabletInfo, err error) {
+func resolveRefreshTabletsForShard(ctx context.Context, keyspace, shard string, wr *wrangler.Wrangler) (refreshAliases []*topodatapb.TabletAlias, refreshTablets map[string]*topo.TabletInfo, err error) {
 	// Keep a long timeout, because we really don't want the copying to succeed, and then the worker to fail at the end.
 	shortCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
 	refreshAliases, err = wr.TopoServer().FindAllTabletAliasesInShard(shortCtx, keyspace, shard)

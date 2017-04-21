@@ -3,7 +3,7 @@ package etcd2topo
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 // EtcdVersion is etcd's idea of a version.

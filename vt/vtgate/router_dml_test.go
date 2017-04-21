@@ -9,13 +9,13 @@ import (
 	"strings"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/sandboxconn"
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/sqltypes"
+	_ "github.com/youtube/vitess/go/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/vt/vttablet/sandboxconn"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 func TestUpdateEqual(t *testing.T) {
@@ -720,35 +720,6 @@ func TestInsertFail(t *testing.T) {
 
 	_, err = routerExec(router, "insert into user(id, v, name) values (1, 2, null)", nil)
 	want = "execInsertSharded: getInsertShardedRoute: value must be supplied for column name"
-	if err == nil || !strings.HasPrefix(err.Error(), want) {
-		t.Errorf("routerExec: %v, want prefix %v", err, want)
-	}
-
-	sbc.SetResults([]*sqltypes.Result{{RowsAffected: 1, InsertID: 1}})
-	sbclookup.SetResults([]*sqltypes.Result{{
-		Rows: [][]sqltypes.Value{{
-			sqltypes.MakeTrusted(sqltypes.Int64, []byte("1")),
-		}},
-		RowsAffected: 1,
-		InsertID:     1,
-	}})
-	_, err = routerExec(router, "insert into user(id, v, name) values (null, 2, 'myname')", nil)
-	want = "sequence and db generated a value each for insert"
-	if err == nil || !strings.HasPrefix(err.Error(), want) {
-		t.Errorf("routerExec: %v, want prefix %v", err, want)
-	}
-	sbclookup.SetResults([]*sqltypes.Result{{
-		Rows: [][]sqltypes.Value{{
-			sqltypes.MakeTrusted(sqltypes.Int64, []byte("1")),
-		}},
-		RowsAffected: 1,
-		InsertID:     1,
-	}, {
-		RowsAffected: 1,
-		InsertID:     1,
-	}})
-	_, err = routerExec(router, "insert into main1(id, v, name) values (null, 2, 'myname')", nil)
-	want = "sequence and db generated a value each for insert"
 	if err == nil || !strings.HasPrefix(err.Error(), want) {
 		t.Errorf("routerExec: %v, want prefix %v", err, want)
 	}

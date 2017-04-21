@@ -11,14 +11,14 @@ package grpcvtworkerserver
 import (
 	"google.golang.org/grpc"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/servenv"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/worker"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
-	vtworkerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtworkerdata"
-	vtworkerservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtworkerservice"
+	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
+	vtworkerdatapb "github.com/youtube/vitess/go/vt/proto/vtworkerdata"
+	vtworkerservicepb "github.com/youtube/vitess/go/vt/proto/vtworkerservice"
 )
 
 // VtworkerServer is our RPC server

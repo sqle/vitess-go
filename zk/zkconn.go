@@ -17,8 +17,8 @@ import (
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/netutil"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"github.com/youtube/vitess/go/netutil"
+	"github.com/youtube/vitess/go/sync2"
 )
 
 // Time returns a time.Time from a ZK int64 milliseconds since Epoch time.

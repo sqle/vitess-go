@@ -3,7 +3,7 @@ package memorytopo
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 // NodeVersion is the local topo.Version implementation

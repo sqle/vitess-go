@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 )
 
 func TestParsedQuery(t *testing.T) {

@@ -29,12 +29,12 @@ import (
 	_ "net/http/pprof"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/event"
-	"gopkg.in/sqle/vitess-go.v1/netutil"
-	"gopkg.in/sqle/vitess-go.v1/stats"
+	"github.com/youtube/vitess/go/event"
+	"github.com/youtube/vitess/go/netutil"
+	"github.com/youtube/vitess/go/stats"
 
 	// register the proper init and shutdown hooks for logging
-	_ "gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	_ "github.com/youtube/vitess/go/vt/logutil"
 )
 
 var (

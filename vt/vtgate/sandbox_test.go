@@ -11,17 +11,17 @@ import (
 	"sync"
 	"time"
 
+	"github.com/youtube/vitess/go/vt/key"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vttablet/queryservice"
+	"github.com/youtube/vitess/go/vt/vttablet/sandboxconn"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletconn"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/sandboxconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 // sandbox_test.go provides a sandbox for unit testing VTGate.
@@ -224,6 +224,8 @@ func (sct *sandboxTopo) GetSrvKeyspaceNames(ctx context.Context, cell string) ([
 // GetSrvKeyspace is part of SrvTopoServer.
 func (sct *sandboxTopo) GetSrvKeyspace(ctx context.Context, cell, keyspace string) (*topodatapb.SrvKeyspace, error) {
 	sand := getSandbox(keyspace)
+	sand.sandmu.Lock()
+	defer sand.sandmu.Unlock()
 	if sand.SrvKeyspaceCallback != nil {
 		sand.SrvKeyspaceCallback()
 	}

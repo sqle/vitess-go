@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC tabletmanager server
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/grpctmserver"
+	_ "github.com/youtube/vitess/go/vt/vttablet/grpctmserver"
 )

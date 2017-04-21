@@ -6,18 +6,19 @@ package vtgate
 
 import (
 	"context"
-	"reflect"
 	"strings"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/sandboxconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"github.com/golang/protobuf/proto"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vttablet/sandboxconn"
+
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 func TestTxConnCommitRollbackIncorrectSession(t *testing.T) {
@@ -58,7 +59,7 @@ func TestTxConnCommitSuccess(t *testing.T) {
 			TransactionId: 1,
 		}},
 	}
-	if !reflect.DeepEqual(*session.Session, wantSession) {
+	if !proto.Equal(session.Session, &wantSession) {
 		t.Errorf("Session:\n%+v, want\n%+v", *session.Session, wantSession)
 	}
 	sc.Execute(context.Background(), "query1", nil, "TestTxConn", []string{"0", "1"}, topodatapb.TabletType_MASTER, session, false, nil)
@@ -80,7 +81,7 @@ func TestTxConnCommitSuccess(t *testing.T) {
 			TransactionId: 1,
 		}},
 	}
-	if !reflect.DeepEqual(*session.Session, wantSession) {
+	if !proto.Equal(session.Session, &wantSession) {
 		t.Errorf("Session:\n%+v, want\n%+v", *session.Session, wantSession)
 	}
 
@@ -91,7 +92,7 @@ func TestTxConnCommitSuccess(t *testing.T) {
 		t.Errorf("Commit: %v, want %s", err, want)
 	}
 	wantSession = vtgatepb.Session{}
-	if !reflect.DeepEqual(*session.Session, wantSession) {
+	if !proto.Equal(session.Session, &wantSession) {
 		t.Errorf("Session:\n%+v, want\n%+v", *session.Session, wantSession)
 	}
 	if commitCount := sbc0.CommitCount.Get(); commitCount != 1 {
@@ -306,7 +307,7 @@ func TestTxConnRollback(t *testing.T) {
 		t.Error(err)
 	}
 	wantSession := vtgatepb.Session{}
-	if !reflect.DeepEqual(*session.Session, wantSession) {
+	if !proto.Equal(session.Session, &wantSession) {
 		t.Errorf("Session:\n%+v, want\n%+v", *session.Session, wantSession)
 	}
 	if c := sbc0.RollbackCount.Get(); c != 1 {

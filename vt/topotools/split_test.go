@@ -4,9 +4,9 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // helper methods for tests to be shorter

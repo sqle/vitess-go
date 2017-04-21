@@ -12,9 +12,9 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconnpool"
+	"github.com/youtube/vitess/go/sqldb"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/dbconnpool"
 )
 
 // getPoolReconnect gets a connection from a pool, tests it, and reconnects if

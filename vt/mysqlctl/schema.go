@@ -12,11 +12,11 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"github.com/youtube/vitess/go/vt/dbconfigs"
+	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
+	"github.com/youtube/vitess/go/vt/sqlparser"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
 )
 
 var autoIncr = regexp.MustCompile(" AUTO_INCREMENT=\\d+")

@@ -6,12 +6,11 @@ package vtgate
 
 import (
 	"context"
-	"reflect"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 )
 
 func TestRouterMessageAckSharded(t *testing.T) {
@@ -29,7 +28,7 @@ func TestRouterMessageAckSharded(t *testing.T) {
 	if count != 1 {
 		t.Errorf("count: %d, want 1", count)
 	}
-	if !reflect.DeepEqual(sbc1.MessageIDs, ids) {
+	if !sqltypes.Proto3ValuesEqual(sbc1.MessageIDs, ids) {
 		t.Errorf("sbc1.MessageIDs: %v, want %v", sbc1.MessageIDs, ids)
 	}
 	if sbc2.MessageIDs != nil {
@@ -58,14 +57,14 @@ func TestRouterMessageAckSharded(t *testing.T) {
 		Type:  sqltypes.VarChar,
 		Value: []byte("1"),
 	}}
-	if !reflect.DeepEqual(sbc1.MessageIDs, wantids) {
+	if !sqltypes.Proto3ValuesEqual(sbc1.MessageIDs, wantids) {
 		t.Errorf("sbc1.MessageIDs: %+v, want %+v\n", sbc1.MessageIDs, wantids)
 	}
 	wantids = []*querypb.Value{{
 		Type:  sqltypes.VarChar,
 		Value: []byte("3"),
 	}}
-	if !reflect.DeepEqual(sbc2.MessageIDs, wantids) {
+	if !sqltypes.Proto3ValuesEqual(sbc2.MessageIDs, wantids) {
 		t.Errorf("sbc2.MessageIDs: %+v, want %+v\n", sbc2.MessageIDs, wantids)
 	}
 }

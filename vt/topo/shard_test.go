@@ -11,7 +11,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // This file tests the shard related object functionnalities.

@@ -14,8 +14,8 @@ import (
 
 	"github.com/coreos/go-etcd/etcd"
 	log "github.com/golang/glog"
+	"github.com/youtube/vitess/go/vt/topo"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 )
 
 const lockFilename = "_Lock"

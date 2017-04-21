@@ -16,16 +16,16 @@ import (
 
 	"google.golang.org/grpc"
 
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/servenv"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/vtctl/grpcvtctlserver"
+	"github.com/youtube/vitess/go/vt/vtctl/vtctlclient"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/grpcvtctlserver"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
 
 	// we need to import the grpcvtctlclient library so the gRPC
 	// vtctl client is registered and can be used.
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtctl/grpcvtctlclient"
+	_ "github.com/youtube/vitess/go/vt/vtctl/grpcvtctlclient"
 )
 
 var servenvInitialized sync.Once

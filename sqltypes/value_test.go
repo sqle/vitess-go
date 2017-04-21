@@ -11,7 +11,9 @@ import (
 	"testing"
 	"time"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	"github.com/golang/protobuf/proto"
+
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 )
 
 func TestMake(t *testing.T) {
@@ -501,7 +503,7 @@ func TestToProtoValue(t *testing.T) {
 		Type:  Int64,
 		Value: []byte("1"),
 	}
-	if !reflect.DeepEqual(got, want) {
+	if !proto.Equal(got, want) {
 		t.Errorf("bindvar: %v, want %v", got, want)
 	}
 }

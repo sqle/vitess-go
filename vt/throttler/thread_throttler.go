@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/sync2"
+	"github.com/youtube/vitess/go/sync2"
 
 	"golang.org/x/time/rate"
 )

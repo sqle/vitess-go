@@ -2,24 +2,23 @@ package vtctld
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 	"time"
 
 	"golang.org/x/net/context"
 
 	"github.com/golang/protobuf/proto"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice/fakes"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler/testlib"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"github.com/youtube/vitess/go/vt/vttablet/grpcqueryservice"
+	"github.com/youtube/vitess/go/vt/vttablet/queryservice/fakes"
+	"github.com/youtube/vitess/go/vt/vttablet/tmclient"
+	"github.com/youtube/vitess/go/vt/wrangler"
+	"github.com/youtube/vitess/go/vt/wrangler/testlib"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // TestRealtimeStatsWithQueryService uses fakeTablets and the fakeQueryService to
@@ -106,7 +105,7 @@ func checkStats(realtimeStats *realtimeStats, tablet *testlib.FakeTablet, want *
 		if err != nil {
 			continue
 		}
-		if reflect.DeepEqual(result, discovery.TabletStats{}) {
+		if result.DeepEqual(&discovery.TabletStats{}) {
 			continue
 		}
 		got := result.Stats

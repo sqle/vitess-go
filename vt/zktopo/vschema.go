@@ -12,8 +12,8 @@ import (
 	zookeeper "github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
-	"gopkg.in/sqle/vitess-go.v1/zk"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
+	"github.com/youtube/vitess/go/zk"
 )
 
 /*

@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
+	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
 )
 
 // tableStatusList contains the status for each table of a schema.

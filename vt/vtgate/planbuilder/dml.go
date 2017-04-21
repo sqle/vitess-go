@@ -7,9 +7,9 @@ package planbuilder
 import (
 	"errors"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/engine"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/vt/sqlparser"
+	"github.com/youtube/vitess/go/vt/vtgate/engine"
+	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
 )
 
 // dmlFormatter strips out keyspace name from dmls.

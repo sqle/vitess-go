@@ -1,6 +1,6 @@
 package mysqlconn
 
-import "gopkg.in/sqle/vitess-go.v1/sqldb"
+import "github.com/youtube/vitess/go/sqldb"
 
 // This file contains the methods related to replication.
 

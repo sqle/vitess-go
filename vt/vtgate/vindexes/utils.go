@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 )
 
 // parseString takes a string and tries to extract a number from it.

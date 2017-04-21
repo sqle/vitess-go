@@ -9,15 +9,15 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateservice"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/callerid"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vtgate/vtgateservice"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 // errorClient implements vtgateservice.VTGateService
@@ -101,12 +101,12 @@ func trimmedRequestToError(received string) error {
 	}
 }
 
-func (c *errorClient) Execute(ctx context.Context, sql string, bindVariables map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, session *vtgatepb.Session, notInTransaction bool, options *querypb.ExecuteOptions) (*sqltypes.Result, error) {
+func (c *errorClient) Execute(ctx context.Context, sql string, bindVariables map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, session *vtgatepb.Session, notInTransaction bool, options *querypb.ExecuteOptions) (*vtgatepb.Session, *sqltypes.Result, error) {
 	if err := requestToPartialError(sql, session); err != nil {
-		return nil, err
+		return session, nil, err
 	}
 	if err := requestToError(sql); err != nil {
-		return nil, err
+		return session, nil, err
 	}
 	return c.fallbackClient.Execute(ctx, sql, bindVariables, keyspace, tabletType, session, notInTransaction, options)
 }
@@ -151,16 +151,16 @@ func (c *errorClient) ExecuteEntityIds(ctx context.Context, sql string, bindVari
 	return c.fallbackClient.ExecuteEntityIds(ctx, sql, bindVariables, keyspace, entityColumnName, entityKeyspaceIDs, tabletType, session, notInTransaction, options)
 }
 
-func (c *errorClient) ExecuteBatch(ctx context.Context, sqlList []string, bindVariablesList []map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, asTransaction bool, session *vtgatepb.Session, options *querypb.ExecuteOptions) ([]sqltypes.QueryResponse, error) {
+func (c *errorClient) ExecuteBatch(ctx context.Context, sqlList []string, bindVariablesList []map[string]interface{}, keyspace string, tabletType topodatapb.TabletType, session *vtgatepb.Session, options *querypb.ExecuteOptions) (*vtgatepb.Session, []sqltypes.QueryResponse, error) {
 	if len(sqlList) == 1 {
 		if err := requestToPartialError(sqlList[0], session); err != nil {
-			return nil, err
+			return session, nil, err
 		}
 		if err := requestToError(sqlList[0]); err != nil {
-			return nil, err
+			return session, nil, err
 		}
 	}
-	return c.fallbackClient.ExecuteBatch(ctx, sqlList, bindVariablesList, keyspace, tabletType, asTransaction, session, options)
+	return c.fallbackClient.ExecuteBatch(ctx, sqlList, bindVariablesList, keyspace, tabletType, session, options)
 }
 
 func (c *errorClient) ExecuteBatchShards(ctx context.Context, queries []*vtgatepb.BoundShardQuery, tabletType topodatapb.TabletType, asTransaction bool, session *vtgatepb.Session, options *querypb.ExecuteOptions) ([]sqltypes.Result, error) {

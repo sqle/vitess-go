@@ -10,12 +10,12 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"github.com/youtube/vitess/go/exit"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/vtctl/vtctlclient"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/exit"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctl/vtctlclient"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
+	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
 )
 
 // The default values used by these flags cannot be taken from wrangler and

@@ -18,8 +18,8 @@ import (
 
 	log "github.com/golang/glog"
 	influxClient "github.com/influxdb/influxdb/client"
-	"gopkg.in/sqle/vitess-go.v1/stats"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"github.com/youtube/vitess/go/stats"
+	"github.com/youtube/vitess/go/vt/servenv"
 )
 
 var influxDBHost = flag.String("influxdb_host", "localhost:8086", "the influxdb host (with port)")

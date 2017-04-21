@@ -7,7 +7,7 @@ package simpleacl
 import (
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/tableacl/testlib"
+	"github.com/youtube/vitess/go/vt/tableacl/testlib"
 )
 
 func TestSimpleAcl(t *testing.T) {

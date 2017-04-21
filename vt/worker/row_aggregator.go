@@ -11,10 +11,10 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/stats"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/stats"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
 )
 
 // RowAggregator aggregates SQL reconciliation statements into one statement.

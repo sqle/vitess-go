@@ -11,32 +11,32 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
-	"gopkg.in/sqle/vitess-go.v1/vt/hook"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/tabletconn"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/dbconfigs"
+	"github.com/youtube/vitess/go/vt/hook"
+	"github.com/youtube/vitess/go/vt/key"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/mysqlctl"
+	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topotools"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/vt/vttablet/queryservice"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletconn"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletmanager"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
+	"github.com/youtube/vitess/go/vt/vttablet/tmclient"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	replicationdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/replicationdata"
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
-	vttestpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vttest"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	replicationdatapb "github.com/youtube/vitess/go/vt/proto/replicationdata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
+	vttestpb "github.com/youtube/vitess/go/vt/proto/vttest"
 )
 
 // tablet contains all the data for an individual tablet.
@@ -65,7 +65,7 @@ func createTablet(ctx context.Context, ts topo.Server, cell string, uid uint32, 
 	log.Infof("Creating %v tablet %v for %v/%v", tabletType, topoproto.TabletAliasString(alias), keyspace, shard)
 	flag.Set("debug-url-prefix", fmt.Sprintf("/debug-%d", uid))
 
-	controller := tabletserver.NewServer(ts)
+	controller := tabletserver.NewServer(ts, *alias)
 	initTabletType := tabletType
 	if tabletType == topodatapb.TabletType_MASTER {
 		initTabletType = topodatapb.TabletType_REPLICA

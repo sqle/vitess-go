@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/youtube/vitess/go/sync2"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
 )
 
 var lastID, count sync2.AtomicInt64

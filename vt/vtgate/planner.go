@@ -19,15 +19,15 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/acl"
-	"gopkg.in/sqle/vitess-go.v1/cache"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/engine"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/planbuilder"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/acl"
+	"github.com/youtube/vitess/go/cache"
+	"github.com/youtube/vitess/go/vt/sqlparser"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/vtgate/engine"
+	"github.com/youtube/vitess/go/vt/vtgate/planbuilder"
+	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
 
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
 )
 
 // Planner is used to compute the plan. It contains

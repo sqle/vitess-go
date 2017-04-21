@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/hashicorp/consul/api"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 // Create is part of the topo.Backend interface.

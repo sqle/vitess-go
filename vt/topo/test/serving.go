@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/golang/protobuf/proto"
+	"github.com/youtube/vitess/go/vt/topo"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
 )
 
 // checkSrvKeyspace tests the SrvKeyspace methods (other than watch).

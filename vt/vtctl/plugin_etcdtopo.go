@@ -7,5 +7,5 @@ package vtctl
 // This plugin imports etcdtopo to register the etcd implementation of TopoServer.
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/etcdtopo"
+	_ "github.com/youtube/vitess/go/vt/etcdtopo"
 )

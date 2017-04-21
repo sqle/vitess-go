@@ -8,10 +8,10 @@ import (
 	"log/syslog"
 	"testing"
 
-	base "gopkg.in/sqle/vitess-go.v1/vt/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	base "github.com/youtube/vitess/go/vt/events"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 func TestReparentSyslog(t *testing.T) {

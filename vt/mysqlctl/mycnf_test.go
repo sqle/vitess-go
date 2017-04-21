@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/env"
+	"github.com/youtube/vitess/go/vt/env"
 )
 
 var MycnfPath = "/tmp/my.cnf"

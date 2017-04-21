@@ -11,7 +11,7 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
+	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
 )
 
 // This file contains the necessary object definitions and interfaces
@@ -415,10 +415,17 @@ func (m *NodeManager) Action(ctx context.Context, ap *ActionParameters) error {
 	if err != nil {
 		return err
 	}
+
+	m.mu.Lock()
+
 	if n.Listener == nil {
+		m.mu.Unlock()
 		return fmt.Errorf("Action %v is invoked on a node without listener (node path is %v)", ap.Name, ap.Path)
 	}
-	return n.Listener.Action(ctx, ap.Path, ap.Name)
+	nodeListener := n.Listener
+	m.mu.Unlock()
+
+	return nodeListener.Action(ctx, ap.Path, ap.Name)
 }
 
 func (m *NodeManager) getNodeByPath(nodePath string) (*Node, error) {

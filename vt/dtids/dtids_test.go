@@ -1,12 +1,13 @@
 package dtids
 
 import (
-	"reflect"
 	"testing"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
+	"github.com/golang/protobuf/proto"
+
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
 )
 
 func TestDTID(t *testing.T) {
@@ -27,7 +28,7 @@ func TestDTID(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if !reflect.DeepEqual(in, out) {
+	if !proto.Equal(in, out) {
 		t.Errorf("ShardSession: %+v, want %+v", out, in)
 	}
 	_, err = ShardSession("badParts")

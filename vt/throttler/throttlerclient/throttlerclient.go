@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"log"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
+	"github.com/youtube/vitess/go/vt/proto/throttlerdata"
 
 	"golang.org/x/net/context"
 )

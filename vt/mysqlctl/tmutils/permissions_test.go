@@ -7,10 +7,10 @@ package tmutils
 import (
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	"github.com/youtube/vitess/go/sqltypes"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
 )
 
 func mapToSQLResults(row map[string]string) ([]*querypb.Field, []sqltypes.Value) {

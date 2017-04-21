@@ -9,11 +9,11 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/golang/protobuf/proto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctld/explorer"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/vtctld/explorer"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
 )
 
 // BackendExplorer is an Explorer implementation that only uses the

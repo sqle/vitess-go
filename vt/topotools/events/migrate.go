@@ -5,10 +5,10 @@
 package events
 
 import (
-	base "gopkg.in/sqle/vitess-go.v1/vt/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	base "github.com/youtube/vitess/go/vt/events"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // MigrateServedFrom is an event that describes a single step in the process of

@@ -21,13 +21,13 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/cgzip"
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/hook"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/backupstorage"
+	"github.com/youtube/vitess/go/cgzip"
+	"github.com/youtube/vitess/go/mysqlconn/replication"
+	"github.com/youtube/vitess/go/sync2"
+	"github.com/youtube/vitess/go/vt/concurrency"
+	"github.com/youtube/vitess/go/vt/hook"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/mysqlctl/backupstorage"
 )
 
 // This file handles the backup and restore related code
@@ -507,7 +507,7 @@ func backupFile(ctx context.Context, mysqld MysqlDaemon, logger logutil.Logger, 
 // checkNoDB makes sure there is no user data already there.
 // Used by Restore, as we do not want to destroy an existing DB.
 // The user's database name must be given since we ignore all others.
-// Returns true iff the specified DB either doesn't exist, or has no tables.
+// Returns true if the specified DB either doesn't exist, or has no tables.
 // Returns (false, nil) if the check succeeds but the condition is not
 // satisfied (there is a DB with tables).
 // Returns non-nil error if one occurs while trying to perform the check.

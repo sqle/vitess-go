@@ -10,7 +10,7 @@ import (
 
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 )
 
 var numeric Vindex

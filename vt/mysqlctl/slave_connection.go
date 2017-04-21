@@ -11,11 +11,11 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn"
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/pools"
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
+	"github.com/youtube/vitess/go/mysqlconn"
+	"github.com/youtube/vitess/go/mysqlconn/replication"
+	"github.com/youtube/vitess/go/pools"
+	"github.com/youtube/vitess/go/sqldb"
+	"github.com/youtube/vitess/go/vt/dbconfigs"
 )
 
 var (

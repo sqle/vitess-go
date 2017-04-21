@@ -5,10 +5,10 @@
 package engine
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/queryinfo"
+	"github.com/youtube/vitess/go/sqltypes"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	"github.com/youtube/vitess/go/vt/vtgate/queryinfo"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
 )
 
 // SeqVarName is a reserved bind var name for sequence values.
@@ -30,6 +30,7 @@ type VCursor interface {
 	GetShardForKeyspaceID(allShards []*topodatapb.ShardReference, keyspaceID []byte) (string, error)
 	ExecuteShard(keyspace string, shardQueries map[string]querytypes.BoundQuery) (*sqltypes.Result, error)
 	Execute(query string, bindvars map[string]interface{}) (*sqltypes.Result, error)
+	ExecuteShow(query string, bindvars map[string]interface{}, keyspace string) (*sqltypes.Result, error)
 }
 
 // Plan represents the execution strategy for a given query.

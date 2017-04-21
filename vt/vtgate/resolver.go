@@ -13,17 +13,17 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/sqlparser"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vtgate/gateway"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlannotation"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/gateway"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 var (
@@ -62,7 +62,7 @@ func isRetryableError(err error) bool {
 // This throws an error if a dml spans multiple keyspace_ids. Resharding depends
 // on being able to uniquely route a write.
 func (res *Resolver) ExecuteKeyspaceIds(ctx context.Context, sql string, bindVariables map[string]interface{}, keyspace string, keyspaceIds [][]byte, tabletType topodatapb.TabletType, session *vtgatepb.Session, notInTransaction bool, options *querypb.ExecuteOptions) (*sqltypes.Result, error) {
-	if sqlannotation.IsDML(sql) && len(keyspaceIds) > 1 {
+	if sqlparser.IsDML(sql) && len(keyspaceIds) > 1 {
 		return nil, vterrors.New(vtrpcpb.Code_INVALID_ARGUMENT, "DML should not span multiple keyspace_ids")
 	}
 	mapToShards := func(k string) (string, []string, error) {

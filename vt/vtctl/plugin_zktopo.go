@@ -12,11 +12,11 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/youtube/vitess/go/sync2"
+	"github.com/youtube/vitess/go/vt/wrangler"
+	"github.com/youtube/vitess/go/vt/zktopo"
+	"github.com/youtube/vitess/go/zk"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
-	"gopkg.in/sqle/vitess-go.v1/vt/zktopo"
-	"gopkg.in/sqle/vitess-go.v1/zk"
 )
 
 func init() {

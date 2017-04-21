@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 )
 
 // singlePk presents a table with a primary key that is a single integer column.

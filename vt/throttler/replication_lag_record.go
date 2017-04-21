@@ -7,7 +7,7 @@ package throttler
 import (
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
+	"github.com/youtube/vitess/go/vt/discovery"
 )
 
 // replicationLagRecord stores the tablet health data for a given point in time.

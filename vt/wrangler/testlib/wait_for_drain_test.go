@@ -12,16 +12,16 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice/fakes"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"github.com/youtube/vitess/go/vt/vttablet/grpcqueryservice"
+	"github.com/youtube/vitess/go/vt/vttablet/queryservice/fakes"
+	"github.com/youtube/vitess/go/vt/vttablet/tmclient"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	logutilpb "gopkg.in/sqle/vitess-go.v1/vt/proto/logutil"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	logutilpb "github.com/youtube/vitess/go/vt/proto/logutil"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 type drainDirective int

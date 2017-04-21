@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 // A list of all vtrpcpb.Code, ordered by priority. These priorities are
@@ -25,11 +25,11 @@ const (
 	PriorityOutOfRange
 	// Potentially retryable errors.
 	PriorityUnavailable
-	PriorityFailedPrecondition
-	PriorityResourceExhausted
 	PriorityDeadlineExceeded
 	PriorityAborted
+	PriorityFailedPrecondition
 	// Permanent errors.
+	PriorityResourceExhausted
 	PriorityUnknown
 	PriorityUnauthenticated
 	PriorityPermissionDenied

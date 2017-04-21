@@ -7,12 +7,12 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/timer"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/schemamanager"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/timer"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/schemamanager"
+	"github.com/youtube/vitess/go/vt/servenv"
+	"github.com/youtube/vitess/go/vt/vttablet/tmclient"
+	"github.com/youtube/vitess/go/vt/wrangler"
 )
 
 var (

@@ -11,10 +11,10 @@ import (
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
 )
 
 // This file contains the serving graph management code of zktopo.Server.

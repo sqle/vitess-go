@@ -10,16 +10,16 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/grpcqueryservice"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/queryservice/fakes"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler/testlib"
+	"github.com/youtube/vitess/go/mysqlconn/replication"
+	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
+	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/vttablet/grpcqueryservice"
+	"github.com/youtube/vitess/go/vt/vttablet/queryservice/fakes"
+	"github.com/youtube/vitess/go/vt/wrangler/testlib"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 const (

@@ -7,14 +7,14 @@ package wrangler
 import (
 	"fmt"
 
+	"github.com/youtube/vitess/go/vt/key"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topotools"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // Tablet related methods for wrangler

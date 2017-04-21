@@ -4,7 +4,7 @@
 
 package binlogplayer
 
-import "gopkg.in/sqle/vitess-go.v1/sqltypes"
+import "github.com/youtube/vitess/go/sqltypes"
 
 // VtClient is a high level interface to the database.
 type VtClient interface {

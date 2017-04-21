@@ -8,7 +8,7 @@ import (
 	"database/sql/driver"
 	"io"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 )
 
 // rows creates a database/sql/driver compliant Row iterator

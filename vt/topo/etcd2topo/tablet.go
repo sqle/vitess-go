@@ -10,10 +10,10 @@ import (
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // tabletPathForAlias converts a tablet alias to the node path.

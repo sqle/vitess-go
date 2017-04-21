@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"sort"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/vtctld/explorer"
-	"gopkg.in/sqle/vitess-go.v1/zk"
+	"github.com/youtube/vitess/go/vt/vtctld/explorer"
+	"github.com/youtube/vitess/go/zk"
 )
 
 // ZkExplorer implements explorer.Explorer

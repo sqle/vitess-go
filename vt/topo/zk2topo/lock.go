@@ -12,7 +12,7 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 // This file contains the lock management code for zktopo.Server.

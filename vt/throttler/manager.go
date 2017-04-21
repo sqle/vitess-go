@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/vt/proto/throttlerdata"
+	"github.com/youtube/vitess/go/vt/proto/throttlerdata"
 )
 
 // GlobalManager is the per-process manager which manages all active throttlers.

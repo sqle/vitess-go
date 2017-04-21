@@ -7,5 +7,5 @@ package main
 // Imports and register the gRPC vtgateconn client
 
 import (
-	_ "gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateconn"
+	_ "github.com/youtube/vitess/go/vt/vtgate/grpcvtgateconn"
 )

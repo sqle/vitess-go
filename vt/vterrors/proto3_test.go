@@ -8,7 +8,9 @@ import (
 	"reflect"
 	"testing"
 
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	"github.com/golang/protobuf/proto"
+
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 func TestFromVtRPCError(t *testing.T) {
@@ -63,7 +65,7 @@ func TestVtRPCErrorFromVtError(t *testing.T) {
 	}}
 	for _, tcase := range testcases {
 		got := ToVTRPC(tcase.in)
-		if !reflect.DeepEqual(got, tcase.want) {
+		if !proto.Equal(got, tcase.want) {
 			t.Errorf("VtRPCErrorFromVtError(%v): %v, want %v", tcase.in, got, tcase.want)
 		}
 	}

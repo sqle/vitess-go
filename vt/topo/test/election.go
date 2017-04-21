@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 func waitForMasterID(t *testing.T, mp topo.MasterParticipation, expected string) {

@@ -7,11 +7,11 @@
 package grpcbinlogstreamer
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/vt/binlog"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
+	"github.com/youtube/vitess/go/vt/binlog"
+	"github.com/youtube/vitess/go/vt/servenv"
 
-	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
-	binlogservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogservice"
+	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
+	binlogservicepb "github.com/youtube/vitess/go/vt/proto/binlogservice"
 )
 
 // UpdateStream is the gRPC UpdateStream server

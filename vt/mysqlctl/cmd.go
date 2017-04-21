@@ -11,7 +11,7 @@ package mysqlctl
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/dbconfigs"
+	"github.com/youtube/vitess/go/vt/dbconfigs"
 )
 
 // CreateMysqld returns a Mysqld object to use for working with a MySQL
@@ -47,7 +47,7 @@ func CreateMysqld(tabletUID uint32, mysqlSocket string, mysqlPort int32, dbconfi
 // installation that already exists. This will look for an existing my.cnf file
 // and use that to call NewMysqld().
 func OpenMysqld(tabletUID uint32, dbconfigFlags dbconfigs.DBConfigFlag) (*Mysqld, error) {
-	mycnf, err := ReadMycnf(mycnfFile(tabletUID))
+	mycnf, err := ReadMycnf(MycnfFile(tabletUID))
 	if err != nil {
 		return nil, fmt.Errorf("couldn't read my.cnf file: %v", err)
 	}

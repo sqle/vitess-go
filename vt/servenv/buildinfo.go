@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/stats"
+	"github.com/youtube/vitess/go/stats"
 )
 
 var (

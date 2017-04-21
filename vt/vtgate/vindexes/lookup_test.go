@@ -6,7 +6,7 @@ import (
 
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
 )
 
 var lookupUnique Vindex

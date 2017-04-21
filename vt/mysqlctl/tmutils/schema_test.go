@@ -10,7 +10,9 @@ import (
 	"reflect"
 	"testing"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
+	"github.com/golang/protobuf/proto"
+
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
 )
 
 var basicTable1 = &tabletmanagerdatapb.TableDefinition{
@@ -425,7 +427,7 @@ func TestFilterTables(t *testing.T) {
 			if err != nil {
 				t.Errorf("FilterTables() test '%v' on SchemaDefinition %v failed with error %v, want %v", tc.desc, tc.input, err, tc.want)
 			}
-			if !reflect.DeepEqual(got, tc.want) {
+			if !proto.Equal(got, tc.want) {
 				t.Errorf("FilterTables() test '%v' on SchemaDefinition %v returned %v; want %v", tc.desc, tc.input, got, tc.want)
 			}
 		}

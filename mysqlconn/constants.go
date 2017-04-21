@@ -1,6 +1,6 @@
 package mysqlconn
 
-import "gopkg.in/sqle/vitess-go.v1/sqldb"
+import "github.com/youtube/vitess/go/sqldb"
 
 const (
 	// MaxPacketSize is the maximum payload length of a packet
@@ -10,9 +10,19 @@ const (
 	// protocolVersion is the current version of the protocol.
 	// Always 10.
 	protocolVersion = 10
+)
 
-	// mysqlNativePassword is the auth form we use.
-	mysqlNativePassword = "mysql_native_password"
+// Supported auth forms.
+const (
+	// MysqlNativePassword uses a salt and transmits a hash on the wire.
+	MysqlNativePassword = "mysql_native_password"
+
+	// MysqlClearPassword transmits the password in the clear.
+	MysqlClearPassword = "mysql_clear_password"
+
+	// MysqlDialog uses the dialog plugin on the client side.
+	// It transmits data in the clear.
+	MysqlDialog = "dialog"
 )
 
 // Capability flags.
@@ -60,7 +70,6 @@ const (
 
 	// CapabilityClientSSL is CLIENT_SSL.
 	// Switch to SSL after handshake.
-	// Not supported yet, but checked.
 	CapabilityClientSSL = 1 << 11
 
 	// CLIENT_IGNORE_SIGPIPE 1 << 12
@@ -142,6 +151,9 @@ const (
 	// EOFPacket is the header of the EOF packet.
 	EOFPacket = 0xfe
 
+	// AuthSwitchRequestPacket is used to switch auth method.
+	AuthSwitchRequestPacket = 0xfe
+
 	// ErrPacket is the header of the error packet.
 	ErrPacket = 0xff
 
@@ -210,6 +222,9 @@ const (
 
 	// ERBadNullError is ER_BAD_NULL_ERROR
 	ERBadNullError = 1048
+
+	// ERServerShutdown is ER_SERVER_SHUTDOWN
+	ERServerShutdown = 1053
 
 	// ERDupEntry is ER_DUP_ENTRY
 	ERDupEntry = 1062
@@ -351,7 +366,10 @@ func IsNum(typ uint8) bool {
 func IsConnErr(err error) bool {
 	if sqlErr, ok := err.(*sqldb.SQLError); ok {
 		num := sqlErr.Number()
-		// Don't count query kill as connection error.
+		// ServerLost means that the query has already been
+		// received by MySQL and may have already been executed.
+		// Since we don't know if the query is idempotent, we don't
+		// count this error as connection error which could be retried.
 		if num == CRServerLost {
 			return false
 		}

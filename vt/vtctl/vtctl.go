@@ -76,6 +76,7 @@ COMMAND ARGUMENT DEFINITIONS
 package vtctl
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -90,24 +91,26 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/flagutil"
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	hk "gopkg.in/sqle/vitess-go.v1/vt/hook"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/schemamanager"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/flagutil"
+	"github.com/youtube/vitess/go/mysqlconn/replication"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/sync2"
+	hk "github.com/youtube/vitess/go/vt/hook"
+	"github.com/youtube/vitess/go/vt/key"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/schemamanager"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topotools"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	replicationdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/replicationdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	replicationdatapb "github.com/youtube/vitess/go/vt/proto/replicationdata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
 )
 
 var (
@@ -470,7 +473,7 @@ func dumpTablets(ctx context.Context, wr *wrangler.Wrangler, tabletAliases []*to
 		return err
 	}
 	for _, tabletAlias := range tabletAliases {
-		ti, ok := tabletMap[*tabletAlias]
+		ti, ok := tabletMap[topoproto.TabletAliasString(tabletAlias)]
 		if !ok {
 			log.Warningf("failed to load tablet %v", tabletAlias)
 		} else {
@@ -666,7 +669,8 @@ func commandGetTablet(ctx context.Context, wr *wrangler.Wrangler, subFlags *flag
 	if err != nil {
 		return err
 	}
-	return printJSON(wr.Logger(), tabletInfo)
+	// Pass the embedded proto directly or jsonpb will panic.
+	return printJSON(wr.Logger(), tabletInfo.Tablet)
 }
 
 func commandUpdateTabletAddrs(ctx context.Context, wr *wrangler.Wrangler, subFlags *flag.FlagSet, args []string) error {
@@ -1127,7 +1131,8 @@ func commandGetShard(ctx context.Context, wr *wrangler.Wrangler, subFlags *flag.
 	if err != nil {
 		return err
 	}
-	return printJSON(wr.Logger(), shardInfo)
+	// Pass the embedded proto directly or jsonpb will panic.
+	return printJSON(wr.Logger(), shardInfo.Shard)
 }
 
 func commandTabletExternallyReparented(ctx context.Context, wr *wrangler.Wrangler, subFlags *flag.FlagSet, args []string) error {
@@ -1519,7 +1524,8 @@ func commandGetKeyspace(ctx context.Context, wr *wrangler.Wrangler, subFlags *fl
 	if err != nil {
 		return err
 	}
-	return printJSON(wr.Logger(), keyspaceInfo)
+	// Pass the embedded proto directly or jsonpb will panic.
+	return printJSON(wr.Logger(), keyspaceInfo.Keyspace)
 }
 
 func commandGetKeyspaces(ctx context.Context, wr *wrangler.Wrangler, subFlags *flag.FlagSet, args []string) error {
@@ -2148,7 +2154,8 @@ func commandGetShardReplication(ctx context.Context, wr *wrangler.Wrangler, subF
 	if err != nil {
 		return err
 	}
-	return printJSON(wr.Logger(), shardReplication)
+	// Pass the embedded proto directly or jsonpb will panic.
+	return printJSON(wr.Logger(), shardReplication.ShardReplication)
 }
 
 func commandHelp(ctx context.Context, wr *wrangler.Wrangler, subFlags *flag.FlagSet, args []string) error {
@@ -2230,12 +2237,49 @@ func sortReplicatingTablets(tablets []*topo.TabletInfo, stats []*replicationdata
 
 // printJSON will print the JSON version of the structure to the logger.
 func printJSON(logger logutil.Logger, val interface{}) error {
-	data, err := json.MarshalIndent(val, "", "  ")
+	data, err := MarshalJSON(val)
 	if err != nil {
 		return fmt.Errorf("cannot marshal data: %v", err)
 	}
 	logger.Printf("%v\n", string(data))
 	return nil
+}
+
+// MarshalJSON marshals "obj" to a JSON string. It uses the "jsonpb" marshaler
+// or Go's standard one.
+//
+// We use jsonpb for protobuf messages because it is the only supported
+// way to marshal protobuf messages to JSON.
+// In addition to that, it's the only way to emit zero values in the JSON
+// output.
+// Unfortunately, jsonpb works only for protobuf messages. Therefore, we use
+// the default marshaler for the remaining structs (which are possibly
+// mixed protobuf and non-protobuf).
+//
+// TODO(mberlin): Switch "EnumAsInts" to "false" once the frontend is
+//                updated and mixed types will use jsonpb as well.
+func MarshalJSON(obj interface{}) (data []byte, err error) {
+	switch obj := obj.(type) {
+	case proto.Message:
+		// Note: We also end up in this case if "obj" is NOT a proto.Message but
+		// has an anonymous (embedded) field of the type "proto.Message".
+		// In that case jsonpb may panic if the "obj" has non-exported fields.
+
+		// Marshal the protobuf message.
+		var b bytes.Buffer
+		m := jsonpb.Marshaler{EnumsAsInts: true, EmitDefaults: true, Indent: "  ", OrigName: true}
+		if err := m.Marshal(&b, obj); err != nil {
+			return nil, fmt.Errorf("jsonpb error: %v", err)
+		}
+		data = b.Bytes()
+	default:
+		data, err = json.MarshalIndent(obj, "", "  ")
+		if err != nil {
+			return nil, fmt.Errorf("json error: %v", err)
+		}
+	}
+
+	return data, nil
 }
 
 // RunCommand will execute the command using the provided wrangler.

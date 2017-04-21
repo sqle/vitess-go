@@ -6,13 +6,12 @@ package key
 
 import (
 	"encoding/hex"
-	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/golang/protobuf/proto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 func TestKey(t *testing.T) {
@@ -181,7 +180,7 @@ func TestParseShardingSpec(t *testing.T) {
 			continue
 		}
 		for i, w := range wanted {
-			if !reflect.DeepEqual(r[i], w) {
+			if !proto.Equal(r[i], w) {
 				t.Errorf("Wrong result: wanted %v, got %v", w, r[i])
 				break
 			}

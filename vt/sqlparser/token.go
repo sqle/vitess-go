@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 )
 
 const eofChar = 0x100
@@ -85,7 +85,7 @@ var keywords = map[string]int{
 	"current_user":        UNUSED,
 	"cursor":              UNUSED,
 	"database":            DATABASE,
-	"databases":           UNUSED,
+	"databases":           DATABASES,
 	"day_hour":            UNUSED,
 	"day_microsecond":     UNUSED,
 	"day_minute":          UNUSED,
@@ -199,7 +199,7 @@ var keywords = map[string]int{
 	"numeric":             UNUSED,
 	"offset":              OFFSET,
 	"on":                  ON,
-	"optimize":            UNUSED,
+	"optimize":            OPTIMIZE,
 	"optimizer_costs":     UNUSED,
 	"option":              UNUSED,
 	"optionally":          UNUSED,
@@ -222,6 +222,7 @@ var keywords = map[string]int{
 	"regexp":              REGEXP,
 	"release":             UNUSED,
 	"rename":              RENAME,
+	"repair":              REPAIR,
 	"repeat":              UNUSED,
 	"replace":             REPLACE,
 	"require":             UNUSED,
@@ -258,6 +259,7 @@ var keywords = map[string]int{
 	"stored":              UNUSED,
 	"straight_join":       STRAIGHT_JOIN,
 	"table":               TABLE,
+	"tables":              TABLES,
 	"terminated":          UNUSED,
 	"then":                THEN,
 	"tinyblob":            UNUSED,
@@ -267,6 +269,7 @@ var keywords = map[string]int{
 	"trailing":            UNUSED,
 	"trigger":             UNUSED,
 	"true":                TRUE,
+	"truncate":            TRUNCATE,
 	"undo":                UNUSED,
 	"union":               UNION,
 	"unique":              UNIQUE,
@@ -285,6 +288,9 @@ var keywords = map[string]int{
 	"varying":             UNUSED,
 	"virtual":             UNUSED,
 	"view":                VIEW,
+	"vitess_keyspaces":    VITESS_KEYSPACES,
+	"vitess_shards":       VITESS_SHARDS,
+	"vschema_tables":      VSCHEMA_TABLES,
 	"when":                WHEN,
 	"where":               WHERE,
 	"while":               UNUSED,

@@ -10,9 +10,9 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/golang/protobuf/proto"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateconn"
+	"github.com/youtube/vitess/go/vt/vtgate/vtgateconn"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // testSuccess exercises the test cases provided by the "success" service.

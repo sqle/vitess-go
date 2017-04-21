@@ -10,9 +10,9 @@ import (
 
 	"google.golang.org/grpc"
 
-	"gopkg.in/sqle/vitess-go.v1/cmd/vtgateclienttest/goclienttest"
-	"gopkg.in/sqle/vitess-go.v1/cmd/vtgateclienttest/services"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateservice"
+	"github.com/youtube/vitess/go/cmd/vtgateclienttest/goclienttest"
+	"github.com/youtube/vitess/go/cmd/vtgateclienttest/services"
+	"github.com/youtube/vitess/go/vt/vtgate/grpcvtgateservice"
 )
 
 // TestGRPCGoClient tests the go client using gRPC

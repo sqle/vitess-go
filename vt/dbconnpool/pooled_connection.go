@@ -5,8 +5,8 @@
 package dbconnpool
 
 import (
-	"gopkg.in/sqle/vitess-go.v1/sqldb"
-	"gopkg.in/sqle/vitess-go.v1/stats"
+	"github.com/youtube/vitess/go/sqldb"
+	"github.com/youtube/vitess/go/stats"
 )
 
 // PooledDBConnection re-exposes DBConnection as a PoolConnection

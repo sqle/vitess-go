@@ -10,8 +10,8 @@ import (
 
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/testfiles"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/testfiles"
 )
 
 // createVindex creates the "numeric_static_map" vindex object which is used by

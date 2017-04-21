@@ -14,10 +14,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/youtube/vitess/go/pools"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/stats"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/pools"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/stats"
 )
 
 var (

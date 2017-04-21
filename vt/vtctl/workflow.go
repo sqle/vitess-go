@@ -6,9 +6,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/workflow"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/vt/servenv"
+	"github.com/youtube/vitess/go/vt/workflow"
+	"github.com/youtube/vitess/go/vt/wrangler"
 )
 
 // This file contains the workflows command group for vtctl.

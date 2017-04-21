@@ -2,16 +2,17 @@ package resharding
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/automation"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/vt/automation"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
 )
 
 func createTaskID(phase PhaseType, shardName string) string {
@@ -28,7 +29,7 @@ func (hw *HorizontalReshardingWorkflow) GetTasks(phase PhaseType) []*workflowpb.
 	case phaseClone, phaseMigrateRdonly, phaseMigrateReplica, phaseMigrateMaster:
 		shards = strings.Split(hw.checkpoint.Settings["source_shards"], ",")
 	default:
-		panic(fmt.Sprintf("BUG: unknown phase type: %v", phase))
+		log.Fatalf("BUG: unknown phase type: %v", phase)
 	}
 
 	var tasks []*workflowpb.Task
@@ -55,7 +56,9 @@ func (hw *HorizontalReshardingWorkflow) runSplitClone(ctx context.Context, t *wo
 	sourceKeyspaceShard := topoproto.KeyspaceShardString(keyspace, sourceShard)
 	// Reset the vtworker to avoid error if vtworker command has been called elsewhere.
 	// This is because vtworker class doesn't cleanup the environment after execution.
-	automation.ExecuteVtworker(ctx, worker, []string{"Reset"})
+	if _, err := automation.ExecuteVtworker(ctx, worker, []string{"Reset"}); err != nil {
+		return err
+	}
 	// The flag min_healthy_rdonly_tablets is set to 1 (default value is 2).
 	// Therefore, we can reuse the normal end to end test setting, which has only 1 rdonly tablet.
 	// TODO(yipeiw): Add min_healthy_rdonly_tablets as an input argument in UI.
@@ -75,7 +78,9 @@ func (hw *HorizontalReshardingWorkflow) runSplitDiff(ctx context.Context, t *wor
 	destShard := t.Attributes["destination_shard"]
 	worker := t.Attributes["vtworker"]
 
-	automation.ExecuteVtworker(hw.ctx, worker, []string{"Reset"})
+	if _, err := automation.ExecuteVtworker(hw.ctx, worker, []string{"Reset"}); err != nil {
+		return err
+	}
 	args := []string{"SplitDiff", "--min_healthy_rdonly_tablets=1", topoproto.KeyspaceShardString(keyspace, destShard)}
 	_, err := automation.ExecuteVtworker(ctx, worker, args)
 	return err

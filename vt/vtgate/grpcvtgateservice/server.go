@@ -12,20 +12,20 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"
 
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/callerid"
+	"github.com/youtube/vitess/go/vt/callinfo"
+	"github.com/youtube/vitess/go/vt/servenv"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vtgate"
+	"github.com/youtube/vitess/go/vt/vtgate/vtgateservice"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/callerid"
-	"gopkg.in/sqle/vitess-go.v1/vt/callinfo"
-	"gopkg.in/sqle/vitess-go.v1/vt/servenv"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vtgateservice"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtgateservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgateservice"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	vtgateservicepb "github.com/youtube/vitess/go/vt/proto/vtgateservice"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 const (
@@ -91,10 +91,10 @@ func (vtg *VTGate) Execute(ctx context.Context, request *vtgatepb.ExecuteRequest
 	if err != nil {
 		return nil, vterrors.ToGRPC(err)
 	}
-	result, err := vtg.server.Execute(ctx, string(request.Query.Sql), bv, request.Keyspace, request.TabletType, request.Session, request.NotInTransaction, request.Options)
+	session, result, err := vtg.server.Execute(ctx, string(request.Query.Sql), bv, request.KeyspaceShard, request.TabletType, request.Session, request.NotInTransaction, request.Options)
 	return &vtgatepb.ExecuteResponse{
 		Result:  sqltypes.ResultToProto3(result),
-		Session: request.Session,
+		Session: session,
 		Error:   vterrors.ToVTRPC(err),
 	}, nil
 }
@@ -211,10 +211,10 @@ func (vtg *VTGate) ExecuteBatch(ctx context.Context, request *vtgatepb.ExecuteBa
 		sqlQueries[queryNum] = query.Sql
 		bindVars[queryNum] = bv
 	}
-	results, err = vtg.server.ExecuteBatch(ctx, sqlQueries, bindVars, request.Keyspace, request.TabletType, request.AsTransaction, request.Session, request.Options)
+	session, results, err := vtg.server.ExecuteBatch(ctx, sqlQueries, bindVars, request.KeyspaceShard, request.TabletType, request.Session, request.Options)
 	return &vtgatepb.ExecuteBatchResponse{
 		Results: sqltypes.QueryResponsesToProto3(results),
-		Session: request.Session,
+		Session: session,
 		Error:   vterrors.ToVTRPC(err),
 	}, nil
 }
@@ -265,7 +265,7 @@ func (vtg *VTGate) StreamExecute(request *vtgatepb.StreamExecuteRequest, stream 
 	vtgErr := vtg.server.StreamExecute(ctx,
 		string(request.Query.Sql),
 		bv,
-		request.Keyspace,
+		request.KeyspaceShard,
 		request.TabletType,
 		request.Options,
 		func(value *sqltypes.Result) error {

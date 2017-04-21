@@ -16,14 +16,14 @@ import (
 
 	log "github.com/golang/glog"
 
-	"gopkg.in/sqle/vitess-go.v1/event"
-	"gopkg.in/sqle/vitess-go.v1/trace"
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/key"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/event"
+	"github.com/youtube/vitess/go/trace"
+	"github.com/youtube/vitess/go/vt/concurrency"
+	"github.com/youtube/vitess/go/vt/key"
+	"github.com/youtube/vitess/go/vt/topo/events"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // Functions for dealing with shard representations in topology.
@@ -594,10 +594,10 @@ func (ts Server) FindAllTabletAliasesInShardByCell(ctx context.Context, keyspace
 		return nil, err
 	}
 
-	resultAsMap := make(map[topodatapb.TabletAlias]bool)
+	resultAsMap := make(map[string]*topodatapb.TabletAlias)
 	if si.HasMaster() {
 		if InCellList(si.MasterAlias.Cell, cells) {
-			resultAsMap[*si.MasterAlias] = true
+			resultAsMap[topoproto.TabletAliasString(si.MasterAlias)] = si.MasterAlias
 		}
 	}
 
@@ -620,7 +620,7 @@ func (ts Server) FindAllTabletAliasesInShardByCell(ctx context.Context, keyspace
 
 			mutex.Lock()
 			for _, node := range sri.Nodes {
-				resultAsMap[*node.TabletAlias] = true
+				resultAsMap[topoproto.TabletAliasString(node.TabletAlias)] = node.TabletAlias
 			}
 			mutex.Unlock()
 		}(cell)
@@ -633,8 +633,8 @@ func (ts Server) FindAllTabletAliasesInShardByCell(ctx context.Context, keyspace
 	}
 
 	result := make([]*topodatapb.TabletAlias, 0, len(resultAsMap))
-	for a := range resultAsMap {
-		v := a
+	for _, a := range resultAsMap {
+		v := *a
 		result = append(result, &v)
 	}
 	sort.Sort(topoproto.TabletAliasList(result))
@@ -644,14 +644,16 @@ func (ts Server) FindAllTabletAliasesInShardByCell(ctx context.Context, keyspace
 // GetTabletMapForShard returns the tablets for a shard. It can return
 // ErrPartialResult if it couldn't read all the cells, or all
 // the individual tablets, in which case the map is valid, but partial.
-func (ts Server) GetTabletMapForShard(ctx context.Context, keyspace, shard string) (map[topodatapb.TabletAlias]*TabletInfo, error) {
+// The map is indexed by topoproto.TabletAliasString(tablet alias).
+func (ts Server) GetTabletMapForShard(ctx context.Context, keyspace, shard string) (map[string]*TabletInfo, error) {
 	return ts.GetTabletMapForShardByCell(ctx, keyspace, shard, nil)
 }
 
 // GetTabletMapForShardByCell returns the tablets for a shard. It can return
 // ErrPartialResult if it couldn't read all the cells, or all
 // the individual tablets, in which case the map is valid, but partial.
-func (ts Server) GetTabletMapForShardByCell(ctx context.Context, keyspace, shard string, cells []string) (map[topodatapb.TabletAlias]*TabletInfo, error) {
+// The map is indexed by topoproto.TabletAliasString(tablet alias).
+func (ts Server) GetTabletMapForShardByCell(ctx context.Context, keyspace, shard string, cells []string) (map[string]*TabletInfo, error) {
 	// if we get a partial result, we keep going. It most likely means
 	// a cell is out of commission.
 	aliases, err := ts.FindAllTabletAliasesInShardByCell(ctx, keyspace, shard, cells)

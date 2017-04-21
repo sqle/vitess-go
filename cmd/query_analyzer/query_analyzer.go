@@ -14,8 +14,8 @@ import (
 	"sort"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/exit"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlparser"
+	"github.com/youtube/vitess/go/exit"
+	"github.com/youtube/vitess/go/vt/sqlparser"
 )
 
 var (

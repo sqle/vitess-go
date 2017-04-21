@@ -15,9 +15,9 @@ import (
 
 	"google.golang.org/grpc"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/grpcvtgateservice"
+	"github.com/youtube/vitess/go/vt/vtgate/grpcvtgateservice"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 var (

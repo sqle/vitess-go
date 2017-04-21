@@ -11,12 +11,12 @@ import (
 	"strconv"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	"gopkg.in/sqle/vitess-go.v1/vt/sqlannotation"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/queryinfo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/sqltypes"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	"github.com/youtube/vitess/go/vt/sqlannotation"
+	"github.com/youtube/vitess/go/vt/vtgate/queryinfo"
+	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
 )
 
 // Route represents the instructions to route a query to
@@ -191,6 +191,8 @@ const (
 	// for each ColVindex. If the table has an Autoinc column,
 	// A Generate subplan must be created.
 	InsertSharded
+	// Show is a pseudo-opcode used for SHOW commands
+	Show
 	// NumCodes is the total number of opcodes for routes.
 	NumCodes
 )
@@ -209,6 +211,7 @@ var routeName = [NumCodes]string{
 	"DeleteEqual",
 	"InsertUnsharded",
 	"InsertSharded",
+	"Metadata",
 }
 
 func (code RouteOpcode) String() string {
@@ -257,6 +260,8 @@ func (route *Route) Execute(vcursor VCursor, queryConstruct *queryinfo.QueryCons
 		return route.execInsertSharded(vcursor, queryConstruct)
 	case InsertUnsharded:
 		return route.execInsertUnsharded(vcursor, queryConstruct)
+	case Show:
+		return route.execShow(vcursor, queryConstruct)
 	}
 
 	var err error
@@ -409,6 +414,10 @@ func (route *Route) execUpdateEqual(vcursor VCursor, queryConstruct *queryinfo.Q
 	return vcursor.ScatterConnExecute(rewritten, queryConstruct.BindVars, ks, []string{shard}, queryConstruct.NotInTransaction)
 }
 
+func (route *Route) execShow(vcursor VCursor, queryConstruct *queryinfo.QueryConstruct) (*sqltypes.Result, error) {
+	return vcursor.ExecuteShow(route.Query, queryConstruct.BindVars, queryConstruct.Keyspace)
+}
+
 func (route *Route) execDeleteEqual(vcursor VCursor, queryConstruct *queryinfo.QueryConstruct) (*sqltypes.Result, error) {
 	keys, err := route.resolveKeys([]interface{}{route.Values}, queryConstruct.BindVars)
 	if err != nil {
@@ -446,12 +455,7 @@ func (route *Route) execInsertUnsharded(vcursor VCursor, queryConstruct *queryin
 	if err != nil {
 		return nil, fmt.Errorf("execInsertUnsharded: %v", err)
 	}
-	if insertid != 0 {
-		if result.InsertID != 0 {
-			return nil, fmt.Errorf("sequence and db generated a value each for insert")
-		}
-		result.InsertID = uint64(insertid)
-	}
+	result.InsertID = uint64(insertid)
 	return result, nil
 }
 
@@ -472,9 +476,6 @@ func (route *Route) execInsertSharded(vcursor VCursor, queryConstruct *queryinfo
 	}
 
 	if insertid != 0 {
-		if result.InsertID != 0 {
-			return nil, fmt.Errorf("sequence and db generated a value each for insert")
-		}
 		result.InsertID = uint64(insertid)
 	}
 

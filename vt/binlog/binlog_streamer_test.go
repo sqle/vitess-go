@@ -7,18 +7,53 @@ package binlog
 import (
 	"fmt"
 	"io"
-	"reflect"
 	"strings"
 	"testing"
 	"time"
 
+	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/mysqlconn/replication"
+	"github.com/youtube/vitess/go/mysqlconn/replication"
 
-	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
+	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
 )
+
+// fullBinlogTransaction is a helper type for tests.
+type fullBinlogTransaction struct {
+	eventToken *querypb.EventToken
+	statements []FullBinlogStatement
+}
+
+type binlogStatements []binlogdatapb.BinlogTransaction
+
+func (bs *binlogStatements) sendTransaction(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
+	var s []*binlogdatapb.BinlogTransaction_Statement
+	if len(statements) > 0 {
+		s = make([]*binlogdatapb.BinlogTransaction_Statement, len(statements))
+		for i, statement := range statements {
+			s[i] = statement.Statement
+		}
+	}
+	*bs = append(*bs, binlogdatapb.BinlogTransaction{
+		Statements: s,
+		EventToken: eventToken,
+	})
+	return nil
+}
+
+func (bs *binlogStatements) equal(bts []binlogdatapb.BinlogTransaction) bool {
+	if len(*bs) != len(bts) {
+		return false
+	}
+	for i, s := range *bs {
+		if !proto.Equal(&s, &bts[i]) {
+			return false
+		}
+	}
+	return true
+}
 
 func sendTestEvents(channel chan<- replication.BinlogEvent, events []replication.BinlogEvent) {
 	for _, ev := range events {
@@ -65,12 +100,8 @@ func TestStreamerParseEventsXID(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -78,7 +109,7 @@ func TestStreamerParseEventsXID(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got:\n%v\nwant:\n%v", got, want)
 	}
 }
@@ -123,12 +154,8 @@ func TestStreamerParseEventsCommit(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -136,7 +163,7 @@ func TestStreamerParseEventsCommit(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got %v, want %v", got, want)
 	}
 }
@@ -144,10 +171,10 @@ func TestStreamerParseEventsCommit(t *testing.T) {
 func TestStreamerStop(t *testing.T) {
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	// Start parseEvents(), but don't send it anything, so it just waits.
 	ctx, cancel := context.WithCancel(context.Background())
@@ -189,10 +216,10 @@ func TestStreamerParseEventsClientEOF(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return io.EOF
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -207,10 +234,10 @@ func TestStreamerParseEventsServerEOF(t *testing.T) {
 	events := make(chan replication.BinlogEvent)
 	close(events)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	_, err := bls.parseEvents(context.Background(), events)
 	if err != want {
@@ -237,10 +264,10 @@ func TestStreamerParseEventsSendErrorXID(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return fmt.Errorf("foobar")
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 
@@ -275,10 +302,10 @@ func TestStreamerParseEventsSendErrorCommit(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return fmt.Errorf("foobar")
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -308,10 +335,10 @@ func TestStreamerParseEventsInvalid(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -343,10 +370,10 @@ func TestStreamerParseEventsInvalidFormat(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -378,10 +405,10 @@ func TestStreamerParseEventsNoFormat(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -411,10 +438,10 @@ func TestStreamerParseEventsInvalidQuery(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -490,20 +517,16 @@ func TestStreamerParseEventsRollback(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("binlogConnStreamer.parseEvents(): got %v, want %v", got, want)
+	if !got.equal(want) {
+		t.Errorf("binlogConnStreamer.parseEvents(): got:\n%v\nwant:\n%v", got, want)
 	}
 }
 
@@ -555,19 +578,15 @@ func TestStreamerParseEventsDMLWithoutBegin(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got:\n%v\nwant:\n%v", got, want)
 	}
 }
@@ -610,7 +629,7 @@ func TestStreamerParseEventsBeginWithoutCommit(t *testing.T) {
 			},
 		},
 		{
-			Statements: []*binlogdatapb.BinlogTransaction_Statement{},
+			Statements: nil,
 			EventToken: &querypb.EventToken{
 				Timestamp: 1407805592,
 				Position: replication.EncodePosition(replication.Position{
@@ -623,19 +642,15 @@ func TestStreamerParseEventsBeginWithoutCommit(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got:\n%v\nwant:\n%v", got, want)
 	}
 }
@@ -680,19 +695,15 @@ func TestStreamerParseEventsSetInsertID(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got %v, want %v", got, want)
 	}
 }
@@ -717,10 +728,10 @@ func TestStreamerParseEventsInvalidIntVar(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 
 	go sendTestEvents(events, input)
 	_, err := bls.parseEvents(context.Background(), events)
@@ -774,19 +785,15 @@ func TestStreamerParseEventsOtherDB(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got %v, want %v", got, want)
 	}
 }
@@ -832,19 +839,15 @@ func TestStreamerParseEventsOtherDBBegin(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got %v, want %v", got, want)
 	}
 }
@@ -869,10 +872,10 @@ func TestStreamerParseEventsBeginAgain(t *testing.T) {
 
 	events := make(chan replication.BinlogEvent)
 
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
+	sendTransaction := func(eventToken *querypb.EventToken, statements []FullBinlogStatement) error {
 		return nil
 	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, sendTransaction)
 	before := binlogStreamerErrors.Counts()["ParseEvents"]
 
 	go sendTestEvents(events, input)
@@ -932,19 +935,15 @@ func TestStreamerParseEventsMariadbBeginGTID(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got:\n%v\nwant:\n%v", got, want)
 	}
 }
@@ -987,19 +986,15 @@ func TestStreamerParseEventsMariadbStandaloneGTID(t *testing.T) {
 			},
 		},
 	}
-	var got []binlogdatapb.BinlogTransaction
-	sendTransaction := func(trans *binlogdatapb.BinlogTransaction) error {
-		got = append(got, *trans)
-		return nil
-	}
-	bls := NewStreamer("vt_test_keyspace", nil, nil, replication.Position{}, 0, sendTransaction)
+	var got binlogStatements
+	bls := NewStreamer("vt_test_keyspace", nil, nil, nil, replication.Position{}, 0, (&got).sendTransaction)
 
 	go sendTestEvents(events, input)
 	if _, err := bls.parseEvents(context.Background(), events); err != ErrServerEOF {
 		t.Errorf("unexpected error: %v", err)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !got.equal(want) {
 		t.Errorf("binlogConnStreamer.parseEvents(): got:\n%v\nwant:\n%v", got, want)
 	}
 }

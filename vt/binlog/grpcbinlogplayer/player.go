@@ -11,12 +11,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"gopkg.in/sqle/vitess-go.v1/netutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/binlog/binlogplayer"
+	"github.com/youtube/vitess/go/netutil"
+	"github.com/youtube/vitess/go/vt/binlog/binlogplayer"
 
-	binlogdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogdata"
-	binlogservicepb "gopkg.in/sqle/vitess-go.v1/vt/proto/binlogservice"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	binlogdatapb "github.com/youtube/vitess/go/vt/proto/binlogdata"
+	binlogservicepb "github.com/youtube/vitess/go/vt/proto/binlogservice"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // client implements a Client over go rpc

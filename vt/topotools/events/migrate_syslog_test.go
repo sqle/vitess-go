@@ -8,8 +8,8 @@ import (
 	"log/syslog"
 	"testing"
 
-	base "gopkg.in/sqle/vitess-go.v1/vt/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	base "github.com/youtube/vitess/go/vt/events"
+	"github.com/youtube/vitess/go/vt/topo"
 )
 
 func TestMigrateServedFromSyslogForward(t *testing.T) {

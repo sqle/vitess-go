@@ -7,11 +7,11 @@ package wrangler
 import (
 	"fmt"
 
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // shard related methods for Wrangler
@@ -182,11 +182,11 @@ func (wr *Wrangler) DeleteShard(ctx context.Context, keyspace, shard string, rec
 			}
 
 			wr.Logger().Infof("Deleting all tablets in shard %v/%v cell %v", keyspace, shard, cell)
-			for tabletAlias := range tabletMap {
+			for tabletAlias, tabletInfo := range tabletMap {
 				// We don't care about scrapping or updating the replication graph,
 				// because we're about to delete the entire replication graph.
-				wr.Logger().Infof("Deleting tablet %v", topoproto.TabletAliasString(&tabletAlias))
-				if err := wr.TopoServer().DeleteTablet(ctx, &tabletAlias); err != nil && err != topo.ErrNoNode {
+				wr.Logger().Infof("Deleting tablet %v", tabletAlias)
+				if err := wr.TopoServer().DeleteTablet(ctx, tabletInfo.Alias); err != nil && err != topo.ErrNoNode {
 					// We don't want to continue if a DeleteTablet fails for
 					// any good reason (other than missing tablet, in which
 					// case it's just a topology server inconsistency we can
@@ -196,7 +196,7 @@ func (wr *Wrangler) DeleteShard(ctx context.Context, keyspace, shard string, rec
 					//
 					// If the problem is temporary, or resolved externally, re-running
 					// DeleteShard will skip over tablets that were already deleted.
-					return fmt.Errorf("can't delete tablet %v: %v", topoproto.TabletAliasString(&tabletAlias), err)
+					return fmt.Errorf("can't delete tablet %v: %v", tabletAlias, err)
 				}
 			}
 		}

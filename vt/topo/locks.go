@@ -16,7 +16,7 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/trace"
+	"github.com/youtube/vitess/go/trace"
 )
 
 // This file contains utility methods and definitions to lock

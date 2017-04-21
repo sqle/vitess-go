@@ -7,7 +7,7 @@ import (
 	"text/template"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
 )
 
 type rateChange string

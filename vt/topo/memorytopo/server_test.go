@@ -3,8 +3,8 @@ package memorytopo
 import (
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/test"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/test"
 )
 
 func TestMemoryTopo(t *testing.T) {

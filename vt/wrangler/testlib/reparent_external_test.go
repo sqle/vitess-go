@@ -12,18 +12,18 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/event"
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletmanager/tmclient"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/memorytopo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/event"
+	"github.com/youtube/vitess/go/vt/logutil"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/memorytopo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topotools"
+	"github.com/youtube/vitess/go/vt/topotools/events"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletmanager"
+	"github.com/youtube/vitess/go/vt/vttablet/tmclient"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 func TestTabletExternallyReparented(t *testing.T) {
@@ -61,11 +61,11 @@ func TestTabletExternallyReparented(t *testing.T) {
 		t.Fatalf("GetTabletMapForShardByCell should have worked but got: %v", err)
 	}
 	master, err := topotools.FindTabletByIPAddrAndPort(tabletMap, oldMaster.Tablet.Ip, "vt", oldMaster.Tablet.PortMap["vt"])
-	if err != nil || !topoproto.TabletAliasEqual(&master, oldMaster.Tablet.Alias) {
+	if err != nil || !topoproto.TabletAliasEqual(master, oldMaster.Tablet.Alias) {
 		t.Fatalf("FindTabletByIPAddrAndPort(master) failed: %v %v", err, master)
 	}
 	slave1, err := topotools.FindTabletByIPAddrAndPort(tabletMap, goodSlave1.Tablet.Ip, "vt", goodSlave1.Tablet.PortMap["vt"])
-	if err != nil || !topoproto.TabletAliasEqual(&slave1, goodSlave1.Tablet.Alias) {
+	if err != nil || !topoproto.TabletAliasEqual(slave1, goodSlave1.Tablet.Alias) {
 		t.Fatalf("FindTabletByIPAddrAndPort(slave1) failed: %v %v", err, master)
 	}
 	slave2, err := topotools.FindTabletByIPAddrAndPort(tabletMap, goodSlave2.Tablet.Ip, "vt", goodSlave2.Tablet.PortMap["vt"])
@@ -85,7 +85,7 @@ func TestTabletExternallyReparented(t *testing.T) {
 		t.Fatalf("GetTabletMapForShard should have returned ErrPartialResult but got: %v", err)
 	}
 	master, err = topotools.FindTabletByIPAddrAndPort(tabletMap, oldMaster.Tablet.Ip, "vt", oldMaster.Tablet.PortMap["vt"])
-	if err != nil || !topoproto.TabletAliasEqual(&master, oldMaster.Tablet.Alias) {
+	if err != nil || !topoproto.TabletAliasEqual(master, oldMaster.Tablet.Alias) {
 		t.Fatalf("FindTabletByIPAddrAndPort(master) failed: %v %v", err, master)
 	}
 

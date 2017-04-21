@@ -15,15 +15,15 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/golang/glog"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/mysqlctl/tmutils"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/sync2"
+	"github.com/youtube/vitess/go/vt/concurrency"
+	"github.com/youtube/vitess/go/vt/mysqlctl/tmutils"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 const (

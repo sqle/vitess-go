@@ -7,9 +7,9 @@ import (
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	vschemapb "gopkg.in/sqle/vitess-go.v1/vt/proto/vschema"
+	vschemapb "github.com/youtube/vitess/go/vt/proto/vschema"
 )
 
 /*

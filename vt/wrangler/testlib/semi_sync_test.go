@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
 )
 
 func init() {

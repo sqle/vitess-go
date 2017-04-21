@@ -17,20 +17,20 @@ import (
 
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/event"
-	"gopkg.in/sqle/vitess-go.v1/sync2"
-	"gopkg.in/sqle/vitess-go.v1/vt/binlog/binlogplayer"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/throttler"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topotools"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/vindexes"
-	"gopkg.in/sqle/vitess-go.v1/vt/worker/events"
-	"gopkg.in/sqle/vitess-go.v1/vt/wrangler"
+	"github.com/youtube/vitess/go/event"
+	"github.com/youtube/vitess/go/sync2"
+	"github.com/youtube/vitess/go/vt/binlog/binlogplayer"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/throttler"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/topotools"
+	"github.com/youtube/vitess/go/vt/vtgate/vindexes"
+	"github.com/youtube/vitess/go/vt/worker/events"
+	"github.com/youtube/vitess/go/vt/wrangler"
 
-	tabletmanagerdatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/tabletmanagerdata"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	tabletmanagerdatapb "github.com/youtube/vitess/go/vt/proto/tabletmanagerdata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // LegacySplitCloneWorker will clone the data within a keyspace from a
@@ -82,7 +82,7 @@ type LegacySplitCloneWorker struct {
 	// aliases of tablets that need to have their state refreshed.
 	// Only populated once, read-only after that.
 	refreshAliases [][]*topodatapb.TabletAlias
-	refreshTablets []map[topodatapb.TabletAlias]*topo.TabletInfo
+	refreshTablets []map[string]*topo.TabletInfo
 
 	ev *events.SplitClone
 }
@@ -418,7 +418,7 @@ func (scw *LegacySplitCloneWorker) findTargets(ctx context.Context) error {
 // state on these tablets, to minimize the chances of the topo changing in between.
 func (scw *LegacySplitCloneWorker) findRefreshTargets(ctx context.Context) error {
 	scw.refreshAliases = make([][]*topodatapb.TabletAlias, len(scw.destinationShards))
-	scw.refreshTablets = make([]map[topodatapb.TabletAlias]*topo.TabletInfo, len(scw.destinationShards))
+	scw.refreshTablets = make([]map[string]*topo.TabletInfo, len(scw.destinationShards))
 
 	for shardIndex, si := range scw.destinationShards {
 		refreshAliases, refreshTablets, err := resolveRefreshTabletsForShard(ctx, si.Keyspace(), si.ShardName(), scw.wr)
@@ -673,7 +673,7 @@ func (scw *LegacySplitCloneWorker) copy(ctx context.Context) error {
 				if err != nil {
 					processError("RefreshState failed on tablet %v: %v", ti.AliasString(), err)
 				}
-			}(scw.refreshTablets[shardIndex][*tabletAlias])
+			}(scw.refreshTablets[shardIndex][topoproto.TabletAliasString(tabletAlias)])
 		}
 	}
 	destinationWaitGroup.Wait()

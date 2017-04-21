@@ -11,17 +11,19 @@ import (
 	"testing"
 
 	"golang.org/x/net/context"
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
-	"gopkg.in/sqle/vitess-go.v1/vt/vtgate/gateway"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
-	"gopkg.in/sqle/vitess-go.v1/vt/tabletserver/querytypes"
+	"github.com/golang/protobuf/proto"
+	"github.com/youtube/vitess/go/sqltypes"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/topo"
+	"github.com/youtube/vitess/go/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vtgate/gateway"
+	"github.com/youtube/vitess/go/vt/vttablet/tabletserver/querytypes"
+
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 // This file uses the sandbox_test framework.
@@ -297,7 +299,7 @@ func TestScatterConnQueryNotInTransaction(t *testing.T) {
 			TransactionId: 1,
 		}},
 	}
-	if !reflect.DeepEqual(wantSession, *session.Session) {
+	if !proto.Equal(&wantSession, session.Session) {
 		t.Errorf("want\n%+v\ngot\n%+v", wantSession, *session.Session)
 	}
 	sc.txConn.Commit(context.Background(), false, session)
@@ -336,7 +338,7 @@ func TestScatterConnQueryNotInTransaction(t *testing.T) {
 			TransactionId: 1,
 		}},
 	}
-	if !reflect.DeepEqual(wantSession, *session.Session) {
+	if !proto.Equal(&wantSession, session.Session) {
 		t.Errorf("want\n%+v\ngot\n%+v", wantSession, *session.Session)
 	}
 	sc.txConn.Commit(context.Background(), false, session)
@@ -375,7 +377,7 @@ func TestScatterConnQueryNotInTransaction(t *testing.T) {
 			TransactionId: 1,
 		}},
 	}
-	if !reflect.DeepEqual(wantSession, *session.Session) {
+	if !proto.Equal(&wantSession, session.Session) {
 		t.Errorf("want\n%+v\ngot\n%+v", wantSession, *session.Session)
 	}
 	sc.txConn.Commit(context.Background(), false, session)
@@ -516,7 +518,7 @@ func TestShuffleQueryParts(t *testing.T) {
 		&queryPart3, &queryPart1, &queryPart2,
 	}
 	shuffleQueryParts(queryParts)
-	if !reflect.DeepEqual(queryPartsExpectedOutput, queryParts) {
+	if !sqltypes.SplitQueryResponsePartsEqual(queryParts, queryPartsExpectedOutput) {
 		t.Errorf("want: %+v, got %+v", queryPartsExpectedOutput, queryParts)
 	}
 

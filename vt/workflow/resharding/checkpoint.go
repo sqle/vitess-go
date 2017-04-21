@@ -5,9 +5,9 @@ import (
 	"sync"
 
 	"github.com/golang/protobuf/proto"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	workflowpb "gopkg.in/sqle/vitess-go.v1/vt/proto/workflow"
+	workflowpb "github.com/youtube/vitess/go/vt/proto/workflow"
 )
 
 // CheckpointWriter saves the checkpoint data into topology server.

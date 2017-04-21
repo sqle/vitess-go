@@ -9,13 +9,13 @@ import (
 	"testing"
 	"time"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/discovery"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/topoproto"
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/discovery"
+	"github.com/youtube/vitess/go/vt/topo/topoproto"
+	"github.com/youtube/vitess/go/vt/vterrors"
 
-	querypb "gopkg.in/sqle/vitess-go.v1/vt/proto/query"
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	querypb "github.com/youtube/vitess/go/vt/proto/query"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 const (
@@ -33,7 +33,7 @@ var (
 
 	statsKeyJoined = fmt.Sprintf("%s.%s", keyspace, shard)
 
-	statsKeyJoinedFailoverEndDetected = statsKeyJoined + "." + string(stopReasonFailoverEndDetected)
+	statsKeyJoinedFailoverEndDetected = statsKeyJoined + "." + string(stopFailoverEndDetected)
 
 	statsKeyJoinedWindowExceeded = statsKeyJoined + "." + string(evictedWindowExceeded)
 
@@ -148,6 +148,9 @@ func TestBuffer(t *testing.T) {
 	if err := waitForState(b, stateIdle); err != nil {
 		t.Fatal(err)
 	}
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
+	}
 
 	// Stop counter must have been increased for the second failover.
 	if got, want := stops.Counts()[statsKeyJoinedFailoverEndDetected], int64(2); got != want {
@@ -180,7 +183,9 @@ func issueRequestAndBlockRetry(ctx context.Context, t *testing.T, b *Buffer, err
 			// Wait for the test's signal before we tell the buffer that we retried.
 			<-markRetryDone
 		}
-		defer retryDone()
+		if retryDone != nil {
+			defer retryDone()
+		}
 		defer close(bufferingStopped)
 	}()
 
@@ -188,7 +193,7 @@ func issueRequestAndBlockRetry(ctx context.Context, t *testing.T, b *Buffer, err
 }
 
 // waitForRequestsInFlight blocks until the buffer queue has reached "count".
-// This check is potentially racy and therefore retried up to a timeout of 2s.
+// This check is potentially racy and therefore retried up to a timeout of 10s.
 func waitForRequestsInFlight(b *Buffer, count int) error {
 	start := time.Now()
 	sb := b.getOrCreateBuffer(keyspace, shard)
@@ -201,10 +206,11 @@ func waitForRequestsInFlight(b *Buffer, count int) error {
 		if time.Since(start) > 10*time.Second {
 			return fmt.Errorf("wrong buffered requests in flight: got = %v, want = %v", got, want)
 		}
+		time.Sleep(1 * time.Millisecond)
 	}
 }
 
-// waitForState polls the buffer data for up to 2 seconds and returns an error
+// waitForState polls the buffer data for up to 10 seconds and returns an error
 // if shardBuffer doesn't have the wanted state by then.
 func waitForState(b *Buffer, want bufferState) error {
 	sb := b.getOrCreateBuffer(keyspace, shard)
@@ -218,6 +224,26 @@ func waitForState(b *Buffer, want bufferState) error {
 		if time.Since(start) > 10*time.Second {
 			return fmt.Errorf("wrong buffer state: got = %v, want = %v", got, want)
 		}
+		time.Sleep(1 * time.Millisecond)
+	}
+}
+
+// waitForPoolSlots waits up to 10s that all buffer pool slots have been
+// returned. The wait is necessary because in some cases the buffer code
+// does not block itself on the wait. But in any case, the slot should be
+// returned when the request has finished. See also shardBuffer.unblockAndWait().
+func waitForPoolSlots(b *Buffer, want int) error {
+	start := time.Now()
+	for {
+		got := b.bufferSizeSema.Size()
+		if got == want {
+			return nil
+		}
+
+		if time.Since(start) > 10*time.Second {
+			return fmt.Errorf("not all pool slots were returned: got = %v, want = %v", got, want)
+		}
+		time.Sleep(1 * time.Millisecond)
 	}
 }
 
@@ -235,6 +261,9 @@ func TestDryRun(t *testing.T) {
 	}
 	// But the internal state changes though.
 	if err := waitForState(b, stateBuffering); err != nil {
+		t.Fatal(err)
+	}
+	if err := waitForPoolSlots(b, *size); err != nil {
 		t.Fatal(err)
 	}
 	if got, want := starts.Counts()[statsKeyJoined], int64(1); got != want {
@@ -274,6 +303,10 @@ func TestPassthrough(t *testing.T) {
 	if retryDone, err := b.WaitForFailoverEnd(context.Background(), keyspace, shard, nonFailoverErr); err != nil || retryDone != nil {
 		t.Fatalf("requests with non-failover errors must never be buffered. err: %v retryDone: %v", err, retryDone)
 	}
+
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
+	}
 }
 
 // TestPassThroughLastReparentTooRecent tests that buffering is skipped if
@@ -304,6 +337,9 @@ func TestPassThroughLastReparentTooRecent(t *testing.T) {
 
 	if retryDone, err := b.WaitForFailoverEnd(context.Background(), keyspace, shard, failoverErr); err != nil || retryDone != nil {
 		t.Fatalf("requests where the failover end was recently detected before the start must not be buffered. err: %v retryDone: %v", err, retryDone)
+	}
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
 	}
 	if got, want := requestsSkipped.Counts()[statsKeyJoinedLastReparentTooRecent], int64(1); got != want {
 		t.Fatalf("skipped request was not tracked: got = %v, want = %v", got, want)
@@ -353,6 +389,9 @@ func TestPassthroughDuringDrain(t *testing.T) {
 	if err := waitForState(b, stateIdle); err != nil {
 		t.Fatal(err)
 	}
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
+	}
 }
 
 // TestPassthroughIgnoredKeyspaceOrShard tests that the explicit whitelisting
@@ -375,6 +414,9 @@ func TestPassthroughIgnoredKeyspaceOrShard(t *testing.T) {
 	ignoredShard := "ff-"
 	if retryDone, err := b.WaitForFailoverEnd(context.Background(), keyspace, ignoredShard, failoverErr); err != nil || retryDone != nil {
 		t.Fatalf("requests for ignored shards must not be buffered. err: %v retryDone: %v", err, retryDone)
+	}
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
 	}
 	statsKeyJoined = strings.Join([]string{keyspace, ignoredShard, skippedDisabled}, ".")
 	if got, want := requestsSkipped.Counts()[statsKeyJoined], int64(1); got != want {
@@ -463,6 +505,9 @@ func testRequestCanceled(t *testing.T, explicitEnd bool) {
 	if err := waitForState(b, stateIdle); err != nil {
 		t.Fatal(err)
 	}
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestEviction(t *testing.T) {
@@ -509,6 +554,9 @@ func TestEviction(t *testing.T) {
 		t.Fatalf("request should have been buffered and not returned an error: %v", err)
 	}
 	if err := waitForState(b, stateIdle); err != nil {
+		t.Fatal(err)
+	}
+	if err := waitForPoolSlots(b, 2); err != nil {
 		t.Fatal(err)
 	}
 }
@@ -585,6 +633,9 @@ func TestEvictionNotPossible(t *testing.T) {
 	}
 	// Wait for the failover end to avoid races.
 	if err := waitForState(b, stateIdle); err != nil {
+		t.Fatal(err)
+	}
+	if err := waitForPoolSlots(b, 1); err != nil {
 		t.Fatal(err)
 	}
 	statsKeyJoined := strings.Join([]string{keyspace, shard2, string(skippedBufferFull)}, ".")
@@ -676,6 +727,9 @@ func TestWindow(t *testing.T) {
 	if err := waitForState(b, stateIdle); err != nil {
 		t.Fatal(err)
 	}
+	if err := waitForPoolSlots(b, 1); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func waitForRequestsExceededWindow(count int) error {
@@ -689,6 +743,7 @@ func waitForRequestsExceededWindow(count int) error {
 		if time.Since(start) > 10*time.Second {
 			return fmt.Errorf("wrong number of requests which exceeded their buffering window: got = %v, want = %v", got, want)
 		}
+		time.Sleep(1 * time.Millisecond)
 	}
 }
 
@@ -714,6 +769,10 @@ func TestShutdown(t *testing.T) {
 	// Request must have been drained without an error.
 	if err := <-stopped1; err != nil {
 		t.Fatalf("request should have been buffered and not returned an error: %v", err)
+	}
+
+	if err := waitForPoolSlots(b, *size); err != nil {
+		t.Fatal(err)
 	}
 }
 

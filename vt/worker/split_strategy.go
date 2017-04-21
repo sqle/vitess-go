@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/logutil"
+	"github.com/youtube/vitess/go/vt/logutil"
 )
 
 // splitStrategy is the configuration for a split clone.

@@ -7,9 +7,9 @@ import (
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/topo"
+	"github.com/youtube/vitess/go/vt/topo"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // UpdateShardReplicationFields implements topo.Server.
@@ -49,16 +49,21 @@ func (s *Server) UpdateShardReplicationFields(ctx context.Context, cell, keyspac
 		if version == nil {
 			// We have to create, and we catch ErrNodeExists.
 			_, err = s.Create(ctx, cell, p, data)
-			if err != topo.ErrNodeExists {
-				return err
+			if err == topo.ErrNodeExists {
+				// Node was created by another process, try
+				// again.
+				continue
 			}
-		} else {
-			// We have to update, and we catch ErrBadVersion.
-			_, err = s.Update(ctx, cell, p, data, version)
-			if err != topo.ErrBadVersion {
-				return err
-			}
+			return err
 		}
+
+		// We have to update, and we catch ErrBadVersion.
+		_, err = s.Update(ctx, cell, p, data, version)
+		if err == topo.ErrBadVersion {
+			// Node was updated by another process, try again.
+			continue
+		}
+		return err
 	}
 }
 

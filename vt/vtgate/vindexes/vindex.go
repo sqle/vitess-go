@@ -7,7 +7,7 @@ package vindexes
 import (
 	"fmt"
 
-	"gopkg.in/sqle/vitess-go.v1/sqltypes"
+	"github.com/youtube/vitess/go/sqltypes"
 )
 
 // This file defines interfaces and registration for vindexes.

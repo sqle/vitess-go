@@ -7,11 +7,11 @@ package vtgate
 import (
 	"sync"
 
-	"gopkg.in/sqle/vitess-go.v1/vt/vterrors"
+	"github.com/youtube/vitess/go/vt/vterrors"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
-	vtgatepb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtgate"
-	vtrpcpb "gopkg.in/sqle/vitess-go.v1/vt/proto/vtrpc"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
+	vtgatepb "github.com/youtube/vitess/go/vt/proto/vtgate"
+	vtrpcpb "github.com/youtube/vitess/go/vt/proto/vtrpc"
 )
 
 // SafeSession is a mutex-protected version of the Session.

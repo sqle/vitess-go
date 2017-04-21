@@ -11,11 +11,11 @@ import (
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 
-	"gopkg.in/sqle/vitess-go.v1/event"
-	"gopkg.in/sqle/vitess-go.v1/vt/concurrency"
-	"gopkg.in/sqle/vitess-go.v1/vt/topo/events"
+	"github.com/youtube/vitess/go/event"
+	"github.com/youtube/vitess/go/vt/concurrency"
+	"github.com/youtube/vitess/go/vt/topo/events"
 
-	topodatapb "gopkg.in/sqle/vitess-go.v1/vt/proto/topodata"
+	topodatapb "github.com/youtube/vitess/go/vt/proto/topodata"
 )
 
 // This file contains keyspace utility functions
